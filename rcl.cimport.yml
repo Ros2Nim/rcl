@@ -5,6 +5,7 @@ imports:
   globs: ["**/*.h"]
   includes: [
     "deps/rcutils/include",
+    "deps/rmw/rmw/include",
     "deps/rcl/rcl/include",
     "deps/rcl/rcl_action/include",
     "deps/rcl/rcl_lifecycle/include",
