@@ -4,6 +4,7 @@ imports:
   sources: "deps/rcl/rcl/include"
   globs: ["**/*.h"]
   includes: [
+    "deps/rcutils/include",
     "deps/rcl/rcl/include",
     "deps/rcl/rcl_action/include",
     "deps/rcl/rcl_lifecycle/include",
