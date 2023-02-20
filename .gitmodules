@@ -1,3 +1,6 @@
 [submodule "deps/rcl"]
 	path = deps/rcl
 	url = https://github.com/ros2/rcl.git
+[submodule "deps/rcutils"]
+	path = deps/rcutils
+	url = https://github.com/ros2/rcutils.git
