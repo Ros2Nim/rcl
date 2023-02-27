@@ -12,3 +12,4 @@ bin           = @["rcl"]
 # Dependencies
 
 requires "nim >= 1.6.10"
+requires "https://github.com/elcritch/ants >= 0.1.6"
