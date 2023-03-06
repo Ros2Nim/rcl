@@ -98,7 +98,7 @@ const
 proc rcl_get_publisher_names_and_types_by_node*(node: ptr rcl_node_t;
     allocator: ptr rcl_allocator_t; no_demangle: _Bool; node_name: cstring;
     node_namespace: cstring; topic_names_and_types: ptr rcl_names_and_types_t): rcl_ret_t {.
-    importc: "rcl_get_publisher_names_and_types_by_node", header: "graph.h".}
+    importc: "rcl_get_publisher_names_and_types_by_node", header: "rcl/graph.h".}
   ##
                               ##  Return a list of topic names and types for publishers associated with a node.
                               ##
@@ -148,7 +148,7 @@ proc rcl_get_publisher_names_and_types_by_node*(node: ptr rcl_node_t;
 proc rcl_get_subscriber_names_and_types_by_node*(node: ptr rcl_node_t;
     allocator: ptr rcl_allocator_t; no_demangle: _Bool; node_name: cstring;
     node_namespace: cstring; topic_names_and_types: ptr rcl_names_and_types_t): rcl_ret_t {.
-    importc: "rcl_get_subscriber_names_and_types_by_node", header: "graph.h".}
+    importc: "rcl_get_subscriber_names_and_types_by_node", header: "rcl/graph.h".}
   ##
                               ##  Return a list of topic names and types for subscriptions associated with a node.
                               ##
@@ -193,7 +193,7 @@ proc rcl_get_subscriber_names_and_types_by_node*(node: ptr rcl_node_t;
 proc rcl_get_service_names_and_types_by_node*(node: ptr rcl_node_t;
     allocator: ptr rcl_allocator_t; node_name: cstring; node_namespace: cstring;
     service_names_and_types: ptr rcl_names_and_types_t): rcl_ret_t {.
-    importc: "rcl_get_service_names_and_types_by_node", header: "graph.h".}
+    importc: "rcl_get_service_names_and_types_by_node", header: "rcl/graph.h".}
   ##
                               ##  Return a list of service names and types associated with a node.
                               ##
@@ -237,7 +237,7 @@ proc rcl_get_service_names_and_types_by_node*(node: ptr rcl_node_t;
 proc rcl_get_client_names_and_types_by_node*(node: ptr rcl_node_t;
     allocator: ptr rcl_allocator_t; node_name: cstring; node_namespace: cstring;
     service_names_and_types: ptr rcl_names_and_types_t): rcl_ret_t {.
-    importc: "rcl_get_client_names_and_types_by_node", header: "graph.h".}
+    importc: "rcl_get_client_names_and_types_by_node", header: "rcl/graph.h".}
   ##
                               ##  Return a list of service client names and types associated with a node.
                               ##
@@ -281,7 +281,7 @@ proc rcl_get_client_names_and_types_by_node*(node: ptr rcl_node_t;
 proc rcl_get_topic_names_and_types*(node: ptr rcl_node_t;
                                     allocator: ptr rcl_allocator_t;
                                     no_demangle: _Bool; topic_names_and_types: ptr rcl_names_and_types_t): rcl_ret_t {.
-    importc: "rcl_get_topic_names_and_types", header: "graph.h".}
+    importc: "rcl_get_topic_names_and_types", header: "rcl/graph.h".}
   ##
                               ##  Return a list of topic names and their types.
                               ##
@@ -323,7 +323,7 @@ proc rcl_get_topic_names_and_types*(node: ptr rcl_node_t;
 proc rcl_get_service_names_and_types*(node: ptr rcl_node_t;
                                       allocator: ptr rcl_allocator_t;
     service_names_and_types: ptr rcl_names_and_types_t): rcl_ret_t {.
-    importc: "rcl_get_service_names_and_types", header: "graph.h".}
+    importc: "rcl_get_service_names_and_types", header: "rcl/graph.h".}
   ##
                               ##  Return a list of service names and their types.
                               ##
@@ -359,7 +359,7 @@ proc rcl_get_service_names_and_types*(node: ptr rcl_node_t;
 
 proc rcl_names_and_types_init*(names_and_types: ptr rcl_names_and_types_t;
                                size: csize_t; allocator: ptr rcl_allocator_t): rcl_ret_t {.
-    importc: "rcl_names_and_types_init", header: "graph.h".}
+    importc: "rcl_names_and_types_init", header: "rcl/graph.h".}
   ##
                               ##  Initialize a rcl_names_and_types_t object.
                               ##
@@ -386,7 +386,7 @@ proc rcl_names_and_types_init*(names_and_types: ptr rcl_names_and_types_t;
                               ##
 
 proc rcl_names_and_types_fini*(names_and_types: ptr rcl_names_and_types_t): rcl_ret_t {.
-    importc: "rcl_names_and_types_fini", header: "graph.h".}
+    importc: "rcl_names_and_types_fini", header: "rcl/graph.h".}
   ##
                               ##  Finalize a rcl_names_and_types_t object.
                               ##
@@ -415,7 +415,7 @@ proc rcl_names_and_types_fini*(names_and_types: ptr rcl_names_and_types_t): rcl_
 proc rcl_get_node_names*(node: ptr rcl_node_t; allocator: rcl_allocator_t;
                          node_names: ptr rcutils_string_array_t;
                          node_namespaces: ptr rcutils_string_array_t): rcl_ret_t {.
-    importc: "rcl_get_node_names", header: "graph.h".}
+    importc: "rcl_get_node_names", header: "rcl/graph.h".}
   ##
                               ##  Return a list of available nodes in the ROS graph.
                               ##
@@ -471,7 +471,7 @@ proc rcl_get_node_names_with_enclaves*(node: ptr rcl_node_t;
                                        node_names: ptr rcutils_string_array_t;
     node_namespaces: ptr rcutils_string_array_t;
                                        enclaves: ptr rcutils_string_array_t): rcl_ret_t {.
-    importc: "rcl_get_node_names_with_enclaves", header: "graph.h".}
+    importc: "rcl_get_node_names_with_enclaves", header: "rcl/graph.h".}
   ##
                               ##  Return a list of available nodes in the ROS graph, including their enclave names.
                               ##
@@ -500,7 +500,7 @@ proc rcl_get_node_names_with_enclaves*(node: ptr rcl_node_t;
 
 proc rcl_count_publishers*(node: ptr rcl_node_t; topic_name: cstring;
                            count: ptr csize_t): rcl_ret_t {.
-    importc: "rcl_count_publishers", header: "graph.h".}
+    importc: "rcl_count_publishers", header: "rcl/graph.h".}
   ##
                               ##  Return the number of publishers on a given topic.
                               ##
@@ -542,7 +542,7 @@ proc rcl_count_publishers*(node: ptr rcl_node_t; topic_name: cstring;
 
 proc rcl_count_subscribers*(node: ptr rcl_node_t; topic_name: cstring;
                             count: ptr csize_t): rcl_ret_t {.
-    importc: "rcl_count_subscribers", header: "graph.h".}
+    importc: "rcl_count_subscribers", header: "rcl/graph.h".}
   ##
                               ##  Return the number of subscriptions on a given topic.
                               ##
@@ -587,7 +587,7 @@ proc rcl_wait_for_publishers*(node: ptr rcl_node_t;
                               topic_name: cstring; count: csize_t;
                               timeout: rcutils_duration_value_t;
                               success: ptr _Bool): rcl_ret_t {.
-    importc: "rcl_wait_for_publishers", header: "graph.h".}
+    importc: "rcl_wait_for_publishers", header: "rcl/graph.h".}
   ##
                               ##  Wait for there to be a specified number of publishers on a given topic.
                               ##
@@ -639,7 +639,7 @@ proc rcl_wait_for_subscribers*(node: ptr rcl_node_t;
                                topic_name: cstring; count: csize_t;
                                timeout: rcutils_duration_value_t;
                                success: ptr _Bool): rcl_ret_t {.
-    importc: "rcl_wait_for_subscribers", header: "graph.h".}
+    importc: "rcl_wait_for_subscribers", header: "rcl/graph.h".}
   ##
                               ##  Wait for there to be a specified number of subscribers on a given topic.
                               ##
@@ -672,7 +672,7 @@ proc rcl_get_publishers_info_by_topic*(node: ptr rcl_node_t;
                                        allocator: ptr rcutils_allocator_t;
                                        topic_name: cstring; no_mangle: _Bool;
     publishers_info: ptr rcl_topic_endpoint_info_array_t): rcl_ret_t {.
-    importc: "rcl_get_publishers_info_by_topic", header: "graph.h".}
+    importc: "rcl_get_publishers_info_by_topic", header: "rcl/graph.h".}
   ##
                               ##  Return a list of all publishers to a topic.
                               ##
@@ -729,7 +729,7 @@ proc rcl_get_publishers_info_by_topic*(node: ptr rcl_node_t;
 proc rcl_get_subscriptions_info_by_topic*(node: ptr rcl_node_t;
     allocator: ptr rcutils_allocator_t; topic_name: cstring; no_mangle: _Bool;
     subscriptions_info: ptr rcl_topic_endpoint_info_array_t): rcl_ret_t {.
-    importc: "rcl_get_subscriptions_info_by_topic", header: "graph.h".}
+    importc: "rcl_get_subscriptions_info_by_topic", header: "rcl/graph.h".}
   ##
                               ##  Return a list of all subscriptions to a topic.
                               ##
@@ -786,7 +786,7 @@ proc rcl_get_subscriptions_info_by_topic*(node: ptr rcl_node_t;
 proc rcl_service_server_is_available*(node: ptr rcl_node_t;
                                       client: ptr rcl_client_t;
                                       is_available: ptr _Bool): rcl_ret_t {.
-    importc: "rcl_service_server_is_available", header: "graph.h".}
+    importc: "rcl_service_server_is_available", header: "rcl/graph.h".}
   ##
                               ##  Check if a service server is available for the given service client.
                               ##

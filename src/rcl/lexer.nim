@@ -91,7 +91,7 @@ type                        ##  Indicates no valid lexeme was found (end of inpu
 
 proc rcl_lexer_analyze*(text: cstring; lexeme: ptr rcl_lexeme_t;
                         length: ptr csize_t): rcl_ret_t {.
-    importc: "rcl_lexer_analyze", header: "lexer.h".}
+    importc: "rcl_lexer_analyze", header: "rcl/lexer.h".}
   ##
                               ##  Do lexical analysis on a string.
                               ##

@@ -6,6 +6,7 @@ antExport ImporterConfig:
     - ImportConfig:
       name: "rcl"
       sources: "deps/rcl/rcl/include"
+      headerPrefix: "rcl/"
       globs: ["**/*.h"]
       includes: [
         "deps/rcutils/include",
@@ -26,7 +27,11 @@ antExport ImporterConfig:
 
       sourceMods:list:
         - CSrcMods:
-          fileMatch: peg"'u16string.h'"
+          fileMatch: peg"'context.h'"
+          substitutes:list:
+            - Replace:
+              pattern: peg"'_Alignas(8)'"
+              repl: ""
       
       c2nimCfgs:list:
         - C2NimCfg:

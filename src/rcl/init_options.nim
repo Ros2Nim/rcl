@@ -61,21 +61,22 @@ type
 
   rcl_init_options_impl_t* = rcl_init_options_impl_s
 
-  rcl_init_options_t* {.importc: "rcl_init_options_t", header: "init_options.h",
-                        bycopy.} = object ##  Encapsulation of init options and implementation defined init options.
+  rcl_init_options_t* {.importc: "rcl_init_options_t",
+                        header: "rcl/init_options.h", bycopy.} = object ##
+                              ##  Encapsulation of init options and implementation defined init options.
     impl* {.importc: "impl".}: ptr rcl_init_options_impl_t ##
                               ##  Implementation specific pointer.
 
 
 
 proc rcl_get_zero_initialized_init_options*(): rcl_init_options_t {.
-    importc: "rcl_get_zero_initialized_init_options", header: "init_options.h".}
-  ##
-                              ##  Return a zero initialized rcl_init_options_t struct.
+    importc: "rcl_get_zero_initialized_init_options",
+    header: "rcl/init_options.h".}
+  ##  Return a zero initialized rcl_init_options_t struct.
 
 proc rcl_init_options_init*(init_options: ptr rcl_init_options_t;
                             allocator: rcl_allocator_t): rcl_ret_t {.
-    importc: "rcl_init_options_init", header: "init_options.h".}
+    importc: "rcl_init_options_init", header: "rcl/init_options.h".}
   ##
                               ##  Initialize given init_options with the default values and implementation specific values.
                               ##
@@ -105,7 +106,7 @@ proc rcl_init_options_init*(init_options: ptr rcl_init_options_t;
 
 proc rcl_init_options_copy*(src: ptr rcl_init_options_t;
                             dst: ptr rcl_init_options_t): rcl_ret_t {.
-    importc: "rcl_init_options_copy", header: "init_options.h".}
+    importc: "rcl_init_options_copy", header: "rcl/init_options.h".}
   ##
                               ##  Copy the given source init_options to the destination init_options.
                               ##
@@ -136,7 +137,7 @@ proc rcl_init_options_copy*(src: ptr rcl_init_options_t;
                               ##
 
 proc rcl_init_options_fini*(init_options: ptr rcl_init_options_t): rcl_ret_t {.
-    importc: "rcl_init_options_fini", header: "init_options.h".}
+    importc: "rcl_init_options_fini", header: "rcl/init_options.h".}
   ##
                               ##  Finalize the given init_options.
                               ##
@@ -159,7 +160,7 @@ proc rcl_init_options_fini*(init_options: ptr rcl_init_options_t): rcl_ret_t {.
 
 proc rcl_init_options_get_domain_id*(init_options: ptr rcl_init_options_t;
                                      domain_id: ptr csize_t): rcl_ret_t {.
-    importc: "rcl_init_options_get_domain_id", header: "init_options.h".}
+    importc: "rcl_init_options_get_domain_id", header: "rcl/init_options.h".}
   ##
                               ##  Return the domain_id stored in the init options.
                               ##
@@ -181,7 +182,7 @@ proc rcl_init_options_get_domain_id*(init_options: ptr rcl_init_options_t;
 
 proc rcl_init_options_set_domain_id*(init_options: ptr rcl_init_options_t;
                                      domain_id: csize_t): rcl_ret_t {.
-    importc: "rcl_init_options_set_domain_id", header: "init_options.h".}
+    importc: "rcl_init_options_set_domain_id", header: "rcl/init_options.h".}
   ##
                               ##  Set a domain id in the init options provided.
                               ##
@@ -202,31 +203,31 @@ proc rcl_init_options_set_domain_id*(init_options: ptr rcl_init_options_t;
                               ##
 
 proc rcl_init_options_get_rmw_init_options*(init_options: ptr rcl_init_options_t): ptr rmw_init_options_t {.
-    importc: "rcl_init_options_get_rmw_init_options", header: "init_options.h".}
-  ##
-                              ##  Return the rmw init options which are stored internally.
-                              ##
-                              ##  This function can fail and return `NULL` if:
-                              ##    - init_options is NULL
-                              ##    - init_options is invalid, e.g. init_options->impl is NULL
-                              ##
-                              ##  If NULL is returned an error message will have been set.
-                              ##
-                              ##  <hr>
-                              ##  Attribute          | Adherence
-                              ##  ------------------ | -------------
-                              ##  Allocates Memory   | No
-                              ##  Thread-Safe        | No
-                              ##  Uses Atomics       | Yes
-                              ##  Lock-Free          | Yes
-                              ##
-                              ##  \param[in] init_options object from which the rmw init options should be retrieved
-                              ##  \return pointer to the the rcl init options, or
-                              ##  \return `NULL` if there was an error
-                              ##
+    importc: "rcl_init_options_get_rmw_init_options",
+    header: "rcl/init_options.h".}
+  ##  Return the rmw init options which are stored internally.
+                                  ##
+                                  ##  This function can fail and return `NULL` if:
+                                  ##    - init_options is NULL
+                                  ##    - init_options is invalid, e.g. init_options->impl is NULL
+                                  ##
+                                  ##  If NULL is returned an error message will have been set.
+                                  ##
+                                  ##  <hr>
+                                  ##  Attribute          | Adherence
+                                  ##  ------------------ | -------------
+                                  ##  Allocates Memory   | No
+                                  ##  Thread-Safe        | No
+                                  ##  Uses Atomics       | Yes
+                                  ##  Lock-Free          | Yes
+                                  ##
+                                  ##  \param[in] init_options object from which the rmw init options should be retrieved
+                                  ##  \return pointer to the the rcl init options, or
+                                  ##  \return `NULL` if there was an error
+                                  ##
 
 proc rcl_init_options_get_allocator*(init_options: ptr rcl_init_options_t): ptr rcl_allocator_t {.
-    importc: "rcl_init_options_get_allocator", header: "init_options.h".}
+    importc: "rcl_init_options_get_allocator", header: "rcl/init_options.h".}
   ##
                               ##  Return the allocator stored in the init_options.
                               ##

@@ -66,15 +66,15 @@ type
 type
 
   rcl_logger_setting_t* {.importc: "rcl_logger_setting_t",
-                          header: "log_level.h", bycopy.} = object ##
+                          header: "rcl/log_level.h", bycopy.} = object ##
                               ##  A logger item to specify a name and a log level.
     name* {.importc: "name".}: cstring ##  Name for the logger.
     level* {.importc: "level".}: rcl_log_severity_t ##
                               ##  Minimum log level severity of the logger.
 
 
-  rcl_log_levels_t* {.importc: "rcl_log_levels_t", header: "log_level.h", bycopy.} = object ##
-                              ##  Hold default logger level and other logger setting.
+  rcl_log_levels_t* {.importc: "rcl_log_levels_t", header: "rcl/log_level.h",
+                      bycopy.} = object ##  Hold default logger level and other logger setting.
     default_logger_level* {.importc: "default_logger_level".}: rcl_log_severity_t ##
                               ##  Minimum default logger level severity.
     logger_settings* {.importc: "logger_settings".}: ptr rcl_logger_setting_t ##
@@ -89,7 +89,7 @@ type
 
 
 proc rcl_get_zero_initialized_log_levels*(): rcl_log_levels_t {.
-    importc: "rcl_get_zero_initialized_log_levels", header: "log_level.h".}
+    importc: "rcl_get_zero_initialized_log_levels", header: "rcl/log_level.h".}
   ##
                               ##  Return a rcl_log_levels_t struct with members initialized to zero value.
                               ##
@@ -106,7 +106,7 @@ proc rcl_get_zero_initialized_log_levels*(): rcl_log_levels_t {.
 
 proc rcl_log_levels_init*(log_levels: ptr rcl_log_levels_t;
                           allocator: ptr rcl_allocator_t; logger_count: csize_t): rcl_ret_t {.
-    importc: "rcl_log_levels_init", header: "log_level.h".}
+    importc: "rcl_log_levels_init", header: "rcl/log_level.h".}
   ##
                               ##  Initialize a log levels structure.
                               ##
@@ -130,7 +130,7 @@ proc rcl_log_levels_init*(log_levels: ptr rcl_log_levels_t;
                               ##
 
 proc rcl_log_levels_copy*(src: ptr rcl_log_levels_t; dst: ptr rcl_log_levels_t): rcl_ret_t {.
-    importc: "rcl_log_levels_copy", header: "log_level.h".}
+    importc: "rcl_log_levels_copy", header: "rcl/log_level.h".}
   ##
                               ##  Copy one log levels structure into another.
                               ##
@@ -154,7 +154,7 @@ proc rcl_log_levels_copy*(src: ptr rcl_log_levels_t; dst: ptr rcl_log_levels_t):
                               ##
 
 proc rcl_log_levels_fini*(log_levels: ptr rcl_log_levels_t): rcl_ret_t {.
-    importc: "rcl_log_levels_fini", header: "log_level.h".}
+    importc: "rcl_log_levels_fini", header: "rcl/log_level.h".}
   ##
                               ##  Reclaim resources held inside rcl_log_levels_t structure.
                               ##
@@ -173,7 +173,7 @@ proc rcl_log_levels_fini*(log_levels: ptr rcl_log_levels_t): rcl_ret_t {.
                               ##
 
 proc rcl_log_levels_shrink_to_size*(log_levels: ptr rcl_log_levels_t): rcl_ret_t {.
-    importc: "rcl_log_levels_shrink_to_size", header: "log_level.h".}
+    importc: "rcl_log_levels_shrink_to_size", header: "rcl/log_level.h".}
   ##
                               ##  Shrink log levels structure.
                               ##
@@ -194,7 +194,7 @@ proc rcl_log_levels_shrink_to_size*(log_levels: ptr rcl_log_levels_t): rcl_ret_t
 proc rcl_log_levels_add_logger_setting*(log_levels: ptr rcl_log_levels_t;
                                         logger_name: cstring;
                                         log_level: rcl_log_severity_t): rcl_ret_t {.
-    importc: "rcl_log_levels_add_logger_setting", header: "log_level.h".}
+    importc: "rcl_log_levels_add_logger_setting", header: "rcl/log_level.h".}
   ##
                               ##  Add logger setting with a name and a level.
                               ##

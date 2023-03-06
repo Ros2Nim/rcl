@@ -79,7 +79,7 @@ const
 
 proc rcl_validate_topic_name*(topic_name: cstring; validation_result: ptr cint;
                               invalid_index: ptr csize_t): rcl_ret_t {.
-    importc: "rcl_validate_topic_name", header: "validate_topic_name.h".}
+    importc: "rcl_validate_topic_name", header: "rcl/validate_topic_name.h".}
   ##
                               ##  Validate a given topic name.
                               ##
@@ -138,27 +138,27 @@ proc rcl_validate_topic_name_with_size*(topic_name: cstring;
                                         validation_result: ptr cint;
                                         invalid_index: ptr csize_t): rcl_ret_t {.
     importc: "rcl_validate_topic_name_with_size",
-    header: "validate_topic_name.h".}
+    header: "rcl/validate_topic_name.h".}
   ##  Validate a given topic name.
-                                     ##
-                                     ##  This is an overload with an extra parameter for the length of topic_name.
-                                     ##  \param[in] topic_name the topic name to be validated, must be null terminated
-                                     ##  \param[in] topic_name_length The number of characters in topic_name.
-                                     ##  \param[out] validation_result the reason for validation failure, if any
-                                     ##  \param[out] invalid_index index of violation if the input topic is invalid
-                                     ##  \return #RCL_RET_OK if the topic name was expanded successfully, or
-                                     ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
-                                     ##  \return #RCL_RET_ERROR if an unspecified error occurs.
-                                     ##
-                                     ##  \sa rcl_validate_topic_name()
-                                     ##
+                                         ##
+                                         ##  This is an overload with an extra parameter for the length of topic_name.
+                                         ##  \param[in] topic_name the topic name to be validated, must be null terminated
+                                         ##  \param[in] topic_name_length The number of characters in topic_name.
+                                         ##  \param[out] validation_result the reason for validation failure, if any
+                                         ##  \param[out] invalid_index index of violation if the input topic is invalid
+                                         ##  \return #RCL_RET_OK if the topic name was expanded successfully, or
+                                         ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
+                                         ##  \return #RCL_RET_ERROR if an unspecified error occurs.
+                                         ##
+                                         ##  \sa rcl_validate_topic_name()
+                                         ##
 
 proc rcl_topic_name_validation_result_string*(validation_result: cint): cstring {.
     importc: "rcl_topic_name_validation_result_string",
-    header: "validate_topic_name.h".}
+    header: "rcl/validate_topic_name.h".}
   ##  Return a validation result description, or NULL if unknown or RCL_TOPIC_NAME_VALID.
-                                     ##
-                                     ##  \param[in] validation_result The validation result to get the string for
-                                     ##  \return A string description of the validation result if successful, or
-                                     ##  \return NULL if the validation result is invalid.
-                                     ## 
+                                         ##
+                                         ##  \param[in] validation_result The validation result to get the string for
+                                         ##  \return A string description of the validation result if successful, or
+                                         ##  \return NULL if the validation result is invalid.
+                                         ## 

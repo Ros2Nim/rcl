@@ -63,13 +63,13 @@ import
   ./domain_id, ./domain_id, ./node_options
 
 let RCL_DISABLE_LOANED_MESSAGES_ENV_VAR* {.
-    importc: "RCL_DISABLE_LOANED_MESSAGES_ENV_VAR", header: "node.h".}: cstring
+    importc: "RCL_DISABLE_LOANED_MESSAGES_ENV_VAR", header: "rcl/node.h".}: cstring
 
 type
 
   rcl_node_impl_t* = rcl_node_impl_s
 
-  rcl_node_t* {.importc: "rcl_node_t", header: "node.h", bycopy.} = object ##
+  rcl_node_t* {.importc: "rcl_node_t", header: "rcl/node.h", bycopy.} = object ##
                               ##  Structure which encapsulates a ROS Node.
     context* {.importc: "context".}: ptr rcl_context_t ##
                               ##  Context associated with this node.
@@ -79,136 +79,137 @@ type
 
 
 proc rcl_get_zero_initialized_node*(): rcl_node_t {.
-    importc: "rcl_get_zero_initialized_node", header: "node.h".}
+    importc: "rcl_get_zero_initialized_node", header: "rcl/node.h".}
   ##
                               ##  Return a rcl_node_t struct with members initialized to `NULL`.
 
 proc rcl_node_init*(node: ptr rcl_node_t; name: cstring; namespace_: cstring;
                     context: ptr rcl_context_t; options: ptr rcl_node_options_t): rcl_ret_t {.
-    importc: "rcl_node_init", header: "node.h".}
-  ##  Initialize a ROS node.
-                                                ##
-                                                ##  Calling this on a rcl_node_t makes it a valid node handle until rcl_shutdown
-                                                ##  is called or until rcl_node_fini is called on it.
-                                                ##
-                                                ##  After calling, the ROS node object can be used to create other middleware
-                                                ##  primitives like publishers, services, parameters, etc.
-                                                ##
-                                                ##  The name of the node must not be NULL and adhere to naming restrictions,
-                                                ##  see the rmw_validate_node_name() function for rules.
-                                                ##
-                                                ##  \todo TODO(wjwwood): node name uniqueness is not yet enforced
-                                                ##
-                                                ##  The name of the node cannot coincide with another node of the same name.
-                                                ##  If a node of the same name is already in the domain, it will be shutdown.
-                                                ##
-                                                ##  The namespace of the node should not be NULL and should also pass the
-                                                ##  rmw_validate_namespace() function's rules.
-                                                ##
-                                                ##  Additionally this function allows namespaces which lack a leading forward
-                                                ##  slash.
-                                                ##  Because there is no notion of a relative namespace, there is no difference
-                                                ##  between a namespace which lacks a forward and the same namespace with a
-                                                ##  leading forward slash.
-                                                ##  Therefore, a namespace like ``"foo/bar"`` is automatically changed to
-                                                ##  ``"/foo/bar"`` by this function.
-                                                ##  Similarly, the namespace ``""`` will implicitly become ``"/"`` which is a
-                                                ##  valid namespace.
-                                                ##
-                                                ##  \todo TODO(wjwwood):
-                                                ##    Parameter infrastructure is currently initialized in the language specific
-                                                ##    client library, e.g. rclcpp for C++, but will be initialized here in the
-                                                ##    future. When that happens there will be an option to avoid parameter
-                                                ##    infrastructure with an option in the rcl_node_options_t struct.
-                                                ##
-                                                ##  A node contains infrastructure for ROS parameters, which include advertising
-                                                ##  publishers and service servers.
-                                                ##  This function will create those external parameter interfaces even if
-                                                ##  parameters are not used later.
-                                                ##
-                                                ##  The rcl_node_t given must be allocated and zero initialized.
-                                                ##  Passing an rcl_node_t which has already had this function called on it, more
-                                                ##  recently than rcl_node_fini, will fail.
-                                                ##  An allocated rcl_node_t with uninitialized memory is undefined behavior.
-                                                ##
-                                                ##  Expected usage:
-                                                ##
-                                                ##  ```c
-                                                ##  rcl_context_t context = rcl_get_zero_initialized_context();
-                                                ##  // ... initialize the context with rcl_init()
-                                                ##  rcl_node_t node = rcl_get_zero_initialized_node();
-                                                ##  rcl_node_options_t node_ops = rcl_node_get_default_options();
-                                                ##  // ... node options customization
-                                                ##  rcl_ret_t ret = rcl_node_init(&node, "node_name", "/node_ns", &context, &node_ops);
-                                                ##  // ... error handling and then use the node, but eventually deinitialize it:
-                                                ##  ret = rcl_node_fini(&node);
-                                                ##  // ... error handling for rcl_node_fini()
-                                                ##  ```
-                                                ##
-                                                ##  <hr>
-                                                ##  Attribute          | Adherence
-                                                ##  ------------------ | -------------
-                                                ##  Allocates Memory   | Yes
-                                                ##  Thread-Safe        | No
-                                                ##  Uses Atomics       | Yes
-                                                ##  Lock-Free          | Yes [1]
-                                                ##  <i>[1] if `atomic_is_lock_free()` returns true for `atomic_uint_least64_t`</i>
-                                                ##
-                                                ##  \pre the node handle must be allocated, zero initialized, and invalid
-                                                ##  \pre the context handle must be allocated, initialized, and valid
-                                                ##  \post the node handle is valid and can be used in other `rcl_*` functions
-                                                ##
-                                                ##  \param[inout] node a preallocated rcl_node_t
-                                                ##  \param[in] name the name of the node, must be a valid c-string
-                                                ##  \param[in] namespace_ the namespace of the node, must be a valid c-string
-                                                ##  \param[in] context the context instance with which the node should be
-                                                ##    associated
-                                                ##  \param[in] options the node options.
-                                                ##    The options are deep copied into the node.
-                                                ##    The caller is always responsible for freeing memory used options they
-                                                ##    pass in.
-                                                ##  \return #RCL_RET_OK if the node was initialized successfully, or
-                                                ##  \return #RCL_RET_ALREADY_INIT if the node has already be initialized, or
-                                                ##  \return #RCL_RET_NOT_INIT if the given context is invalid, or
-                                                ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
-                                                ##  \return #RCL_RET_BAD_ALLOC if allocating memory failed, or
-                                                ##  \return #RCL_RET_NODE_INVALID_NAME if the name is invalid, or
-                                                ##  \return #RCL_RET_NODE_INVALID_NAMESPACE if the namespace_ is invalid, or
-                                                ##  \return #RCL_RET_ERROR if an unspecified error occurs.
-                                                ##
+    importc: "rcl_node_init", header: "rcl/node.h".}
+  ##
+                              ##  Initialize a ROS node.
+                              ##
+                              ##  Calling this on a rcl_node_t makes it a valid node handle until rcl_shutdown
+                              ##  is called or until rcl_node_fini is called on it.
+                              ##
+                              ##  After calling, the ROS node object can be used to create other middleware
+                              ##  primitives like publishers, services, parameters, etc.
+                              ##
+                              ##  The name of the node must not be NULL and adhere to naming restrictions,
+                              ##  see the rmw_validate_node_name() function for rules.
+                              ##
+                              ##  \todo TODO(wjwwood): node name uniqueness is not yet enforced
+                              ##
+                              ##  The name of the node cannot coincide with another node of the same name.
+                              ##  If a node of the same name is already in the domain, it will be shutdown.
+                              ##
+                              ##  The namespace of the node should not be NULL and should also pass the
+                              ##  rmw_validate_namespace() function's rules.
+                              ##
+                              ##  Additionally this function allows namespaces which lack a leading forward
+                              ##  slash.
+                              ##  Because there is no notion of a relative namespace, there is no difference
+                              ##  between a namespace which lacks a forward and the same namespace with a
+                              ##  leading forward slash.
+                              ##  Therefore, a namespace like ``"foo/bar"`` is automatically changed to
+                              ##  ``"/foo/bar"`` by this function.
+                              ##  Similarly, the namespace ``""`` will implicitly become ``"/"`` which is a
+                              ##  valid namespace.
+                              ##
+                              ##  \todo TODO(wjwwood):
+                              ##    Parameter infrastructure is currently initialized in the language specific
+                              ##    client library, e.g. rclcpp for C++, but will be initialized here in the
+                              ##    future. When that happens there will be an option to avoid parameter
+                              ##    infrastructure with an option in the rcl_node_options_t struct.
+                              ##
+                              ##  A node contains infrastructure for ROS parameters, which include advertising
+                              ##  publishers and service servers.
+                              ##  This function will create those external parameter interfaces even if
+                              ##  parameters are not used later.
+                              ##
+                              ##  The rcl_node_t given must be allocated and zero initialized.
+                              ##  Passing an rcl_node_t which has already had this function called on it, more
+                              ##  recently than rcl_node_fini, will fail.
+                              ##  An allocated rcl_node_t with uninitialized memory is undefined behavior.
+                              ##
+                              ##  Expected usage:
+                              ##
+                              ##  ```c
+                              ##  rcl_context_t context = rcl_get_zero_initialized_context();
+                              ##  // ... initialize the context with rcl_init()
+                              ##  rcl_node_t node = rcl_get_zero_initialized_node();
+                              ##  rcl_node_options_t node_ops = rcl_node_get_default_options();
+                              ##  // ... node options customization
+                              ##  rcl_ret_t ret = rcl_node_init(&node, "node_name", "/node_ns", &context, &node_ops);
+                              ##  // ... error handling and then use the node, but eventually deinitialize it:
+                              ##  ret = rcl_node_fini(&node);
+                              ##  // ... error handling for rcl_node_fini()
+                              ##  ```
+                              ##
+                              ##  <hr>
+                              ##  Attribute          | Adherence
+                              ##  ------------------ | -------------
+                              ##  Allocates Memory   | Yes
+                              ##  Thread-Safe        | No
+                              ##  Uses Atomics       | Yes
+                              ##  Lock-Free          | Yes [1]
+                              ##  <i>[1] if `atomic_is_lock_free()` returns true for `atomic_uint_least64_t`</i>
+                              ##
+                              ##  \pre the node handle must be allocated, zero initialized, and invalid
+                              ##  \pre the context handle must be allocated, initialized, and valid
+                              ##  \post the node handle is valid and can be used in other `rcl_*` functions
+                              ##
+                              ##  \param[inout] node a preallocated rcl_node_t
+                              ##  \param[in] name the name of the node, must be a valid c-string
+                              ##  \param[in] namespace_ the namespace of the node, must be a valid c-string
+                              ##  \param[in] context the context instance with which the node should be
+                              ##    associated
+                              ##  \param[in] options the node options.
+                              ##    The options are deep copied into the node.
+                              ##    The caller is always responsible for freeing memory used options they
+                              ##    pass in.
+                              ##  \return #RCL_RET_OK if the node was initialized successfully, or
+                              ##  \return #RCL_RET_ALREADY_INIT if the node has already be initialized, or
+                              ##  \return #RCL_RET_NOT_INIT if the given context is invalid, or
+                              ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
+                              ##  \return #RCL_RET_BAD_ALLOC if allocating memory failed, or
+                              ##  \return #RCL_RET_NODE_INVALID_NAME if the name is invalid, or
+                              ##  \return #RCL_RET_NODE_INVALID_NAMESPACE if the namespace_ is invalid, or
+                              ##  \return #RCL_RET_ERROR if an unspecified error occurs.
+                              ##
 
 proc rcl_node_fini*(node: ptr rcl_node_t): rcl_ret_t {.importc: "rcl_node_fini",
-    header: "node.h".}
+    header: "rcl/node.h".}
   ##  Finalize a rcl_node_t.
-                      ##
-                      ##  Destroys any automatically created infrastructure and deallocates memory.
-                      ##  After calling, the rcl_node_t can be safely deallocated.
-                      ##
-                      ##  All middleware primitives created by the user, e.g. publishers, services, etc,
-                      ##  which were created from this node must be finalized using their respective
-                      ##  `rcl_*_fini()` functions before this is called.
-                      ##  \sa rcl_publisher_fini()
-                      ##  \sa rcl_subscription_fini()
-                      ##  \sa rcl_client_fini()
-                      ##  \sa rcl_service_fini()
-                      ##
-                      ##  <hr>
-                      ##  Attribute          | Adherence
-                      ##  ------------------ | -------------
-                      ##  Allocates Memory   | Yes
-                      ##  Thread-Safe        | No
-                      ##  Uses Atomics       | Yes
-                      ##  Lock-Free          | Yes [1]
-                      ##  <i>[1] if `atomic_is_lock_free()` returns true for `atomic_uint_least64_t`</i>
-                      ##
-                      ##  \param[in] node rcl_node_t to be finalized
-                      ##  \return #RCL_RET_OK if node was finalized successfully, or
-                      ##  \return #RCL_RET_NODE_INVALID if the node pointer is null, or
-                      ##  \return #RCL_RET_ERROR if an unspecified error occurs.
-                      ##
+                          ##
+                          ##  Destroys any automatically created infrastructure and deallocates memory.
+                          ##  After calling, the rcl_node_t can be safely deallocated.
+                          ##
+                          ##  All middleware primitives created by the user, e.g. publishers, services, etc,
+                          ##  which were created from this node must be finalized using their respective
+                          ##  `rcl_*_fini()` functions before this is called.
+                          ##  \sa rcl_publisher_fini()
+                          ##  \sa rcl_subscription_fini()
+                          ##  \sa rcl_client_fini()
+                          ##  \sa rcl_service_fini()
+                          ##
+                          ##  <hr>
+                          ##  Attribute          | Adherence
+                          ##  ------------------ | -------------
+                          ##  Allocates Memory   | Yes
+                          ##  Thread-Safe        | No
+                          ##  Uses Atomics       | Yes
+                          ##  Lock-Free          | Yes [1]
+                          ##  <i>[1] if `atomic_is_lock_free()` returns true for `atomic_uint_least64_t`</i>
+                          ##
+                          ##  \param[in] node rcl_node_t to be finalized
+                          ##  \return #RCL_RET_OK if node was finalized successfully, or
+                          ##  \return #RCL_RET_NODE_INVALID if the node pointer is null, or
+                          ##  \return #RCL_RET_ERROR if an unspecified error occurs.
+                          ##
 
 proc rcl_node_is_valid*(node: ptr rcl_node_t): _Bool {.
-    importc: "rcl_node_is_valid", header: "node.h".}
+    importc: "rcl_node_is_valid", header: "rcl/node.h".}
   ##
                               ##  Return `true` if the node is valid, else `false`.
                               ##
@@ -247,7 +248,7 @@ proc rcl_node_is_valid*(node: ptr rcl_node_t): _Bool {.
                               ##
 
 proc rcl_node_is_valid_except_context*(node: ptr rcl_node_t): _Bool {.
-    importc: "rcl_node_is_valid_except_context", header: "node.h".}
+    importc: "rcl_node_is_valid_except_context", header: "rcl/node.h".}
   ##
                               ##  Return true if node is valid, except for the context being valid.
                               ##
@@ -260,7 +261,7 @@ proc rcl_node_is_valid_except_context*(node: ptr rcl_node_t): _Bool {.
                               ##
 
 proc rcl_node_get_name*(node: ptr rcl_node_t): cstring {.
-    importc: "rcl_node_get_name", header: "node.h".}
+    importc: "rcl_node_get_name", header: "rcl/node.h".}
   ##
                               ##  Return the name of the node.
                               ##
@@ -286,7 +287,7 @@ proc rcl_node_get_name*(node: ptr rcl_node_t): cstring {.
                               ##
 
 proc rcl_node_get_namespace*(node: ptr rcl_node_t): cstring {.
-    importc: "rcl_node_get_namespace", header: "node.h".}
+    importc: "rcl_node_get_namespace", header: "rcl/node.h".}
   ##
                               ##  Return the namespace of the node.
                               ##
@@ -312,7 +313,7 @@ proc rcl_node_get_namespace*(node: ptr rcl_node_t): cstring {.
                               ##
 
 proc rcl_node_get_fully_qualified_name*(node: ptr rcl_node_t): cstring {.
-    importc: "rcl_node_get_fully_qualified_name", header: "node.h".}
+    importc: "rcl_node_get_fully_qualified_name", header: "rcl/node.h".}
   ##
                               ##  Return the fully qualified name of the node.
                               ##
@@ -334,7 +335,7 @@ proc rcl_node_get_fully_qualified_name*(node: ptr rcl_node_t): cstring {.
                               ##
 
 proc rcl_node_get_options*(node: ptr rcl_node_t): ptr rcl_node_options_t {.
-    importc: "rcl_node_get_options", header: "node.h".}
+    importc: "rcl_node_get_options", header: "rcl/node.h".}
   ##
                               ##  Return the rcl node options.
                               ##
@@ -360,7 +361,7 @@ proc rcl_node_get_options*(node: ptr rcl_node_t): ptr rcl_node_options_t {.
                               ##
 
 proc rcl_node_get_domain_id*(node: ptr rcl_node_t; domain_id: ptr csize_t): rcl_ret_t {.
-    importc: "rcl_node_get_domain_id", header: "node.h".}
+    importc: "rcl_node_get_domain_id", header: "rcl/node.h".}
   ##
                               ##  Return the ROS domain ID that the node is using.
                               ##
@@ -392,7 +393,7 @@ proc rcl_node_get_domain_id*(node: ptr rcl_node_t; domain_id: ptr csize_t): rcl_
                               ##
 
 proc rcl_node_get_rmw_handle*(node: ptr rcl_node_t): ptr rmw_node_t {.
-    importc: "rcl_node_get_rmw_handle", header: "node.h".}
+    importc: "rcl_node_get_rmw_handle", header: "rcl/node.h".}
   ##
                               ##  Return the rmw node handle.
                               ##
@@ -422,7 +423,7 @@ proc rcl_node_get_rmw_handle*(node: ptr rcl_node_t): ptr rmw_node_t {.
                               ##
 
 proc rcl_node_get_rcl_instance_id*(node: ptr rcl_node_t): uint64 {.
-    importc: "rcl_node_get_rcl_instance_id", header: "node.h".}
+    importc: "rcl_node_get_rcl_instance_id", header: "rcl/node.h".}
   ##
                               ##  Return the associated rcl instance id.
                               ##
@@ -450,7 +451,7 @@ proc rcl_node_get_rcl_instance_id*(node: ptr rcl_node_t): uint64 {.
                               ##
 
 proc rcl_node_get_graph_guard_condition*(node: ptr rcl_node_t): ptr rcl_guard_condition_t {.
-    importc: "rcl_node_get_graph_guard_condition", header: "node.h".}
+    importc: "rcl_node_get_graph_guard_condition", header: "rcl/node.h".}
   ##
                               ##  Return a guard condition which is triggered when the ROS graph changes.
                               ##
@@ -482,7 +483,7 @@ proc rcl_node_get_graph_guard_condition*(node: ptr rcl_node_t): ptr rcl_guard_co
                               ##
 
 proc rcl_node_get_logger_name*(node: ptr rcl_node_t): cstring {.
-    importc: "rcl_node_get_logger_name", header: "node.h".}
+    importc: "rcl_node_get_logger_name", header: "rcl/node.h".}
   ##
                               ##  Return the logger name of the node.
                               ##
@@ -510,7 +511,7 @@ proc rcl_node_get_logger_name*(node: ptr rcl_node_t): cstring {.
 proc rcl_node_resolve_name*(node: ptr rcl_node_t; input_name: cstring;
                             allocator: rcl_allocator_t; is_service: _Bool;
                             only_expand: _Bool; output_name: cstringArray): rcl_ret_t {.
-    importc: "rcl_node_resolve_name", header: "node.h".}
+    importc: "rcl_node_resolve_name", header: "rcl/node.h".}
   ##
                               ##  Expand a given name into a fully-qualified topic name and apply remapping rules.
                               ##
@@ -544,7 +545,7 @@ proc rcl_node_resolve_name*(node: ptr rcl_node_t; input_name: cstring;
                               ##
 
 proc rcl_get_disable_loaned_message*(disable_loaned_message: ptr _Bool): rcl_ret_t {.
-    importc: "rcl_get_disable_loaned_message", header: "node.h".}
+    importc: "rcl_get_disable_loaned_message", header: "rcl/node.h".}
   ##
                               ##  Check if loaned message is disabled, according to the environment variable.
                               ##

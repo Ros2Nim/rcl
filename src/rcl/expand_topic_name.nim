@@ -63,7 +63,7 @@ proc rcl_expand_topic_name*(input_topic_name: cstring; node_name: cstring;
                             substitutions: ptr rcutils_string_map_t;
                             allocator: rcl_allocator_t;
                             output_topic_name: cstringArray): rcl_ret_t {.
-    importc: "rcl_expand_topic_name", header: "expand_topic_name.h".}
+    importc: "rcl_expand_topic_name", header: "rcl/expand_topic_name.h".}
   ##
                               ##  Expand a given topic name into a fully-qualified topic name.
                               ##
@@ -154,14 +154,14 @@ proc rcl_expand_topic_name*(input_topic_name: cstring; node_name: cstring;
 proc rcl_get_default_topic_name_substitutions*(
     string_map: ptr rcutils_string_map_t): rcl_ret_t {.
     importc: "rcl_get_default_topic_name_substitutions",
-    header: "expand_topic_name.h".}
+    header: "rcl/expand_topic_name.h".}
   ##  Fill a given string map with the default substitution pairs.
-                                   ##
-                                   ##  If the string map is not initialized RCL_RET_INVALID_ARGUMENT is returned.
-                                   ##
-                                   ##  \param[inout] string_map rcutils_string_map_t map to be filled with pairs
-                                   ##  \return #RCL_RET_OK if successfully, or
-                                   ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
-                                   ##  \return #RCL_RET_BAD_ALLOC if allocating memory failed, or
-                                   ##  \return #RCL_RET_ERROR if an unspecified error occurs.
-                                   ## 
+                                       ##
+                                       ##  If the string map is not initialized RCL_RET_INVALID_ARGUMENT is returned.
+                                       ##
+                                       ##  \param[inout] string_map rcutils_string_map_t map to be filled with pairs
+                                       ##  \return #RCL_RET_OK if successfully, or
+                                       ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
+                                       ##  \return #RCL_RET_BAD_ALLOC if allocating memory failed, or
+                                       ##  \return #RCL_RET_ERROR if an unspecified error occurs.
+                                       ## 

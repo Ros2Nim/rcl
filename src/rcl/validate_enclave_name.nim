@@ -82,7 +82,7 @@ const
 
 proc rcl_validate_enclave_name*(enclave: cstring; validation_result: ptr cint;
                                 invalid_index: ptr csize_t): rcl_ret_t {.
-    importc: "rcl_validate_enclave_name", header: "validate_enclave_name.h".}
+    importc: "rcl_validate_enclave_name", header: "rcl/validate_enclave_name.h".}
   ##
                               ##  Determine if a given enclave name is valid.
                               ##
@@ -101,27 +101,27 @@ proc rcl_validate_enclave_name_with_size*(enclave: cstring;
     enclave_length: csize_t; validation_result: ptr cint;
     invalid_index: ptr csize_t): rcl_ret_t {.
     importc: "rcl_validate_enclave_name_with_size",
-    header: "validate_enclave_name.h".}
+    header: "rcl/validate_enclave_name.h".}
   ##  Deterimine if a given enclave name is valid.
-                                       ##
-                                       ##  This is an overload of rcl_validate_enclave_name() with an extra parameter
-                                       ##  for the length of enclave.
-                                       ##
-                                       ##  \param[in] enclave enclave to be validated
-                                       ##  \param[in] enclave_length The number of characters in enclave
-                                       ##  \param[out] validation_result int in which the result of the check is stored
-                                       ##  \param[out] invalid_index index of the input string where an error occurred
-                                       ##  \return #RCL_RET_OK on successfully running the check, or
-                                       ##  \return #RCL_RET_INVALID_ARGUMENT on invalid parameters, or
-                                       ##  \return #RCL_RET_ERROR when an unspecified error occurs.
-                                       ##
+                                           ##
+                                           ##  This is an overload of rcl_validate_enclave_name() with an extra parameter
+                                           ##  for the length of enclave.
+                                           ##
+                                           ##  \param[in] enclave enclave to be validated
+                                           ##  \param[in] enclave_length The number of characters in enclave
+                                           ##  \param[out] validation_result int in which the result of the check is stored
+                                           ##  \param[out] invalid_index index of the input string where an error occurred
+                                           ##  \return #RCL_RET_OK on successfully running the check, or
+                                           ##  \return #RCL_RET_INVALID_ARGUMENT on invalid parameters, or
+                                           ##  \return #RCL_RET_ERROR when an unspecified error occurs.
+                                           ##
 
 proc rcl_enclave_name_validation_result_string*(validation_result: cint): cstring {.
     importc: "rcl_enclave_name_validation_result_string",
-    header: "validate_enclave_name.h".}
+    header: "rcl/validate_enclave_name.h".}
   ##  Return a validation result description, or NULL if unknown or RCL_ENCLAVE_NAME_VALID.
-                                       ##
-                                       ##  \param[in] validation_result The validation result to get the string for
-                                       ##  \return A string description of the validation result if successful, or
-                                       ##  \return NULL if the validation result is invalid.
-                                       ## 
+                                           ##
+                                           ##  \param[in] validation_result The validation result to get the string for
+                                           ##  \return A string description of the validation result if successful, or
+                                           ##  \return NULL if the validation result is invalid.
+                                           ## 

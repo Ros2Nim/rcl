@@ -94,7 +94,7 @@ type
 
 type
 
-  rcl_duration_t* {.importc: "rcl_duration_t", header: "time.h", bycopy.} = object ##
+  rcl_duration_t* {.importc: "rcl_duration_t", header: "rcl/time.h", bycopy.} = object ##
                               ##  A duration of time, measured in nanoseconds and its source.
     nanoseconds* {.importc: "nanoseconds".}: rcl_duration_value_t ##
                               ##  Duration in nanoseconds and its source.
@@ -110,7 +110,7 @@ type
 
 type
 
-  rcl_time_jump_t* {.importc: "rcl_time_jump_t", header: "time.h", bycopy.} = object ##
+  rcl_time_jump_t* {.importc: "rcl_time_jump_t", header: "rcl/time.h", bycopy.} = object ##
                               ##  Struct to describe a jump in time.
     clock_change* {.importc: "clock_change".}: rcl_clock_change_t ##
                               ##  Indicate whether or not the source of time changed.
@@ -125,7 +125,7 @@ type
                               ##  once after. This is true the first call and false the second.
                               ##  \param[in] user_data A pointer given at callback registration which is passed to the callback.
 
-  rcl_jump_threshold_t* {.importc: "rcl_jump_threshold_t", header: "time.h",
+  rcl_jump_threshold_t* {.importc: "rcl_jump_threshold_t", header: "rcl/time.h",
                           bycopy.} = object ##  Describe the prerequisites for calling a time jump callback.
     on_clock_change* {.importc: "on_clock_change".}: _Bool ##
                               ##  True to call callback when the clock type changes.
@@ -138,7 +138,7 @@ type
 
 
   rcl_jump_callback_info_t* {.importc: "rcl_jump_callback_info_t",
-                              header: "time.h", bycopy.} = object ##
+                              header: "rcl/time.h", bycopy.} = object ##
                               ##  Struct to describe an added callback.
     callback* {.importc: "callback".}: rcl_jump_callback_t ##
                               ##  Callback to fucntion.
@@ -147,7 +147,7 @@ type
     user_data* {.importc: "user_data".}: pointer ##  Pointer passed to the callback.
 
 
-  rcl_clock_t* {.importc: "rcl_clock_t", header: "time.h", bycopy.} = object ##
+  rcl_clock_t* {.importc: "rcl_clock_t", header: "rcl/time.h", bycopy.} = object ##
                               ##  Encapsulation of a time source.
     `type`* {.importc: "type".}: rcl_clock_type_t ##  Clock type
     jump_callbacks* {.importc: "jump_callbacks".}: ptr rcl_jump_callback_info_t ##
@@ -163,7 +163,7 @@ type
                               ##  Custom allocator used for internal allocations.
 
 
-  rcl_time_point_t* {.importc: "rcl_time_point_t", header: "time.h", bycopy.} = object ##
+  rcl_time_point_t* {.importc: "rcl_time_point_t", header: "rcl/time.h", bycopy.} = object ##
                               ##  A single point in time, measured in nanoseconds, the reference point is based on the source.
     nanoseconds* {.importc: "nanoseconds".}: rcl_time_point_value_t ##
                               ##  Nanoseconds of the point in time
@@ -173,7 +173,7 @@ type
 
 
 proc rcl_clock_time_started*(clock: ptr rcl_clock_t): _Bool {.
-    importc: "rcl_clock_time_started", header: "time.h".}
+    importc: "rcl_clock_time_started", header: "rcl/time.h".}
   ##
                               ##  typedef struct rcl_rate_t
                               ##  {
@@ -205,86 +205,89 @@ proc rcl_clock_time_started*(clock: ptr rcl_clock_t): _Bool {.
                               ##
 
 proc rcl_clock_valid*(clock: ptr rcl_clock_t): _Bool {.
-    importc: "rcl_clock_valid", header: "time.h".}
-  ##  Check if the clock has valid values.
-                                                  ##
-                                                  ##  This function returns true if the time source appears to be valid.
-                                                  ##  It will check that the type is not uninitialized, and that pointers
-                                                  ##  are not invalid.
-                                                  ##  Note that if data is uninitialized it may give a false positive.
-                                                  ##
-                                                  ##  <hr>
-                                                  ##  Attribute          | Adherence
-                                                  ##  ------------------ | -------------
-                                                  ##  Allocates Memory   | No
-                                                  ##  Thread-Safe        | Yes
-                                                  ##  Uses Atomics       | No
-                                                  ##  Lock-Free          | Yes
-                                                  ##
-                                                  ##  \param[in] clock the handle to the clock which is being queried
-                                                  ##  \return true if the source is believed to be valid, otherwise return false.
-                                                  ##
+    importc: "rcl_clock_valid", header: "rcl/time.h".}
+  ##
+                              ##  Check if the clock has valid values.
+                              ##
+                              ##  This function returns true if the time source appears to be valid.
+                              ##  It will check that the type is not uninitialized, and that pointers
+                              ##  are not invalid.
+                              ##  Note that if data is uninitialized it may give a false positive.
+                              ##
+                              ##  <hr>
+                              ##  Attribute          | Adherence
+                              ##  ------------------ | -------------
+                              ##  Allocates Memory   | No
+                              ##  Thread-Safe        | Yes
+                              ##  Uses Atomics       | No
+                              ##  Lock-Free          | Yes
+                              ##
+                              ##  \param[in] clock the handle to the clock which is being queried
+                              ##  \return true if the source is believed to be valid, otherwise return false.
+                              ##
 
 proc rcl_clock_init*(clock_type: rcl_clock_type_t; clock: ptr rcl_clock_t;
                      allocator: ptr rcl_allocator_t): rcl_ret_t {.
-    importc: "rcl_clock_init", header: "time.h".}
-  ##  Initialize a clock based on the passed type.
-                                                 ##
-                                                 ##  This will allocate all necessary internal structures, and initialize variables.
-                                                 ##
-                                                 ##  <hr>
-                                                 ##  Attribute          | Adherence
-                                                 ##  ------------------ | -------------
-                                                 ##  Allocates Memory   | Yes [1]
-                                                 ##  Thread-Safe        | No [2]
-                                                 ##  Uses Atomics       | No
-                                                 ##  Lock-Free          | Yes
-                                                 ##
-                                                 ##  <i>[1] If `clock_type` is #RCL_ROS_TIME</i>
-                                                 ##  <i>[2] Function is reentrant, but concurrent calls on the same `clock` object are not safe.
-                                                 ##         Thread-safety is also affected by that of the `allocator` object.</i>
-                                                 ##
-                                                 ##  \param[in] clock_type the type identifying the time source to provide
-                                                 ##  \param[in] clock the handle to the clock which is being initialized
-                                                 ##  \param[in] allocator The allocator to use for allocations
-                                                 ##  \return #RCL_RET_OK if the time source was successfully initialized, or
-                                                 ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
-                                                 ##  \return #RCL_RET_ERROR an unspecified error occur.
-                                                 ##
+    importc: "rcl_clock_init", header: "rcl/time.h".}
+  ##
+                              ##  Initialize a clock based on the passed type.
+                              ##
+                              ##  This will allocate all necessary internal structures, and initialize variables.
+                              ##
+                              ##  <hr>
+                              ##  Attribute          | Adherence
+                              ##  ------------------ | -------------
+                              ##  Allocates Memory   | Yes [1]
+                              ##  Thread-Safe        | No [2]
+                              ##  Uses Atomics       | No
+                              ##  Lock-Free          | Yes
+                              ##
+                              ##  <i>[1] If `clock_type` is #RCL_ROS_TIME</i>
+                              ##  <i>[2] Function is reentrant, but concurrent calls on the same `clock` object are not safe.
+                              ##         Thread-safety is also affected by that of the `allocator` object.</i>
+                              ##
+                              ##  \param[in] clock_type the type identifying the time source to provide
+                              ##  \param[in] clock the handle to the clock which is being initialized
+                              ##  \param[in] allocator The allocator to use for allocations
+                              ##  \return #RCL_RET_OK if the time source was successfully initialized, or
+                              ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
+                              ##  \return #RCL_RET_ERROR an unspecified error occur.
+                              ##
 
 proc rcl_clock_fini*(clock: ptr rcl_clock_t): rcl_ret_t {.
-    importc: "rcl_clock_fini", header: "time.h".}
-  ##  Finalize a clock.
-                                                 ##
-                                                 ##  This will deallocate all necessary internal structures, and clean up any variables.
-                                                 ##  It can be combined with any of the init functions.
-                                                 ##
-                                                 ##  Passing a clock with type #RCL_CLOCK_UNINITIALIZED will result in
-                                                 ##  #RCL_RET_INVALID_ARGUMENT being returned.
-                                                 ##
-                                                 ##  This function is not thread-safe with any other function operating on the same
-                                                 ##  clock object.
-                                                 ##
-                                                 ##  <hr>
-                                                 ##  Attribute          | Adherence
-                                                 ##  ------------------ | -------------
-                                                 ##  Allocates Memory   | No
-                                                 ##  Thread-Safe        | No [1]
-                                                 ##  Uses Atomics       | No
-                                                 ##  Lock-Free          | Yes
-                                                 ##
-                                                 ##  <i>[1] Function is reentrant, but concurrent calls on the same `clock` object are not safe.
-                                                 ##         Thread-safety is also affected by that of the `allocator` object associated with the
-                                                 ##         `clock` object.</i>
-                                                 ##
-                                                 ##  \param[in] clock the handle to the clock which is being finalized
-                                                 ##  \return #RCL_RET_OK if the time source was successfully finalized, or
-                                                 ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
-                                                 ##  \return #RCL_RET_ERROR an unspecified error occur.
-                                                 ##
+    importc: "rcl_clock_fini", header: "rcl/time.h".}
+  ##
+                              ##  Finalize a clock.
+                              ##
+                              ##  This will deallocate all necessary internal structures, and clean up any variables.
+                              ##  It can be combined with any of the init functions.
+                              ##
+                              ##  Passing a clock with type #RCL_CLOCK_UNINITIALIZED will result in
+                              ##  #RCL_RET_INVALID_ARGUMENT being returned.
+                              ##
+                              ##  This function is not thread-safe with any other function operating on the same
+                              ##  clock object.
+                              ##
+                              ##  <hr>
+                              ##  Attribute          | Adherence
+                              ##  ------------------ | -------------
+                              ##  Allocates Memory   | No
+                              ##  Thread-Safe        | No [1]
+                              ##  Uses Atomics       | No
+                              ##  Lock-Free          | Yes
+                              ##
+                              ##  <i>[1] Function is reentrant, but concurrent calls on the same `clock` object are not safe.
+                              ##         Thread-safety is also affected by that of the `allocator` object associated with the
+                              ##         `clock` object.</i>
+                              ##
+                              ##  \param[in] clock the handle to the clock which is being finalized
+                              ##  \return #RCL_RET_OK if the time source was successfully finalized, or
+                              ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
+                              ##  \return #RCL_RET_ERROR an unspecified error occur.
+                              ##
 
 proc rcl_ros_clock_init*(clock: ptr rcl_clock_t; allocator: ptr rcl_allocator_t): rcl_ret_t {.
-    importc: "rcl_ros_clock_init", header: "time.h".}
+    importc: "rcl_ros_clock_init", header: "rcl/time.h".}
   ##
                               ##  Initialize a clock as a #RCL_ROS_TIME time source.
                               ##
@@ -311,7 +314,7 @@ proc rcl_ros_clock_init*(clock: ptr rcl_clock_t; allocator: ptr rcl_allocator_t)
                               ##
 
 proc rcl_ros_clock_fini*(clock: ptr rcl_clock_t): rcl_ret_t {.
-    importc: "rcl_ros_clock_fini", header: "time.h".}
+    importc: "rcl_ros_clock_fini", header: "rcl/time.h".}
   ##
                               ##  Finalize a clock as a #RCL_ROS_TIME time source.
                               ##
@@ -342,7 +345,7 @@ proc rcl_ros_clock_fini*(clock: ptr rcl_clock_t): rcl_ret_t {.
 
 proc rcl_steady_clock_init*(clock: ptr rcl_clock_t;
                             allocator: ptr rcl_allocator_t): rcl_ret_t {.
-    importc: "rcl_steady_clock_init", header: "time.h".}
+    importc: "rcl_steady_clock_init", header: "rcl/time.h".}
   ##
                               ##  Initialize a clock as a #RCL_STEADY_TIME time source.
                               ##
@@ -368,7 +371,7 @@ proc rcl_steady_clock_init*(clock: ptr rcl_clock_t;
                               ##
 
 proc rcl_steady_clock_fini*(clock: ptr rcl_clock_t): rcl_ret_t {.
-    importc: "rcl_steady_clock_fini", header: "time.h".}
+    importc: "rcl_steady_clock_fini", header: "rcl/time.h".}
   ##
                               ##  Finalize a clock as a #RCL_STEADY_TIME time source.
                               ##
@@ -401,7 +404,7 @@ proc rcl_steady_clock_fini*(clock: ptr rcl_clock_t): rcl_ret_t {.
 
 proc rcl_system_clock_init*(clock: ptr rcl_clock_t;
                             allocator: ptr rcl_allocator_t): rcl_ret_t {.
-    importc: "rcl_system_clock_init", header: "time.h".}
+    importc: "rcl_system_clock_init", header: "rcl/time.h".}
   ##
                               ##  Initialize a clock as a #RCL_SYSTEM_TIME time source.
                               ##
@@ -430,7 +433,7 @@ proc rcl_system_clock_init*(clock: ptr rcl_clock_t;
                               ##
 
 proc rcl_system_clock_fini*(clock: ptr rcl_clock_t): rcl_ret_t {.
-    importc: "rcl_system_clock_fini", header: "time.h".}
+    importc: "rcl_system_clock_fini", header: "rcl/time.h".}
   ##
                               ##  Finalize a clock as a #RCL_SYSTEM_TIME time source.
                               ##
@@ -463,7 +466,7 @@ proc rcl_system_clock_fini*(clock: ptr rcl_clock_t): rcl_ret_t {.
 proc rcl_difference_times*(start: ptr rcl_time_point_t;
                            finish: ptr rcl_time_point_t;
                            delta: ptr rcl_duration_t): rcl_ret_t {.
-    importc: "rcl_difference_times", header: "time.h".}
+    importc: "rcl_difference_times", header: "rcl/time.h".}
   ##
                               ##  Compute the difference between two time points
                               ##
@@ -492,7 +495,7 @@ proc rcl_difference_times*(start: ptr rcl_time_point_t;
 
 proc rcl_clock_get_now*(clock: ptr rcl_clock_t;
                         time_point_value: ptr rcl_time_point_value_t): rcl_ret_t {.
-    importc: "rcl_clock_get_now", header: "time.h".}
+    importc: "rcl_clock_get_now", header: "rcl/time.h".}
   ##
                               ##  Fill the time point value with the current value of the associated clock.
                               ##
@@ -517,7 +520,7 @@ proc rcl_clock_get_now*(clock: ptr rcl_clock_t;
                               ##
 
 proc rcl_enable_ros_time_override*(clock: ptr rcl_clock_t): rcl_ret_t {.
-    importc: "rcl_enable_ros_time_override", header: "time.h".}
+    importc: "rcl_enable_ros_time_override", header: "rcl/time.h".}
   ##
                               ##  Enable the ROS time abstraction override.
                               ##
@@ -547,7 +550,7 @@ proc rcl_enable_ros_time_override*(clock: ptr rcl_clock_t): rcl_ret_t {.
                               ##
 
 proc rcl_disable_ros_time_override*(clock: ptr rcl_clock_t): rcl_ret_t {.
-    importc: "rcl_disable_ros_time_override", header: "time.h".}
+    importc: "rcl_disable_ros_time_override", header: "rcl/time.h".}
   ##
                               ##  Disable the ROS time abstraction override.
                               ##
@@ -578,7 +581,7 @@ proc rcl_disable_ros_time_override*(clock: ptr rcl_clock_t): rcl_ret_t {.
 
 proc rcl_is_enabled_ros_time_override*(clock: ptr rcl_clock_t;
                                        is_enabled: ptr _Bool): rcl_ret_t {.
-    importc: "rcl_is_enabled_ros_time_override", header: "time.h".}
+    importc: "rcl_is_enabled_ros_time_override", header: "rcl/time.h".}
   ##
                               ##  Check if the #RCL_ROS_TIME time source has the override enabled.
                               ##
@@ -608,7 +611,7 @@ proc rcl_is_enabled_ros_time_override*(clock: ptr rcl_clock_t;
 
 proc rcl_set_ros_time_override*(clock: ptr rcl_clock_t;
                                 time_value: rcl_time_point_value_t): rcl_ret_t {.
-    importc: "rcl_set_ros_time_override", header: "time.h".}
+    importc: "rcl_set_ros_time_override", header: "rcl/time.h".}
   ##
                               ##  Set the current time for this #RCL_ROS_TIME time source.
                               ##
@@ -643,7 +646,7 @@ proc rcl_clock_add_jump_callback*(clock: ptr rcl_clock_t;
                                   threshold: rcl_jump_threshold_t;
                                   callback: rcl_jump_callback_t;
                                   user_data: pointer): rcl_ret_t {.
-    importc: "rcl_clock_add_jump_callback", header: "time.h".}
+    importc: "rcl_clock_add_jump_callback", header: "rcl/time.h".}
   ##
                               ##  Add a callback to be called when a time jump exceeds a threshold.
                               ##
@@ -681,7 +684,7 @@ proc rcl_clock_add_jump_callback*(clock: ptr rcl_clock_t;
 proc rcl_clock_remove_jump_callback*(clock: ptr rcl_clock_t;
                                      callback: rcl_jump_callback_t;
                                      user_data: pointer): rcl_ret_t {.
-    importc: "rcl_clock_remove_jump_callback", header: "time.h".}
+    importc: "rcl_clock_remove_jump_callback", header: "rcl/time.h".}
   ##
                               ##  Remove a previously added time jump callback.
                               ##

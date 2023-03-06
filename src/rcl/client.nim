@@ -77,14 +77,15 @@ type
 
   rcl_client_impl_t* = rcl_client_impl_s ##  Internal rcl client implementation struct.
 
-  rcl_client_t* {.importc: "rcl_client_t", header: "client.h", bycopy.} = object ##
+  rcl_client_t* {.importc: "rcl_client_t", header: "rcl/client.h", bycopy.} = object ##
                               ##  Structure which encapsulates a ROS Client.
     impl* {.importc: "impl".}: ptr rcl_client_impl_t ##
                               ##  Pointer to the client implementation
 
 
-  rcl_client_options_t* {.importc: "rcl_client_options_t", header: "client.h",
-                          bycopy.} = object ##  Options available for a rcl_client_t.
+  rcl_client_options_t* {.importc: "rcl_client_options_t",
+                          header: "rcl/client.h", bycopy.} = object ##
+                              ##  Options available for a rcl_client_t.
     qos* {.importc: "qos".}: rmw_qos_profile_t ##  Middleware quality of service settings for the client.
     ##  Custom allocator for the client, used for incidental allocations.
     allocator* {.importc: "allocator".}: rcl_allocator_t ##
@@ -93,7 +94,7 @@ type
 
 
 proc rcl_get_zero_initialized_client*(): rcl_client_t {.
-    importc: "rcl_get_zero_initialized_client", header: "client.h".}
+    importc: "rcl_get_zero_initialized_client", header: "rcl/client.h".}
   ##
                               ##  Return a rcl_client_t struct with members set to `NULL`.
                               ##
@@ -104,7 +105,7 @@ proc rcl_get_zero_initialized_client*(): rcl_client_t {.
 proc rcl_client_init*(client: ptr rcl_client_t; node: ptr rcl_node_t;
                       type_support: ptr rosidl_service_type_support_t;
                       service_name: cstring; options: ptr rcl_client_options_t): rcl_ret_t {.
-    importc: "rcl_client_init", header: "client.h".}
+    importc: "rcl_client_init", header: "rcl/client.h".}
   ##
                               ##  Initialize a rcl client.
                               ##
@@ -202,7 +203,7 @@ proc rcl_client_init*(client: ptr rcl_client_t; node: ptr rcl_node_t;
                               ##
 
 proc rcl_client_fini*(client: ptr rcl_client_t; node: ptr rcl_node_t): rcl_ret_t {.
-    importc: "rcl_client_fini", header: "client.h".}
+    importc: "rcl_client_fini", header: "rcl/client.h".}
   ##
                               ##  Finalize a rcl_client_t.
                               ##
@@ -227,7 +228,7 @@ proc rcl_client_fini*(client: ptr rcl_client_t; node: ptr rcl_node_t): rcl_ret_t
                               ##
 
 proc rcl_client_get_default_options*(): rcl_client_options_t {.
-    importc: "rcl_client_get_default_options", header: "client.h".}
+    importc: "rcl_client_get_default_options", header: "rcl/client.h".}
   ##
                               ##  Return the default client options in a rcl_client_options_t.
                               ##
@@ -239,7 +240,7 @@ proc rcl_client_get_default_options*(): rcl_client_options_t {.
 
 proc rcl_send_request*(client: ptr rcl_client_t; ros_request: pointer;
                        sequence_number: ptr int64): rcl_ret_t {.
-    importc: "rcl_send_request", header: "client.h".}
+    importc: "rcl_send_request", header: "rcl/client.h".}
   ##
                               ##  Send a ROS request using a client.
                               ##
@@ -289,7 +290,7 @@ proc rcl_send_request*(client: ptr rcl_client_t; ros_request: pointer;
 proc rcl_take_response_with_info*(client: ptr rcl_client_t;
                                   request_header: ptr rmw_service_info_t;
                                   ros_response: pointer): rcl_ret_t {.
-    importc: "rcl_take_response_with_info", header: "client.h".}
+    importc: "rcl_take_response_with_info", header: "rcl/client.h".}
   ##
                               ##  Take a ROS response using a client
                               ##
@@ -330,12 +331,12 @@ proc rcl_take_response_with_info*(client: ptr rcl_client_t;
 proc rcl_take_response*(client: ptr rcl_client_t;
                         request_header: ptr rmw_request_id_t;
                         ros_response: pointer): rcl_ret_t {.
-    importc: "rcl_take_response", header: "client.h".}
+    importc: "rcl_take_response", header: "rcl/client.h".}
   ##
                               ##  backwards compatibility function that takes a rmw_request_id_t only
 
 proc rcl_client_get_service_name*(client: ptr rcl_client_t): cstring {.
-    importc: "rcl_client_get_service_name", header: "client.h".}
+    importc: "rcl_client_get_service_name", header: "rcl/client.h".}
   ##
                               ##  Get the name of the service that this client will request a response from.
                               ##
@@ -361,7 +362,7 @@ proc rcl_client_get_service_name*(client: ptr rcl_client_t): cstring {.
                               ##
 
 proc rcl_client_get_options*(client: ptr rcl_client_t): ptr rcl_client_options_t {.
-    importc: "rcl_client_get_options", header: "client.h".}
+    importc: "rcl_client_get_options", header: "rcl/client.h".}
   ##
                               ##  Return the rcl client options.
                               ##
@@ -387,7 +388,7 @@ proc rcl_client_get_options*(client: ptr rcl_client_t): ptr rcl_client_options_t
                               ##
 
 proc rcl_client_get_rmw_handle*(client: ptr rcl_client_t): ptr rmw_client_t {.
-    importc: "rcl_client_get_rmw_handle", header: "client.h".}
+    importc: "rcl_client_get_rmw_handle", header: "rcl/client.h".}
   ##
                               ##  Return the rmw client handle.
                               ##
@@ -417,7 +418,7 @@ proc rcl_client_get_rmw_handle*(client: ptr rcl_client_t): ptr rmw_client_t {.
                               ##
 
 proc rcl_client_is_valid*(client: ptr rcl_client_t): _Bool {.
-    importc: "rcl_client_is_valid", header: "client.h".}
+    importc: "rcl_client_is_valid", header: "rcl/client.h".}
   ##
                               ##  Check that the client is valid.
                               ##
@@ -439,58 +440,58 @@ proc rcl_client_is_valid*(client: ptr rcl_client_t): _Bool {.
                               ##
 
 proc rcl_client_request_publisher_get_actual_qos*(client: ptr rcl_client_t): ptr rmw_qos_profile_t {.
-    importc: "rcl_client_request_publisher_get_actual_qos", header: "client.h".}
-  ##
-                              ##  Get the actual qos settings of the client's request publisher.
-                              ##
-                              ##  Used to get the actual qos settings of the client's request publisher.
-                              ##  The actual configuration applied when using RMW_*_SYSTEM_DEFAULT
-                              ##  can only be resolved after the creation of the client, and it
-                              ##  depends on the underlying rmw implementation.
-                              ##  If the underlying setting in use can't be represented in ROS terms,
-                              ##  it will be set to RMW_*_UNKNOWN.
-                              ##  The returned struct is only valid as long as the rcl_client_t is valid.
-                              ##
-                              ##  <hr>
-                              ##  Attribute          | Adherence
-                              ##  ------------------ | -------------
-                              ##  Allocates Memory   | No
-                              ##  Thread-Safe        | Yes
-                              ##  Uses Atomics       | No
-                              ##  Lock-Free          | Yes
-                              ##
-                              ##  \param[in] client pointer to the rcl client
-                              ##  \return qos struct if successful, otherwise `NULL`
-                              ##
+    importc: "rcl_client_request_publisher_get_actual_qos",
+    header: "rcl/client.h".}
+  ##  Get the actual qos settings of the client's request publisher.
+                            ##
+                            ##  Used to get the actual qos settings of the client's request publisher.
+                            ##  The actual configuration applied when using RMW_*_SYSTEM_DEFAULT
+                            ##  can only be resolved after the creation of the client, and it
+                            ##  depends on the underlying rmw implementation.
+                            ##  If the underlying setting in use can't be represented in ROS terms,
+                            ##  it will be set to RMW_*_UNKNOWN.
+                            ##  The returned struct is only valid as long as the rcl_client_t is valid.
+                            ##
+                            ##  <hr>
+                            ##  Attribute          | Adherence
+                            ##  ------------------ | -------------
+                            ##  Allocates Memory   | No
+                            ##  Thread-Safe        | Yes
+                            ##  Uses Atomics       | No
+                            ##  Lock-Free          | Yes
+                            ##
+                            ##  \param[in] client pointer to the rcl client
+                            ##  \return qos struct if successful, otherwise `NULL`
+                            ##
 
 proc rcl_client_response_subscription_get_actual_qos*(client: ptr rcl_client_t): ptr rmw_qos_profile_t {.
     importc: "rcl_client_response_subscription_get_actual_qos",
-    header: "client.h".}
+    header: "rcl/client.h".}
   ##  Get the actual qos settings of the client's response subscription.
-                        ##
-                        ##  Used to get the actual qos settings of the client's response subscription.
-                        ##  The actual configuration applied when using RMW_*_SYSTEM_DEFAULT
-                        ##  can only be resolved after the creation of the client, and it
-                        ##  depends on the underlying rmw implementation.
-                        ##  If the underlying setting in use can't be represented in ROS terms,
-                        ##  it will be set to RMW_*_UNKNOWN.
-                        ##  The returned struct is only valid as long as the rcl_client_t is valid.
-                        ##
-                        ##  <hr>
-                        ##  Attribute          | Adherence
-                        ##  ------------------ | -------------
-                        ##  Allocates Memory   | No
-                        ##  Thread-Safe        | Yes
-                        ##  Uses Atomics       | No
-                        ##  Lock-Free          | Yes
-                        ##
-                        ##  \param[in] client pointer to the rcl client
-                        ##  \return qos struct if successful, otherwise `NULL`
-                        ##
+                            ##
+                            ##  Used to get the actual qos settings of the client's response subscription.
+                            ##  The actual configuration applied when using RMW_*_SYSTEM_DEFAULT
+                            ##  can only be resolved after the creation of the client, and it
+                            ##  depends on the underlying rmw implementation.
+                            ##  If the underlying setting in use can't be represented in ROS terms,
+                            ##  it will be set to RMW_*_UNKNOWN.
+                            ##  The returned struct is only valid as long as the rcl_client_t is valid.
+                            ##
+                            ##  <hr>
+                            ##  Attribute          | Adherence
+                            ##  ------------------ | -------------
+                            ##  Allocates Memory   | No
+                            ##  Thread-Safe        | Yes
+                            ##  Uses Atomics       | No
+                            ##  Lock-Free          | Yes
+                            ##
+                            ##  \param[in] client pointer to the rcl client
+                            ##  \return qos struct if successful, otherwise `NULL`
+                            ##
 
 proc rcl_client_set_on_new_response_callback*(client: ptr rcl_client_t;
     callback: rcl_event_callback_t; user_data: pointer): rcl_ret_t {.
-    importc: "rcl_client_set_on_new_response_callback", header: "client.h".}
+    importc: "rcl_client_set_on_new_response_callback", header: "rcl/client.h".}
   ##
                               ##  Set the on new response callback function for the client.
                               ##

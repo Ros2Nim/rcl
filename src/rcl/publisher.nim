@@ -72,14 +72,14 @@ type
 
   rcl_publisher_impl_t* = rcl_publisher_impl_s ##  Internal rcl publisher implementation struct.
 
-  rcl_publisher_t* {.importc: "rcl_publisher_t", header: "publisher.h", bycopy.} = object ##
-                              ##  Structure which encapsulates a ROS Publisher.
+  rcl_publisher_t* {.importc: "rcl_publisher_t", header: "rcl/publisher.h",
+                     bycopy.} = object ##  Structure which encapsulates a ROS Publisher.
     impl* {.importc: "impl".}: ptr rcl_publisher_impl_t ##
                               ##  Pointer to the publisher implementation
 
 
   rcl_publisher_options_t* {.importc: "rcl_publisher_options_t",
-                             header: "publisher.h", bycopy.} = object ##
+                             header: "rcl/publisher.h", bycopy.} = object ##
                               ##  Options available for a rcl publisher.
     qos* {.importc: "qos".}: rmw_qos_profile_t ##  Middleware quality of service settings for the publisher.
     ##  Custom allocator for the publisher, used for incidental allocations.
@@ -91,7 +91,7 @@ type
 
 
 proc rcl_get_zero_initialized_publisher*(): rcl_publisher_t {.
-    importc: "rcl_get_zero_initialized_publisher", header: "publisher.h".}
+    importc: "rcl_get_zero_initialized_publisher", header: "rcl/publisher.h".}
   ##
                               ##  Return a rcl_publisher_t struct with members set to `NULL`.
                               ##
@@ -103,7 +103,7 @@ proc rcl_publisher_init*(publisher: ptr rcl_publisher_t; node: ptr rcl_node_t;
                          type_support: ptr rosidl_message_type_support_t;
                          topic_name: cstring;
                          options: ptr rcl_publisher_options_t): rcl_ret_t {.
-    importc: "rcl_publisher_init", header: "publisher.h".}
+    importc: "rcl_publisher_init", header: "rcl/publisher.h".}
   ##
                               ##  Initialize a rcl publisher.
                               ##
@@ -194,7 +194,7 @@ proc rcl_publisher_init*(publisher: ptr rcl_publisher_t; node: ptr rcl_node_t;
                               ##
 
 proc rcl_publisher_fini*(publisher: ptr rcl_publisher_t; node: ptr rcl_node_t): rcl_ret_t {.
-    importc: "rcl_publisher_fini", header: "publisher.h".}
+    importc: "rcl_publisher_fini", header: "rcl/publisher.h".}
   ##
                               ##  Finalize a rcl_publisher_t.
                               ##
@@ -222,7 +222,7 @@ proc rcl_publisher_fini*(publisher: ptr rcl_publisher_t; node: ptr rcl_node_t): 
                               ##
 
 proc rcl_publisher_get_default_options*(): rcl_publisher_options_t {.
-    importc: "rcl_publisher_get_default_options", header: "publisher.h".}
+    importc: "rcl_publisher_get_default_options", header: "rcl/publisher.h".}
   ##
                               ##  Return the default publisher options in a rcl_publisher_options_t.
                               ##
@@ -237,7 +237,7 @@ proc rcl_publisher_get_default_options*(): rcl_publisher_options_t {.
 
 proc rcl_borrow_loaned_message*(publisher: ptr rcl_publisher_t; type_support: ptr rosidl_message_type_support_t;
                                 ros_message: ptr pointer): rcl_ret_t {.
-    importc: "rcl_borrow_loaned_message", header: "publisher.h".}
+    importc: "rcl_borrow_loaned_message", header: "rcl/publisher.h".}
   ##
                               ##  Borrow a loaned message.
                               ##
@@ -267,34 +267,34 @@ proc rcl_borrow_loaned_message*(publisher: ptr rcl_publisher_t; type_support: pt
 
 proc rcl_return_loaned_message_from_publisher*(publisher: ptr rcl_publisher_t;
     loaned_message: pointer): rcl_ret_t {.
-    importc: "rcl_return_loaned_message_from_publisher", header: "publisher.h".}
-  ##
-                              ##  Return a loaned message previously borrowed from a publisher.
-                              ##
-                              ##  The ownership of the passed in ros message will be transferred back to the middleware.
-                              ##  The middleware might deallocate and destroy the message so that the pointer is no longer
-                              ##  guaranteed to be valid after that call.
-                              ##
-                              ##  <hr>
-                              ##  Attribute          | Adherence
-                              ##  ------------------ | -------------
-                              ##  Allocates Memory   | No
-                              ##  Thread-Safe        | No
-                              ##  Uses Atomics       | No
-                              ##  Lock-Free          | Yes
-                              ##
-                              ##  \param[in] publisher Publisher to which the loaned message is associated.
-                              ##  \param[in] loaned_message Loaned message to be deallocated and destroyed.
-                              ##  \return #RCL_RET_OK if successful, or
-                              ##  \return #RCL_RET_INVALID_ARGUMENT if an argument is null, or
-                              ##  \return #RCL_RET_UNSUPPORTED if the middleware does not support that feature, or
-                              ##  \return #RCL_RET_PUBLISHER_INVALID if the publisher is invalid, or
-                              ##  \return #RCL_RET_ERROR if an unexpected error occurs and no message can be initialized.
-                              ##
+    importc: "rcl_return_loaned_message_from_publisher",
+    header: "rcl/publisher.h".}
+  ##  Return a loaned message previously borrowed from a publisher.
+                               ##
+                               ##  The ownership of the passed in ros message will be transferred back to the middleware.
+                               ##  The middleware might deallocate and destroy the message so that the pointer is no longer
+                               ##  guaranteed to be valid after that call.
+                               ##
+                               ##  <hr>
+                               ##  Attribute          | Adherence
+                               ##  ------------------ | -------------
+                               ##  Allocates Memory   | No
+                               ##  Thread-Safe        | No
+                               ##  Uses Atomics       | No
+                               ##  Lock-Free          | Yes
+                               ##
+                               ##  \param[in] publisher Publisher to which the loaned message is associated.
+                               ##  \param[in] loaned_message Loaned message to be deallocated and destroyed.
+                               ##  \return #RCL_RET_OK if successful, or
+                               ##  \return #RCL_RET_INVALID_ARGUMENT if an argument is null, or
+                               ##  \return #RCL_RET_UNSUPPORTED if the middleware does not support that feature, or
+                               ##  \return #RCL_RET_PUBLISHER_INVALID if the publisher is invalid, or
+                               ##  \return #RCL_RET_ERROR if an unexpected error occurs and no message can be initialized.
+                               ##
 
 proc rcl_publish*(publisher: ptr rcl_publisher_t; ros_message: pointer;
                   allocation: ptr rmw_publisher_allocation_t): rcl_ret_t {.
-    importc: "rcl_publish", header: "publisher.h".}
+    importc: "rcl_publish", header: "rcl/publisher.h".}
   ##
                               ##  Publish a ROS message on a topic using a publisher.
                               ##
@@ -357,7 +357,7 @@ proc rcl_publish*(publisher: ptr rcl_publisher_t; ros_message: pointer;
 proc rcl_publish_serialized_message*(publisher: ptr rcl_publisher_t;
     serialized_message: ptr rcl_serialized_message_t;
                                      allocation: ptr rmw_publisher_allocation_t): rcl_ret_t {.
-    importc: "rcl_publish_serialized_message", header: "publisher.h".}
+    importc: "rcl_publish_serialized_message", header: "rcl/publisher.h".}
   ##
                               ##  Publish a serialized message on a topic using a publisher.
                               ##
@@ -395,7 +395,7 @@ proc rcl_publish_serialized_message*(publisher: ptr rcl_publisher_t;
 proc rcl_publish_loaned_message*(publisher: ptr rcl_publisher_t;
                                  ros_message: pointer;
                                  allocation: ptr rmw_publisher_allocation_t): rcl_ret_t {.
-    importc: "rcl_publish_loaned_message", header: "publisher.h".}
+    importc: "rcl_publish_loaned_message", header: "rcl/publisher.h".}
   ##
                               ##  Publish a loaned message on a topic using a publisher.
                               ##
@@ -432,7 +432,7 @@ proc rcl_publish_loaned_message*(publisher: ptr rcl_publisher_t;
                               ##
 
 proc rcl_publisher_assert_liveliness*(publisher: ptr rcl_publisher_t): rcl_ret_t {.
-    importc: "rcl_publisher_assert_liveliness", header: "publisher.h".}
+    importc: "rcl_publisher_assert_liveliness", header: "rcl/publisher.h".}
   ##
                               ##  Manually assert that this Publisher is alive (for RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC)
                               ##
@@ -457,7 +457,7 @@ proc rcl_publisher_assert_liveliness*(publisher: ptr rcl_publisher_t): rcl_ret_t
 
 proc rcl_publisher_wait_for_all_acked*(publisher: ptr rcl_publisher_t;
                                        timeout: rcl_duration_value_t): rcl_ret_t {.
-    importc: "rcl_publisher_wait_for_all_acked", header: "publisher.h".}
+    importc: "rcl_publisher_wait_for_all_acked", header: "rcl/publisher.h".}
   ##
                               ##  Wait until all published message data is acknowledged or until the specified timeout elapses.
                               ##
@@ -495,7 +495,7 @@ proc rcl_publisher_wait_for_all_acked*(publisher: ptr rcl_publisher_t;
                               ##
 
 proc rcl_publisher_get_topic_name*(publisher: ptr rcl_publisher_t): cstring {.
-    importc: "rcl_publisher_get_topic_name", header: "publisher.h".}
+    importc: "rcl_publisher_get_topic_name", header: "rcl/publisher.h".}
   ##
                               ##  Get the topic name for the publisher.
                               ##
@@ -521,7 +521,7 @@ proc rcl_publisher_get_topic_name*(publisher: ptr rcl_publisher_t): cstring {.
                               ##
 
 proc rcl_publisher_get_options*(publisher: ptr rcl_publisher_t): ptr rcl_publisher_options_t {.
-    importc: "rcl_publisher_get_options", header: "publisher.h".}
+    importc: "rcl_publisher_get_options", header: "rcl/publisher.h".}
   ##
                               ##  Return the rcl publisher options.
                               ##
@@ -547,7 +547,7 @@ proc rcl_publisher_get_options*(publisher: ptr rcl_publisher_t): ptr rcl_publish
                               ##
 
 proc rcl_publisher_get_rmw_handle*(publisher: ptr rcl_publisher_t): ptr rmw_publisher_t {.
-    importc: "rcl_publisher_get_rmw_handle", header: "publisher.h".}
+    importc: "rcl_publisher_get_rmw_handle", header: "rcl/publisher.h".}
   ##
                               ##  Return the rmw publisher handle.
                               ##
@@ -577,7 +577,7 @@ proc rcl_publisher_get_rmw_handle*(publisher: ptr rcl_publisher_t): ptr rmw_publ
                               ##
 
 proc rcl_publisher_get_context*(publisher: ptr rcl_publisher_t): ptr rcl_context_t {.
-    importc: "rcl_publisher_get_context", header: "publisher.h".}
+    importc: "rcl_publisher_get_context", header: "rcl/publisher.h".}
   ##
                               ##  Return the context associated with this publisher.
                               ##
@@ -604,7 +604,7 @@ proc rcl_publisher_get_context*(publisher: ptr rcl_publisher_t): ptr rcl_context
                               ##
 
 proc rcl_publisher_is_valid*(publisher: ptr rcl_publisher_t): _Bool {.
-    importc: "rcl_publisher_is_valid", header: "publisher.h".}
+    importc: "rcl_publisher_is_valid", header: "rcl/publisher.h".}
   ##
                               ##  Return true if the publisher is valid, otherwise false.
                               ##
@@ -626,7 +626,7 @@ proc rcl_publisher_is_valid*(publisher: ptr rcl_publisher_t): _Bool {.
                               ##
 
 proc rcl_publisher_is_valid_except_context*(publisher: ptr rcl_publisher_t): _Bool {.
-    importc: "rcl_publisher_is_valid_except_context", header: "publisher.h".}
+    importc: "rcl_publisher_is_valid_except_context", header: "rcl/publisher.h".}
   ##
                               ##  Return true if the publisher is valid except the context, otherwise false.
                               ##
@@ -640,7 +640,7 @@ proc rcl_publisher_is_valid_except_context*(publisher: ptr rcl_publisher_t): _Bo
 
 proc rcl_publisher_get_subscription_count*(publisher: ptr rcl_publisher_t;
     subscription_count: ptr csize_t): rcl_ret_t {.
-    importc: "rcl_publisher_get_subscription_count", header: "publisher.h".}
+    importc: "rcl_publisher_get_subscription_count", header: "rcl/publisher.h".}
   ##
                               ##  Get the number of subscriptions matched to a publisher.
                               ##
@@ -664,7 +664,7 @@ proc rcl_publisher_get_subscription_count*(publisher: ptr rcl_publisher_t;
                               ##
 
 proc rcl_publisher_get_actual_qos*(publisher: ptr rcl_publisher_t): ptr rmw_qos_profile_t {.
-    importc: "rcl_publisher_get_actual_qos", header: "publisher.h".}
+    importc: "rcl_publisher_get_actual_qos", header: "rcl/publisher.h".}
   ##
                               ##  Get the actual qos settings of the publisher.
                               ##
@@ -689,7 +689,7 @@ proc rcl_publisher_get_actual_qos*(publisher: ptr rcl_publisher_t): ptr rmw_qos_
                               ##
 
 proc rcl_publisher_can_loan_messages*(publisher: ptr rcl_publisher_t): _Bool {.
-    importc: "rcl_publisher_can_loan_messages", header: "publisher.h".}
+    importc: "rcl_publisher_can_loan_messages", header: "rcl/publisher.h".}
   ##
                               ##  Check if publisher instance can loan messages.
                               ##

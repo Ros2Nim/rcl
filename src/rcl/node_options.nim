@@ -66,8 +66,9 @@ const
 
 type
 
-  rcl_node_options_t* {.importc: "rcl_node_options_t", header: "node_options.h",
-                        bycopy.} = object ##  Structure which encapsulates the options for creating a rcl_node_t.
+  rcl_node_options_t* {.importc: "rcl_node_options_t",
+                        header: "rcl/node_options.h", bycopy.} = object ##
+                              ##  Structure which encapsulates the options for creating a rcl_node_t.
     allocator* {.importc: "allocator".}: rcl_allocator_t ##
                               ##  bool anonymous_name;
                               ##  rmw_qos_profile_t parameter_qos;
@@ -86,7 +87,7 @@ type
 
 
 proc rcl_node_get_default_options*(): rcl_node_options_t {.
-    importc: "rcl_node_get_default_options", header: "node_options.h".}
+    importc: "rcl_node_get_default_options", header: "rcl/node_options.h".}
   ##
                               ##  Return the default node options in a rcl_node_options_t.
                               ##
@@ -103,7 +104,7 @@ proc rcl_node_get_default_options*(): rcl_node_options_t {.
 
 proc rcl_node_options_copy*(options: ptr rcl_node_options_t;
                             options_out: ptr rcl_node_options_t): rcl_ret_t {.
-    importc: "rcl_node_options_copy", header: "node_options.h".}
+    importc: "rcl_node_options_copy", header: "rcl/node_options.h".}
   ##
                               ##  Copy one options structure into another.
                               ##
@@ -125,7 +126,7 @@ proc rcl_node_options_copy*(options: ptr rcl_node_options_t;
                               ##
 
 proc rcl_node_options_fini*(options: ptr rcl_node_options_t): rcl_ret_t {.
-    importc: "rcl_node_options_fini", header: "node_options.h".}
+    importc: "rcl_node_options_fini", header: "rcl/node_options.h".}
   ##
                               ##  Finalize the given node_options.
                               ##

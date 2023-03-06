@@ -63,8 +63,8 @@ type
 
   rcl_arguments_impl_t* = rcl_arguments_impl_s
 
-  rcl_arguments_t* {.importc: "rcl_arguments_t", header: "arguments.h", bycopy.} = object ##
-                              ##  Hold output of parsing command line arguments.
+  rcl_arguments_t* {.importc: "rcl_arguments_t", header: "rcl/arguments.h",
+                     bycopy.} = object ##  Hold output of parsing command line arguments.
     impl* {.importc: "impl".}: ptr rcl_arguments_impl_t ##
                               ##  Private implementation pointer.
 
@@ -92,14 +92,14 @@ const
 
 
 proc rcl_get_zero_initialized_arguments*(): rcl_arguments_t {.
-    importc: "rcl_get_zero_initialized_arguments", header: "arguments.h".}
+    importc: "rcl_get_zero_initialized_arguments", header: "rcl/arguments.h".}
   ##
                               ##  Return a rcl_arguments_t struct with members initialized to `NULL`.
 
 proc rcl_parse_arguments*(argc: cint; argv: cstringArray;
                           allocator: rcl_allocator_t;
                           args_output: ptr rcl_arguments_t): rcl_ret_t {.
-    importc: "rcl_parse_arguments", header: "arguments.h".}
+    importc: "rcl_parse_arguments", header: "rcl/arguments.h".}
   ##
                               ##  Parse command line arguments into a structure usable by code.
                               ##
@@ -160,7 +160,7 @@ proc rcl_parse_arguments*(argc: cint; argv: cstringArray;
                               ##
 
 proc rcl_arguments_get_count_unparsed*(args: ptr rcl_arguments_t): cint {.
-    importc: "rcl_arguments_get_count_unparsed", header: "arguments.h".}
+    importc: "rcl_arguments_get_count_unparsed", header: "rcl/arguments.h".}
   ##
                               ##  Return the number of arguments that were not ROS specific arguments.
                               ##
@@ -180,7 +180,7 @@ proc rcl_arguments_get_count_unparsed*(args: ptr rcl_arguments_t): cint {.
 proc rcl_arguments_get_unparsed*(args: ptr rcl_arguments_t;
                                  allocator: rcl_allocator_t;
                                  output_unparsed_indices: ptr ptr cint): rcl_ret_t {.
-    importc: "rcl_arguments_get_unparsed", header: "arguments.h".}
+    importc: "rcl_arguments_get_unparsed", header: "rcl/arguments.h".}
   ##
                               ##  Return a list of indices to non ROS specific arguments.
                               ##
@@ -209,7 +209,7 @@ proc rcl_arguments_get_unparsed*(args: ptr rcl_arguments_t;
                               ##
 
 proc rcl_arguments_get_count_unparsed_ros*(args: ptr rcl_arguments_t): cint {.
-    importc: "rcl_arguments_get_count_unparsed_ros", header: "arguments.h".}
+    importc: "rcl_arguments_get_count_unparsed_ros", header: "rcl/arguments.h".}
   ##
                               ##  Return the number of ROS specific arguments that were not successfully parsed.
                               ##
@@ -229,7 +229,7 @@ proc rcl_arguments_get_count_unparsed_ros*(args: ptr rcl_arguments_t): cint {.
 proc rcl_arguments_get_unparsed_ros*(args: ptr rcl_arguments_t;
                                      allocator: rcl_allocator_t;
                                      output_unparsed_ros_indices: ptr ptr cint): rcl_ret_t {.
-    importc: "rcl_arguments_get_unparsed_ros", header: "arguments.h".}
+    importc: "rcl_arguments_get_unparsed_ros", header: "rcl/arguments.h".}
   ##
                               ##  Return a list of indices to unknown ROS specific arguments that were left unparsed.
                               ##
@@ -257,7 +257,7 @@ proc rcl_arguments_get_unparsed_ros*(args: ptr rcl_arguments_t;
                               ##
 
 proc rcl_arguments_get_param_files_count*(args: ptr rcl_arguments_t): cint {.
-    importc: "rcl_arguments_get_param_files_count", header: "arguments.h".}
+    importc: "rcl_arguments_get_param_files_count", header: "rcl/arguments.h".}
   ##
                               ##  Return the number of parameter yaml files given in the arguments.
                               ##
@@ -277,7 +277,7 @@ proc rcl_arguments_get_param_files_count*(args: ptr rcl_arguments_t): cint {.
 proc rcl_arguments_get_param_files*(arguments: ptr rcl_arguments_t;
                                     allocator: rcl_allocator_t;
                                     parameter_files: ptr cstringArray): rcl_ret_t {.
-    importc: "rcl_arguments_get_param_files", header: "arguments.h".}
+    importc: "rcl_arguments_get_param_files", header: "rcl/arguments.h".}
   ##
                               ##  Return a list of yaml parameter file paths specified on the command line.
                               ##
@@ -302,7 +302,7 @@ proc rcl_arguments_get_param_files*(arguments: ptr rcl_arguments_t;
 
 proc rcl_arguments_get_param_overrides*(arguments: ptr rcl_arguments_t;
     parameter_overrides: ptr ptr rcl_params_t): rcl_ret_t {.
-    importc: "rcl_arguments_get_param_overrides", header: "arguments.h".}
+    importc: "rcl_arguments_get_param_overrides", header: "rcl/arguments.h".}
   ##
                               ##  Return all parameter overrides parsed from the command line.
                               ##
@@ -331,7 +331,7 @@ proc rcl_remove_ros_arguments*(argv: cstringArray; args: ptr rcl_arguments_t;
                                allocator: rcl_allocator_t;
                                nonros_argc: ptr cint;
                                nonros_argv: ptr cstringArray): rcl_ret_t {.
-    importc: "rcl_remove_ros_arguments", header: "arguments.h".}
+    importc: "rcl_remove_ros_arguments", header: "rcl/arguments.h".}
   ##
                               ##  Return a list of arguments with ROS-specific arguments removed.
                               ##
@@ -363,7 +363,7 @@ proc rcl_remove_ros_arguments*(argv: cstringArray; args: ptr rcl_arguments_t;
 
 proc rcl_arguments_get_log_levels*(arguments: ptr rcl_arguments_t;
                                    log_levels: ptr rcl_log_levels_t): rcl_ret_t {.
-    importc: "rcl_arguments_get_log_levels", header: "arguments.h".}
+    importc: "rcl_arguments_get_log_levels", header: "rcl/arguments.h".}
   ##
                               ##  Return log levels parsed from the command line.
                               ##
@@ -387,7 +387,7 @@ proc rcl_arguments_get_log_levels*(arguments: ptr rcl_arguments_t;
 
 proc rcl_arguments_copy*(args: ptr rcl_arguments_t;
                          args_out: ptr rcl_arguments_t): rcl_ret_t {.
-    importc: "rcl_arguments_copy", header: "arguments.h".}
+    importc: "rcl_arguments_copy", header: "rcl/arguments.h".}
   ##
                               ##  Copy one arguments structure into another.
                               ##
@@ -409,7 +409,7 @@ proc rcl_arguments_copy*(args: ptr rcl_arguments_t;
                               ##
 
 proc rcl_arguments_fini*(args: ptr rcl_arguments_t): rcl_ret_t {.
-    importc: "rcl_arguments_fini", header: "arguments.h".}
+    importc: "rcl_arguments_fini", header: "rcl/arguments.h".}
   ##
                               ##  Reclaim resources held inside rcl_arguments_t structure.
                               ##

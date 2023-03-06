@@ -63,7 +63,7 @@ type
 
   rcl_remap_impl_t* = rcl_remap_impl_s
 
-  rcl_remap_t* {.importc: "rcl_remap_t", header: "remap.h", bycopy.} = object ##
+  rcl_remap_t* {.importc: "rcl_remap_t", header: "rcl/remap.h", bycopy.} = object ##
                               ##  Hold remapping rules.
     impl* {.importc: "impl".}: ptr rcl_remap_impl_t ##
                               ##  Private implementation pointer.
@@ -71,7 +71,7 @@ type
 
 
 proc rcl_get_zero_initialized_remap*(): rcl_remap_t {.
-    importc: "rcl_get_zero_initialized_remap", header: "remap.h".}
+    importc: "rcl_get_zero_initialized_remap", header: "rcl/remap.h".}
   ##
                               ##  Return a rcl_remap_t struct with members initialized to `NULL`.
 
@@ -80,7 +80,7 @@ proc rcl_remap_topic_name*(local_arguments: ptr rcl_arguments_t;
                            topic_name: cstring; node_name: cstring;
                            node_namespace: cstring; allocator: rcl_allocator_t;
                            output_name: cstringArray): rcl_ret_t {.
-    importc: "rcl_remap_topic_name", header: "remap.h".}
+    importc: "rcl_remap_topic_name", header: "rcl/remap.h".}
   ##
                               ##  TODO(sloretz) add documentation about rostopic:// when it is supported
                               ##  Remap a topic name based on given rules.
@@ -152,7 +152,7 @@ proc rcl_remap_service_name*(local_arguments: ptr rcl_arguments_t;
                              node_namespace: cstring;
                              allocator: rcl_allocator_t;
                              output_name: cstringArray): rcl_ret_t {.
-    importc: "rcl_remap_service_name", header: "remap.h".}
+    importc: "rcl_remap_service_name", header: "rcl/remap.h".}
   ##
                               ##  TODO(sloretz) add documentation about rosservice:// when it is supported
                               ##  Remap a service name based on given rules.
@@ -192,7 +192,7 @@ proc rcl_remap_node_name*(local_arguments: ptr rcl_arguments_t;
                           global_arguments: ptr rcl_arguments_t;
                           node_name: cstring; allocator: rcl_allocator_t;
                           output_name: cstringArray): rcl_ret_t {.
-    importc: "rcl_remap_node_name", header: "remap.h".}
+    importc: "rcl_remap_node_name", header: "rcl/remap.h".}
   ##
                               ##  Remap a node name based on given rules.
                               ##
@@ -234,7 +234,7 @@ proc rcl_remap_node_namespace*(local_arguments: ptr rcl_arguments_t;
                                global_arguments: ptr rcl_arguments_t;
                                node_name: cstring; allocator: rcl_allocator_t;
                                output_namespace: cstringArray): rcl_ret_t {.
-    importc: "rcl_remap_node_namespace", header: "remap.h".}
+    importc: "rcl_remap_node_namespace", header: "rcl/remap.h".}
   ##
                               ##  Remap a namespace based on given rules.
                               ##
@@ -269,40 +269,42 @@ proc rcl_remap_node_namespace*(local_arguments: ptr rcl_arguments_t;
                               ##
 
 proc rcl_remap_copy*(rule: ptr rcl_remap_t; rule_out: ptr rcl_remap_t): rcl_ret_t {.
-    importc: "rcl_remap_copy", header: "remap.h".}
-  ##  Copy one remap structure into another.
-                                                  ##
-                                                  ##  <hr>
-                                                  ##  Attribute          | Adherence
-                                                  ##  ------------------ | -------------
-                                                  ##  Allocates Memory   | Yes
-                                                  ##  Thread-Safe        | No
-                                                  ##  Uses Atomics       | No
-                                                  ##  Lock-Free          | Yes
-                                                  ##
-                                                  ##  \param[in] rule The structure to be copied.
-                                                  ##   Its allocator is used to copy memory into the new structure.
-                                                  ##  \param[out] rule_out A zero-initialized rcl_remap_t structure to be copied into.
-                                                  ##  \return #RCL_RET_OK if the structure was copied successfully, or
-                                                  ##  \return #RCL_RET_INVALID_ARGUMENT if any function arguments are invalid, or
-                                                  ##  \return #RCL_RET_BAD_ALLOC if allocating memory failed, or
-                                                  ##  \return #RCL_RET_ERROR if an unspecified error occurs.
-                                                  ##
+    importc: "rcl_remap_copy", header: "rcl/remap.h".}
+  ##
+                              ##  Copy one remap structure into another.
+                              ##
+                              ##  <hr>
+                              ##  Attribute          | Adherence
+                              ##  ------------------ | -------------
+                              ##  Allocates Memory   | Yes
+                              ##  Thread-Safe        | No
+                              ##  Uses Atomics       | No
+                              ##  Lock-Free          | Yes
+                              ##
+                              ##  \param[in] rule The structure to be copied.
+                              ##   Its allocator is used to copy memory into the new structure.
+                              ##  \param[out] rule_out A zero-initialized rcl_remap_t structure to be copied into.
+                              ##  \return #RCL_RET_OK if the structure was copied successfully, or
+                              ##  \return #RCL_RET_INVALID_ARGUMENT if any function arguments are invalid, or
+                              ##  \return #RCL_RET_BAD_ALLOC if allocating memory failed, or
+                              ##  \return #RCL_RET_ERROR if an unspecified error occurs.
+                              ##
 
 proc rcl_remap_fini*(remap: ptr rcl_remap_t): rcl_ret_t {.
-    importc: "rcl_remap_fini", header: "remap.h".}
-  ##  Reclaim resources held inside rcl_remap_t structure.
-                                                  ##
-                                                  ##  <hr>
-                                                  ##  Attribute          | Adherence
-                                                  ##  ------------------ | -------------
-                                                  ##  Allocates Memory   | No
-                                                  ##  Thread-Safe        | Yes
-                                                  ##  Uses Atomics       | No
-                                                  ##  Lock-Free          | Yes
-                                                  ##
-                                                  ##  \param[in] remap The structure to be deallocated.
-                                                  ##  \return #RCL_RET_OK if the memory was successfully freed, or
-                                                  ##  \return #RCL_RET_INVALID_ARGUMENT if any function arguments are invalid, or
-                                                  ##  \return #RCL_RET_ERROR if an unspecified error occurs.
-                                                  ## 
+    importc: "rcl_remap_fini", header: "rcl/remap.h".}
+  ##
+                              ##  Reclaim resources held inside rcl_remap_t structure.
+                              ##
+                              ##  <hr>
+                              ##  Attribute          | Adherence
+                              ##  ------------------ | -------------
+                              ##  Allocates Memory   | No
+                              ##  Thread-Safe        | Yes
+                              ##  Uses Atomics       | No
+                              ##  Lock-Free          | Yes
+                              ##
+                              ##  \param[in] remap The structure to be deallocated.
+                              ##  \return #RCL_RET_OK if the memory was successfully freed, or
+                              ##  \return #RCL_RET_INVALID_ARGUMENT if any function arguments are invalid, or
+                              ##  \return #RCL_RET_ERROR if an unspecified error occurs.
+                              ## 

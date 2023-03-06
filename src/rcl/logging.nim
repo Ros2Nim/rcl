@@ -67,7 +67,7 @@ type
 
 proc rcl_logging_configure*(global_args: ptr rcl_arguments_t;
                             allocator: ptr rcl_allocator_t): rcl_ret_t {.
-    importc: "rcl_logging_configure", header: "logging.h".}
+    importc: "rcl_logging_configure", header: "rcl/logging.h".}
   ##
                               ##  Configure the logging system.
                               ##
@@ -93,32 +93,32 @@ proc rcl_logging_configure*(global_args: ptr rcl_arguments_t;
 proc rcl_logging_configure_with_output_handler*(
     global_args: ptr rcl_arguments_t; allocator: ptr rcl_allocator_t;
     output_handler: rcl_logging_output_handler_t): rcl_ret_t {.
-    importc: "rcl_logging_configure_with_output_handler", header: "logging.h".}
-  ##
-                              ##  Configure the logging system with the provided output handler.
-                              ##
-                              ##  Similar to rcl_logging_configure, but it uses the provided output handler.
-                              ##  \sa rcl_logging_configure
-                              ##
-                              ##  <hr>
-                              ##  Attribute          | Adherence
-                              ##  ------------------ | -------------
-                              ##  Allocates Memory   | Yes
-                              ##  Thread-Safe        | No
-                              ##  Uses Atomics       | No
-                              ##  Lock-Free          | Yes
-                              ##
-                              ##  \param[in] global_args The global arguments for the system
-                              ##  \param[in] allocator Used to allocate memory used by the logging system
-                              ##  \param[in] output_handler Output handler to be installed
-                              ##  \return #RCL_RET_OK if successful, or
-                              ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
-                              ##  \return #RCL_RET_BAD_ALLOC if allocating memory failed, or
-                              ##  \return #RCL_RET_ERROR if a general error occurs
-                              ##
+    importc: "rcl_logging_configure_with_output_handler",
+    header: "rcl/logging.h".}
+  ##  Configure the logging system with the provided output handler.
+                             ##
+                             ##  Similar to rcl_logging_configure, but it uses the provided output handler.
+                             ##  \sa rcl_logging_configure
+                             ##
+                             ##  <hr>
+                             ##  Attribute          | Adherence
+                             ##  ------------------ | -------------
+                             ##  Allocates Memory   | Yes
+                             ##  Thread-Safe        | No
+                             ##  Uses Atomics       | No
+                             ##  Lock-Free          | Yes
+                             ##
+                             ##  \param[in] global_args The global arguments for the system
+                             ##  \param[in] allocator Used to allocate memory used by the logging system
+                             ##  \param[in] output_handler Output handler to be installed
+                             ##  \return #RCL_RET_OK if successful, or
+                             ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
+                             ##  \return #RCL_RET_BAD_ALLOC if allocating memory failed, or
+                             ##  \return #RCL_RET_ERROR if a general error occurs
+                             ##
 
 proc rcl_logging_fini*(): rcl_ret_t {.importc: "rcl_logging_fini",
-                                      header: "logging.h".}
+                                      header: "rcl/logging.h".}
   ##
                               ##
                               ##  This function should be called to tear down the logging setup by the configure function.
@@ -136,7 +136,7 @@ proc rcl_logging_fini*(): rcl_ret_t {.importc: "rcl_logging_fini",
                               ##
 
 proc rcl_logging_rosout_enabled*(): _Bool {.
-    importc: "rcl_logging_rosout_enabled", header: "logging.h".}
+    importc: "rcl_logging_rosout_enabled", header: "rcl/logging.h".}
   ##
                               ##  See if logging rosout is enabled.
                               ##
@@ -157,7 +157,7 @@ proc rcl_logging_rosout_enabled*(): _Bool {.
 proc rcl_logging_multiple_output_handler*(location: ptr rcutils_log_location_t;
     severity: cint; name: cstring; timestamp: rcutils_time_point_value_t;
     format: cstring; args: ptr va_list) {.
-    importc: "rcl_logging_multiple_output_handler", header: "logging.h".}
+    importc: "rcl_logging_multiple_output_handler", header: "rcl/logging.h".}
   ##
                               ##  Default output handler used by rcl.
                               ##

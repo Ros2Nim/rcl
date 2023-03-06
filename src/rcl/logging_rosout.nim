@@ -71,11 +71,11 @@ import
 ##
 
 let rcl_qos_profile_rosout_default* {.importc: "rcl_qos_profile_rosout_default",
-                                      header: "logging_rosout.h".}: rmw_qos_profile_t
+                                      header: "rcl/logging_rosout.h".}: rmw_qos_profile_t
 
 
 proc rcl_logging_rosout_init*(allocator: ptr rcl_allocator_t): rcl_ret_t {.
-    importc: "rcl_logging_rosout_init", header: "logging_rosout.h".}
+    importc: "rcl_logging_rosout_init", header: "rcl/logging_rosout.h".}
   ##
                               ##  Initializes the rcl_logging_rosout features
                               ##
@@ -98,83 +98,83 @@ proc rcl_logging_rosout_init*(allocator: ptr rcl_allocator_t): rcl_ret_t {.
                               ##
 
 proc rcl_logging_rosout_fini*(): rcl_ret_t {.importc: "rcl_logging_rosout_fini",
-    header: "logging_rosout.h".}
+    header: "rcl/logging_rosout.h".}
   ##  Uninitializes the rcl_logging_rosout features
-                                ##
-                                ##  Calling this will set the rcl_logging_rosout features into the an unitialized state that is
-                                ##  functionally the same as before rcl_logging_rosout_init was called.
-                                ##
-                                ##  <hr>
-                                ##  Attribute          | Adherence
-                                ##  ------------------ | -------------
-                                ##  Allocates Memory   | Yes
-                                ##  Thread-Safe        | No
-                                ##  Uses Atomics       | No
-                                ##  Lock-Free          | Yes
-                                ##
-                                ##  \return #RCL_RET_OK if the rcl_logging_rosout feature was successfully unitialized, or
-                                ##  \return #RCL_RET_ERROR if an unspecified error occurs.
-                                ##
+                                    ##
+                                    ##  Calling this will set the rcl_logging_rosout features into the an unitialized state that is
+                                    ##  functionally the same as before rcl_logging_rosout_init was called.
+                                    ##
+                                    ##  <hr>
+                                    ##  Attribute          | Adherence
+                                    ##  ------------------ | -------------
+                                    ##  Allocates Memory   | Yes
+                                    ##  Thread-Safe        | No
+                                    ##  Uses Atomics       | No
+                                    ##  Lock-Free          | Yes
+                                    ##
+                                    ##  \return #RCL_RET_OK if the rcl_logging_rosout feature was successfully unitialized, or
+                                    ##  \return #RCL_RET_ERROR if an unspecified error occurs.
+                                    ##
 
 proc rcl_logging_rosout_init_publisher_for_node*(node: ptr rcl_node_t): rcl_ret_t {.
     importc: "rcl_logging_rosout_init_publisher_for_node",
-    header: "logging_rosout.h".}
+    header: "rcl/logging_rosout.h".}
   ##  Creates a rosout publisher for a node and registers it to be used by the logging system
-                                ##
-                                ##  Calling this for an rcl_node_t will create a new publisher on that node that will be
-                                ##  used by the logging system to publish all log messages from that Node's logger.
-                                ##
-                                ##  If a publisher already exists for this node then a new publisher will NOT be created.
-                                ##
-                                ##  It is expected that after creating a rosout publisher with this function
-                                ##  rcl_logging_destroy_rosout_publisher_for_node() will be called for the node to cleanup
-                                ##  the publisher while the Node is still valid.
-                                ##
-                                ##
-                                ##  <hr>
-                                ##  Attribute          | Adherence
-                                ##  ------------------ | -------------
-                                ##  Allocates Memory   | Yes
-                                ##  Thread-Safe        | No
-                                ##  Uses Atomics       | No
-                                ##  Lock-Free          | Yes
-                                ##
-                                ##  \param[in] node a valid rcl_node_t that the publisher will be created on
-                                ##  \return #RCL_RET_OK if the logging publisher was created successfully, or
-                                ##  \return #RCL_RET_NODE_INVALID if the argument is invalid, or
-                                ##  \return #RCL_RET_BAD_ALLOC if allocating memory failed, or
-                                ##  \return #RCL_RET_ERROR if an unspecified error occurs.
-                                ##
+                                    ##
+                                    ##  Calling this for an rcl_node_t will create a new publisher on that node that will be
+                                    ##  used by the logging system to publish all log messages from that Node's logger.
+                                    ##
+                                    ##  If a publisher already exists for this node then a new publisher will NOT be created.
+                                    ##
+                                    ##  It is expected that after creating a rosout publisher with this function
+                                    ##  rcl_logging_destroy_rosout_publisher_for_node() will be called for the node to cleanup
+                                    ##  the publisher while the Node is still valid.
+                                    ##
+                                    ##
+                                    ##  <hr>
+                                    ##  Attribute          | Adherence
+                                    ##  ------------------ | -------------
+                                    ##  Allocates Memory   | Yes
+                                    ##  Thread-Safe        | No
+                                    ##  Uses Atomics       | No
+                                    ##  Lock-Free          | Yes
+                                    ##
+                                    ##  \param[in] node a valid rcl_node_t that the publisher will be created on
+                                    ##  \return #RCL_RET_OK if the logging publisher was created successfully, or
+                                    ##  \return #RCL_RET_NODE_INVALID if the argument is invalid, or
+                                    ##  \return #RCL_RET_BAD_ALLOC if allocating memory failed, or
+                                    ##  \return #RCL_RET_ERROR if an unspecified error occurs.
+                                    ##
 
 proc rcl_logging_rosout_fini_publisher_for_node*(node: ptr rcl_node_t): rcl_ret_t {.
     importc: "rcl_logging_rosout_fini_publisher_for_node",
-    header: "logging_rosout.h".}
+    header: "rcl/logging_rosout.h".}
   ##  Deregisters a rosout publisher for a node and cleans up allocated resources
-                                ##
-                                ##  Calling this for an rcl_node_t will destroy the rosout publisher on that node and remove it from
-                                ##  the logging system so that no more Log messages are published to this function.
-                                ##
-                                ##
-                                ##  <hr>
-                                ##  Attribute          | Adherence
-                                ##  ------------------ | -------------
-                                ##  Allocates Memory   | Yes
-                                ##  Thread-Safe        | No
-                                ##  Uses Atomics       | No
-                                ##  Lock-Free          | Yes
-                                ##
-                                ##  \param[in] node a valid rcl_node_t that the publisher will be created on
-                                ##  \return #RCL_RET_OK if the logging publisher was finalized successfully, or
-                                ##  \return #RCL_RET_NODE_INVALID if any arguments are invalid, or
-                                ##  \return #RCL_RET_BAD_ALLOC if allocating memory failed, or
-                                ##  \return #RCL_RET_ERROR if an unspecified error occurs.
-                                ##
+                                    ##
+                                    ##  Calling this for an rcl_node_t will destroy the rosout publisher on that node and remove it from
+                                    ##  the logging system so that no more Log messages are published to this function.
+                                    ##
+                                    ##
+                                    ##  <hr>
+                                    ##  Attribute          | Adherence
+                                    ##  ------------------ | -------------
+                                    ##  Allocates Memory   | Yes
+                                    ##  Thread-Safe        | No
+                                    ##  Uses Atomics       | No
+                                    ##  Lock-Free          | Yes
+                                    ##
+                                    ##  \param[in] node a valid rcl_node_t that the publisher will be created on
+                                    ##  \return #RCL_RET_OK if the logging publisher was finalized successfully, or
+                                    ##  \return #RCL_RET_NODE_INVALID if any arguments are invalid, or
+                                    ##  \return #RCL_RET_BAD_ALLOC if allocating memory failed, or
+                                    ##  \return #RCL_RET_ERROR if an unspecified error occurs.
+                                    ##
 
 proc rcl_logging_rosout_output_handler*(location: ptr rcutils_log_location_t;
                                         severity: cint; name: cstring;
                                         timestamp: rcutils_time_point_value_t;
                                         format: cstring; args: ptr va_list) {.
-    importc: "rcl_logging_rosout_output_handler", header: "logging_rosout.h".}
+    importc: "rcl_logging_rosout_output_handler", header: "rcl/logging_rosout.h".}
   ##
                               ##  The output handler outputs log messages to rosout topics.
                               ##

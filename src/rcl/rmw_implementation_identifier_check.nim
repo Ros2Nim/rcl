@@ -26,7 +26,7 @@ const
 
 proc rcl_rmw_implementation_identifier_check*(): rcl_ret_t {.
     importc: "rcl_rmw_implementation_identifier_check",
-    header: "rmw_implementation_identifier_check.h".}
+    header: "rcl/rmw_implementation_identifier_check.h".}
   ##
                               ##  Check whether the RMW implementation in use matches what the user requested.
                               ##

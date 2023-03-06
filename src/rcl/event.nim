@@ -95,7 +95,7 @@ type
 
   rcl_event_impl_t* = rcl_event_impl_s ##  Internal rcl implementation struct.
 
-  rcl_event_t* {.importc: "rcl_event_t", header: "event.h", bycopy.} = object ##
+  rcl_event_t* {.importc: "rcl_event_t", header: "rcl/event.h", bycopy.} = object ##
                               ##  Structure which encapsulates a ROS QoS event handle.
     impl* {.importc: "impl".}: ptr rcl_event_impl_t ##
                               ##  Pointer to the event implementation
@@ -103,7 +103,7 @@ type
 
 
 proc rcl_get_zero_initialized_event*(): rcl_event_t {.
-    importc: "rcl_get_zero_initialized_event", header: "event.h".}
+    importc: "rcl_get_zero_initialized_event", header: "rcl/event.h".}
   ##
                               ##  Return a rcl_event_t struct with members set to `NULL`.
                               ##
@@ -116,7 +116,7 @@ proc rcl_get_zero_initialized_event*(): rcl_event_t {.
 proc rcl_publisher_event_init*(event: ptr rcl_event_t;
                                publisher: ptr rcl_publisher_t;
                                event_type: rcl_publisher_event_type_t): rcl_ret_t {.
-    importc: "rcl_publisher_event_init", header: "event.h".}
+    importc: "rcl_publisher_event_init", header: "rcl/event.h".}
   ##
                               ##  Initialize an rcl_event_t with a publisher.
                               ##
@@ -135,7 +135,7 @@ proc rcl_publisher_event_init*(event: ptr rcl_event_t;
 proc rcl_subscription_event_init*(event: ptr rcl_event_t;
                                   subscription: ptr rcl_subscription_t;
                                   event_type: rcl_subscription_event_type_t): rcl_ret_t {.
-    importc: "rcl_subscription_event_init", header: "event.h".}
+    importc: "rcl_subscription_event_init", header: "rcl/event.h".}
   ##
                               ##  Initialize an rcl_event_t with a subscription.
                               ##
@@ -152,34 +152,36 @@ proc rcl_subscription_event_init*(event: ptr rcl_event_t;
                               ##
 
 proc rcl_take_event*(event: ptr rcl_event_t; event_info: pointer): rcl_ret_t {.
-    importc: "rcl_take_event", header: "event.h".}
-  ##  Take event using the event handle.
-                                                  ##
-                                                  ##  Take an event from the event handle.
-                                                  ##
-                                                  ##  \param[in] event event object to take from
-                                                  ##  \param[in, out] event_info event info object to write taken data into
-                                                  ##  \return #RCL_RET_OK if successful, or
-                                                  ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
-                                                  ##  \return #RCL_RET_BAD_ALLOC if memory allocation failed, or
-                                                  ##  \return #RCL_RET_EVENT_TAKE_FAILED if the take event failed, or
-                                                  ##  \return #RCL_RET_ERROR if an unexpected error occurs.
-                                                  ##
+    importc: "rcl_take_event", header: "rcl/event.h".}
+  ##
+                              ##  Take event using the event handle.
+                              ##
+                              ##  Take an event from the event handle.
+                              ##
+                              ##  \param[in] event event object to take from
+                              ##  \param[in, out] event_info event info object to write taken data into
+                              ##  \return #RCL_RET_OK if successful, or
+                              ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
+                              ##  \return #RCL_RET_BAD_ALLOC if memory allocation failed, or
+                              ##  \return #RCL_RET_EVENT_TAKE_FAILED if the take event failed, or
+                              ##  \return #RCL_RET_ERROR if an unexpected error occurs.
+                              ##
 
 proc rcl_event_fini*(event: ptr rcl_event_t): rcl_ret_t {.
-    importc: "rcl_event_fini", header: "event.h".}
-  ##  Finalize an event.
-                                                  ##
-                                                  ##  Finalize an event.
-                                                  ##
-                                                  ##  \param[in] event to finalize
-                                                  ##  \return #RCL_RET_OK if successful, or
-                                                  ##  \return #RCL_RET_EVENT_INVALID if event is null, or
-                                                  ##  \return #RCL_RET_ERROR if an unexpected error occurs.
-                                                  ##
+    importc: "rcl_event_fini", header: "rcl/event.h".}
+  ##
+                              ##  Finalize an event.
+                              ##
+                              ##  Finalize an event.
+                              ##
+                              ##  \param[in] event to finalize
+                              ##  \return #RCL_RET_OK if successful, or
+                              ##  \return #RCL_RET_EVENT_INVALID if event is null, or
+                              ##  \return #RCL_RET_ERROR if an unexpected error occurs.
+                              ##
 
 proc rcl_event_get_rmw_handle*(event: ptr rcl_event_t): ptr rmw_event_t {.
-    importc: "rcl_event_get_rmw_handle", header: "event.h".}
+    importc: "rcl_event_get_rmw_handle", header: "rcl/event.h".}
   ##
                               ##  Return the rmw event handle.
                               ##
@@ -209,7 +211,7 @@ proc rcl_event_get_rmw_handle*(event: ptr rcl_event_t): ptr rmw_event_t {.
                               ##
 
 proc rcl_event_is_valid*(event: ptr rcl_event_t): _Bool {.
-    importc: "rcl_event_is_valid", header: "event.h".}
+    importc: "rcl_event_is_valid", header: "rcl/event.h".}
   ##
                               ##  Check that the event is valid.
                               ##
@@ -232,7 +234,7 @@ proc rcl_event_is_valid*(event: ptr rcl_event_t): _Bool {.
 
 proc rcl_event_set_callback*(event: ptr rcl_event_t;
                              callback: rcl_event_callback_t; user_data: pointer): rcl_ret_t {.
-    importc: "rcl_event_set_callback", header: "event.h".}
+    importc: "rcl_event_set_callback", header: "rcl/event.h".}
   ##
                               ##  Set the callback function for the event.
                               ##

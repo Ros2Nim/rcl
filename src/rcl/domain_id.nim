@@ -62,11 +62,11 @@ const
   RCL_DEFAULT_DOMAIN_ID* = RMW_DEFAULT_DOMAIN_ID ##  The default domain ID used by RCL.
 
 let RCL_DOMAIN_ID_ENV_VAR* {.importc: "RCL_DOMAIN_ID_ENV_VAR",
-                             header: "domain_id.h".}: cstring
+                             header: "rcl/domain_id.h".}: cstring
 
 
 proc rcl_get_default_domain_id*(domain_id: ptr csize_t): rcl_ret_t {.
-    importc: "rcl_get_default_domain_id", header: "domain_id.h".}
+    importc: "rcl_get_default_domain_id", header: "rcl/domain_id.h".}
   ##
                               ##  Determine the default domain ID, based on the environment.
                               ##

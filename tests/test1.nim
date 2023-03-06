@@ -7,6 +7,6 @@
 
 import unittest
 
-import rclpkg/submodule
+import rcl
 test "correct welcome":
   check getWelcomeMessage() == "Hello, World!"

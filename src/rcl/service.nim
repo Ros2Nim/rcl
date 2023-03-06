@@ -77,14 +77,14 @@ type
 
   rcl_service_impl_t* = rcl_service_impl_s ##  Internal rcl implementation struct.
 
-  rcl_service_t* {.importc: "rcl_service_t", header: "service.h", bycopy.} = object ##
+  rcl_service_t* {.importc: "rcl_service_t", header: "rcl/service.h", bycopy.} = object ##
                               ##  Structure which encapsulates a ROS Service.
     impl* {.importc: "impl".}: ptr rcl_service_impl_t ##
                               ##  Pointer to the service implementation
 
 
   rcl_service_options_t* {.importc: "rcl_service_options_t",
-                           header: "service.h", bycopy.} = object ##
+                           header: "rcl/service.h", bycopy.} = object ##
                               ##  Options available for a rcl service.
     qos* {.importc: "qos".}: rmw_qos_profile_t ##  Middleware quality of service settings for the service.
     ##  Custom allocator for the service, used for incidental allocations.
@@ -94,7 +94,7 @@ type
 
 
 proc rcl_get_zero_initialized_service*(): rcl_service_t {.
-    importc: "rcl_get_zero_initialized_service", header: "service.h".}
+    importc: "rcl_get_zero_initialized_service", header: "rcl/service.h".}
   ##
                               ##  Return a rcl_service_t struct with members set to `NULL`.
                               ##
@@ -107,7 +107,7 @@ proc rcl_get_zero_initialized_service*(): rcl_service_t {.
 proc rcl_service_init*(service: ptr rcl_service_t; node: ptr rcl_node_t;
                        type_support: ptr rosidl_service_type_support_t;
                        service_name: cstring; options: ptr rcl_service_options_t): rcl_ret_t {.
-    importc: "rcl_service_init", header: "service.h".}
+    importc: "rcl_service_init", header: "rcl/service.h".}
   ##
                               ##  Initialize a rcl service.
                               ##
@@ -201,7 +201,7 @@ proc rcl_service_init*(service: ptr rcl_service_t; node: ptr rcl_node_t;
                               ##
 
 proc rcl_service_fini*(service: ptr rcl_service_t; node: ptr rcl_node_t): rcl_ret_t {.
-    importc: "rcl_service_fini", header: "service.h".}
+    importc: "rcl_service_fini", header: "rcl/service.h".}
   ##
                               ##  Finalize a rcl_service_t.
                               ##
@@ -231,7 +231,7 @@ proc rcl_service_fini*(service: ptr rcl_service_t; node: ptr rcl_node_t): rcl_re
                               ##
 
 proc rcl_service_get_default_options*(): rcl_service_options_t {.
-    importc: "rcl_service_get_default_options", header: "service.h".}
+    importc: "rcl_service_get_default_options", header: "rcl/service.h".}
   ##
                               ##  Return the default service options in a rcl_service_options_t.
                               ##
@@ -244,7 +244,7 @@ proc rcl_service_get_default_options*(): rcl_service_options_t {.
 proc rcl_take_request_with_info*(service: ptr rcl_service_t;
                                  request_header: ptr rmw_service_info_t;
                                  ros_request: pointer): rcl_ret_t {.
-    importc: "rcl_take_request_with_info", header: "service.h".}
+    importc: "rcl_take_request_with_info", header: "rcl/service.h".}
   ##
                               ##  Take a pending ROS request using a rcl service.
                               ##
@@ -295,7 +295,7 @@ proc rcl_take_request_with_info*(service: ptr rcl_service_t;
 proc rcl_take_request*(service: ptr rcl_service_t;
                        request_header: ptr rmw_request_id_t;
                        ros_request: pointer): rcl_ret_t {.
-    importc: "rcl_take_request", header: "service.h".}
+    importc: "rcl_take_request", header: "rcl/service.h".}
   ##
                               ##  Backwards compatibility function to take a pending ROS request using a rcl service.
                               ##
@@ -317,7 +317,7 @@ proc rcl_take_request*(service: ptr rcl_service_t;
 proc rcl_send_response*(service: ptr rcl_service_t;
                         response_header: ptr rmw_request_id_t;
                         ros_response: pointer): rcl_ret_t {.
-    importc: "rcl_send_response", header: "service.h".}
+    importc: "rcl_send_response", header: "rcl/service.h".}
   ##
                               ##  Send a ROS response to a client using a service.
                               ##
@@ -366,7 +366,7 @@ proc rcl_send_response*(service: ptr rcl_service_t;
                               ##
 
 proc rcl_service_get_service_name*(service: ptr rcl_service_t): cstring {.
-    importc: "rcl_service_get_service_name", header: "service.h".}
+    importc: "rcl_service_get_service_name", header: "rcl/service.h".}
   ##
                               ##  Get the topic name for the service.
                               ##
@@ -392,7 +392,7 @@ proc rcl_service_get_service_name*(service: ptr rcl_service_t): cstring {.
                               ##
 
 proc rcl_service_get_options*(service: ptr rcl_service_t): ptr rcl_service_options_t {.
-    importc: "rcl_service_get_options", header: "service.h".}
+    importc: "rcl_service_get_options", header: "rcl/service.h".}
   ##
                               ##  Return the rcl service options.
                               ##
@@ -418,7 +418,7 @@ proc rcl_service_get_options*(service: ptr rcl_service_t): ptr rcl_service_optio
                               ##
 
 proc rcl_service_get_rmw_handle*(service: ptr rcl_service_t): ptr rmw_service_t {.
-    importc: "rcl_service_get_rmw_handle", header: "service.h".}
+    importc: "rcl_service_get_rmw_handle", header: "rcl/service.h".}
   ##
                               ##  Return the rmw service handle.
                               ##
@@ -448,7 +448,7 @@ proc rcl_service_get_rmw_handle*(service: ptr rcl_service_t): ptr rmw_service_t 
                               ##
 
 proc rcl_service_is_valid*(service: ptr rcl_service_t): _Bool {.
-    importc: "rcl_service_is_valid", header: "service.h".}
+    importc: "rcl_service_is_valid", header: "rcl/service.h".}
   ##
                               ##  Check that the service is valid.
                               ##
@@ -471,57 +471,57 @@ proc rcl_service_is_valid*(service: ptr rcl_service_t): _Bool {.
 
 proc rcl_service_request_subscription_get_actual_qos*(service: ptr rcl_service_t): ptr rmw_qos_profile_t {.
     importc: "rcl_service_request_subscription_get_actual_qos",
-    header: "service.h".}
+    header: "rcl/service.h".}
   ##  Get the actual qos settings of the service's request subscription.
-                         ##
-                         ##  Used to get the actual qos settings of the service's request subscription.
-                         ##  The actual configuration applied when using RMW_*_SYSTEM_DEFAULT
-                         ##  can only be resolved after the creation of the service, and it
-                         ##  depends on the underlying rmw implementation.
-                         ##  If the underlying setting in use can't be represented in ROS terms,
-                         ##  it will be set to RMW_*_UNKNOWN.
-                         ##  The returned struct is only valid as long as the rcl_service_t is valid.
-                         ##
-                         ##  <hr>
-                         ##  Attribute          | Adherence
-                         ##  ------------------ | -------------
-                         ##  Allocates Memory   | No
-                         ##  Thread-Safe        | Yes
-                         ##  Uses Atomics       | No
-                         ##  Lock-Free          | Yes
-                         ##
-                         ##  \param[in] service pointer to the rcl service
-                         ##  \return qos struct if successful, otherwise `NULL`
-                         ##
+                             ##
+                             ##  Used to get the actual qos settings of the service's request subscription.
+                             ##  The actual configuration applied when using RMW_*_SYSTEM_DEFAULT
+                             ##  can only be resolved after the creation of the service, and it
+                             ##  depends on the underlying rmw implementation.
+                             ##  If the underlying setting in use can't be represented in ROS terms,
+                             ##  it will be set to RMW_*_UNKNOWN.
+                             ##  The returned struct is only valid as long as the rcl_service_t is valid.
+                             ##
+                             ##  <hr>
+                             ##  Attribute          | Adherence
+                             ##  ------------------ | -------------
+                             ##  Allocates Memory   | No
+                             ##  Thread-Safe        | Yes
+                             ##  Uses Atomics       | No
+                             ##  Lock-Free          | Yes
+                             ##
+                             ##  \param[in] service pointer to the rcl service
+                             ##  \return qos struct if successful, otherwise `NULL`
+                             ##
 
 proc rcl_service_response_publisher_get_actual_qos*(service: ptr rcl_service_t): ptr rmw_qos_profile_t {.
     importc: "rcl_service_response_publisher_get_actual_qos",
-    header: "service.h".}
+    header: "rcl/service.h".}
   ##  Get the actual qos settings of the service's response publisher.
-                         ##
-                         ##  Used to get the actual qos settings of the service's response publisher.
-                         ##  The actual configuration applied when using RMW_*_SYSTEM_DEFAULT
-                         ##  can only be resolved after the creation of the service, and it
-                         ##  depends on the underlying rmw implementation.
-                         ##  If the underlying setting in use can't be represented in ROS terms,
-                         ##  it will be set to RMW_*_UNKNOWN.
-                         ##  The returned struct is only valid as long as the rcl_service_t is valid.
-                         ##
-                         ##  <hr>
-                         ##  Attribute          | Adherence
-                         ##  ------------------ | -------------
-                         ##  Allocates Memory   | No
-                         ##  Thread-Safe        | Yes
-                         ##  Uses Atomics       | No
-                         ##  Lock-Free          | Yes
-                         ##
-                         ##  \param[in] service pointer to the rcl service
-                         ##  \return qos struct if successful, otherwise `NULL`
-                         ##
+                             ##
+                             ##  Used to get the actual qos settings of the service's response publisher.
+                             ##  The actual configuration applied when using RMW_*_SYSTEM_DEFAULT
+                             ##  can only be resolved after the creation of the service, and it
+                             ##  depends on the underlying rmw implementation.
+                             ##  If the underlying setting in use can't be represented in ROS terms,
+                             ##  it will be set to RMW_*_UNKNOWN.
+                             ##  The returned struct is only valid as long as the rcl_service_t is valid.
+                             ##
+                             ##  <hr>
+                             ##  Attribute          | Adherence
+                             ##  ------------------ | -------------
+                             ##  Allocates Memory   | No
+                             ##  Thread-Safe        | Yes
+                             ##  Uses Atomics       | No
+                             ##  Lock-Free          | Yes
+                             ##
+                             ##  \param[in] service pointer to the rcl service
+                             ##  \return qos struct if successful, otherwise `NULL`
+                             ##
 
 proc rcl_service_set_on_new_request_callback*(service: ptr rcl_service_t;
     callback: rcl_event_callback_t; user_data: pointer): rcl_ret_t {.
-    importc: "rcl_service_set_on_new_request_callback", header: "service.h".}
+    importc: "rcl_service_set_on_new_request_callback", header: "rcl/service.h".}
   ##
                               ##  Set the on new request callback function for the service.
                               ##

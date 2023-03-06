@@ -74,14 +74,15 @@ type
   rcl_subscription_impl_t* = rcl_subscription_impl_s ##
                               ##  Internal rcl implementation struct.
 
-  rcl_subscription_t* {.importc: "rcl_subscription_t", header: "subscription.h",
-                        bycopy.} = object ##  Structure which encapsulates a ROS Subscription.
+  rcl_subscription_t* {.importc: "rcl_subscription_t",
+                        header: "rcl/subscription.h", bycopy.} = object ##
+                              ##  Structure which encapsulates a ROS Subscription.
     impl* {.importc: "impl".}: ptr rcl_subscription_impl_t ##
                               ##  Pointer to the subscription implementation
 
 
   rcl_subscription_options_t* {.importc: "rcl_subscription_options_t",
-                                header: "subscription.h", bycopy.} = object ##
+                                header: "rcl/subscription.h", bycopy.} = object ##
                               ##  Options available for a rcl subscription.
     qos* {.importc: "qos".}: rmw_qos_profile_t ##  Middleware quality of service settings for the subscription.
     ##  Custom allocator for the subscription, used for incidental allocations.
@@ -93,27 +94,27 @@ type
 
   rcl_subscription_content_filter_options_t* {.
       importc: "rcl_subscription_content_filter_options_t",
-      header: "subscription.h", bycopy.} = object
+      header: "rcl/subscription.h", bycopy.} = object
     rmw_subscription_content_filter_options*
         {.importc: "rmw_subscription_content_filter_options".}: rmw_subscription_content_filter_options_t
 
 
 
 proc rcl_get_zero_initialized_subscription*(): rcl_subscription_t {.
-    importc: "rcl_get_zero_initialized_subscription", header: "subscription.h".}
-  ##
-                              ##  Return a rcl_subscription_t struct with members set to `NULL`.
-                              ##
-                              ##  Should be called to get a null rcl_subscription_t before passing to
-                              ##  rcl_subscription_init().
-                              ##
+    importc: "rcl_get_zero_initialized_subscription",
+    header: "rcl/subscription.h".}
+  ##  Return a rcl_subscription_t struct with members set to `NULL`.
+                                  ##
+                                  ##  Should be called to get a null rcl_subscription_t before passing to
+                                  ##  rcl_subscription_init().
+                                  ##
 
 proc rcl_subscription_init*(subscription: ptr rcl_subscription_t;
                             node: ptr rcl_node_t;
                             type_support: ptr rosidl_message_type_support_t;
                             topic_name: cstring;
                             options: ptr rcl_subscription_options_t): rcl_ret_t {.
-    importc: "rcl_subscription_init", header: "subscription.h".}
+    importc: "rcl_subscription_init", header: "rcl/subscription.h".}
   ##
                               ##  Initialize a ROS subscription.
                               ##
@@ -207,7 +208,7 @@ proc rcl_subscription_init*(subscription: ptr rcl_subscription_t;
 
 proc rcl_subscription_fini*(subscription: ptr rcl_subscription_t;
                             node: ptr rcl_node_t): rcl_ret_t {.
-    importc: "rcl_subscription_fini", header: "subscription.h".}
+    importc: "rcl_subscription_fini", header: "rcl/subscription.h".}
   ##
                               ##  Finalize a rcl_subscription_t.
                               ##
@@ -237,21 +238,21 @@ proc rcl_subscription_fini*(subscription: ptr rcl_subscription_t;
                               ##
 
 proc rcl_subscription_get_default_options*(): rcl_subscription_options_t {.
-    importc: "rcl_subscription_get_default_options", header: "subscription.h".}
-  ##
-                              ##  Return the default subscription options in a rcl_subscription_options_t.
-                              ##
-                              ##  The defaults are:
-                              ##
-                              ##  - qos = rmw_qos_profile_default
-                              ##  - allocator = rcl_get_default_allocator()
-                              ##  - rmw_subscription_options = rmw_get_default_subscription_options();
-                              ##
-                              ##  \return A structure containing the default options for a subscription.
-                              ##
+    importc: "rcl_subscription_get_default_options",
+    header: "rcl/subscription.h".}
+  ##  Return the default subscription options in a rcl_subscription_options_t.
+                                  ##
+                                  ##  The defaults are:
+                                  ##
+                                  ##  - qos = rmw_qos_profile_default
+                                  ##  - allocator = rcl_get_default_allocator()
+                                  ##  - rmw_subscription_options = rmw_get_default_subscription_options();
+                                  ##
+                                  ##  \return A structure containing the default options for a subscription.
+                                  ##
 
 proc rcl_subscription_options_fini*(option: ptr rcl_subscription_options_t): rcl_ret_t {.
-    importc: "rcl_subscription_options_fini", header: "subscription.h".}
+    importc: "rcl_subscription_options_fini", header: "rcl/subscription.h".}
   ##
                               ##  Reclaim resources held inside rcl_subscription_options_t structure.
                               ##
@@ -274,32 +275,32 @@ proc rcl_subscription_options_set_content_filter_options*(
     expression_parameter_argv: ptr cstring;
     options: ptr rcl_subscription_options_t): rcl_ret_t {.
     importc: "rcl_subscription_options_set_content_filter_options",
-    header: "subscription.h".}
+    header: "rcl/subscription.h".}
   ##  Set the content filter options for the given subscription options.
-                              ##
-                              ##  <hr>
-                              ##  Attribute          | Adherence
-                              ##  ------------------ | -------------
-                              ##  Allocates Memory   | Yes
-                              ##  Thread-Safe        | No
-                              ##  Uses Atomics       | No
-                              ##  Lock-Free          | No
-                              ##
-                              ##  \param[in] filter_expression The filter expression is similar to the WHERE part of an SQL clause.
-                              ##  \param[in] expression_parameters_argc The maximum of expression parameters argc is 100.
-                              ##  \param[in] expression_parameter_argv The expression parameters argv are the tokens placeholder
-                              ##  ‘parameters’ (i.e., "%n" tokens begin from 0) in the filter_expression.
-                              ##
-                              ##  It can be NULL if there is no "%n" tokens placeholder in filter_expression.
-                              ##  \param[out] options The subscription options to be set.
-                              ##  \return `RCL_RET_OK` if set options successfully, or
-                              ##  \return `RCL_RET_INVALID_ARGUMENT` if arguments invalid, or
-                              ##  \return `RCL_RET_BAD_ALLOC` if allocating memory fails.
-                              ##
+                                  ##
+                                  ##  <hr>
+                                  ##  Attribute          | Adherence
+                                  ##  ------------------ | -------------
+                                  ##  Allocates Memory   | Yes
+                                  ##  Thread-Safe        | No
+                                  ##  Uses Atomics       | No
+                                  ##  Lock-Free          | No
+                                  ##
+                                  ##  \param[in] filter_expression The filter expression is similar to the WHERE part of an SQL clause.
+                                  ##  \param[in] expression_parameters_argc The maximum of expression parameters argc is 100.
+                                  ##  \param[in] expression_parameter_argv The expression parameters argv are the tokens placeholder
+                                  ##  ‘parameters’ (i.e., "%n" tokens begin from 0) in the filter_expression.
+                                  ##
+                                  ##  It can be NULL if there is no "%n" tokens placeholder in filter_expression.
+                                  ##  \param[out] options The subscription options to be set.
+                                  ##  \return `RCL_RET_OK` if set options successfully, or
+                                  ##  \return `RCL_RET_INVALID_ARGUMENT` if arguments invalid, or
+                                  ##  \return `RCL_RET_BAD_ALLOC` if allocating memory fails.
+                                  ##
 
 proc rcl_get_zero_initialized_subscription_content_filter_options*(): rcl_subscription_content_filter_options_t {.
     importc: "rcl_get_zero_initialized_subscription_content_filter_options",
-    header: "subscription.h".}
+    header: "rcl/subscription.h".}
   ##  Return the zero initialized subscription content filter options.
 
 proc rcl_subscription_content_filter_options_init*(
@@ -307,88 +308,88 @@ proc rcl_subscription_content_filter_options_init*(
     expression_parameters_argc: csize_t; expression_parameter_argv: ptr cstring;
     options: ptr rcl_subscription_content_filter_options_t): rcl_ret_t {.
     importc: "rcl_subscription_content_filter_options_init",
-    header: "subscription.h".}
+    header: "rcl/subscription.h".}
   ##  Initialize the content filter options for the given subscription options.
-                              ##
-                              ##  <hr>
-                              ##  Attribute          | Adherence
-                              ##  ------------------ | -------------
-                              ##  Allocates Memory   | Yes
-                              ##  Thread-Safe        | No
-                              ##  Uses Atomics       | No
-                              ##  Lock-Free          | No
-                              ##
-                              ##  \param[in] subscription the handle to the subscription.
-                              ##  \param[in] filter_expression The filter expression is similar to the WHERE part of an SQL clause,
-                              ##  use empty ("") can reset (or clear) the content filter setting of a subscription.
-                              ##  \param[in] expression_parameters_argc The maximum of expression parameters argc is 100.
-                              ##  \param[in] expression_parameter_argv The expression parameters argv are the tokens placeholder
-                              ##  ‘parameters’ (i.e., "%n" tokens begin from 0) in the filter_expression.
-                              ##
-                              ##  It can be NULL if there is no "%n" tokens placeholder in filter_expression.
-                              ##  \param[out] options The subscription options to be set.
-                              ##  \return `RCL_RET_OK` if set options successfully, or
-                              ##  \return `RCL_RET_SUBSCRIPTION_INVALID` if subscription is invalid, or
-                              ##  \return `RCL_RET_INVALID_ARGUMENT` if arguments invalid, or
-                              ##  \return `RCL_RET_BAD_ALLOC` if allocating memory fails.
-                              ##
+                                  ##
+                                  ##  <hr>
+                                  ##  Attribute          | Adherence
+                                  ##  ------------------ | -------------
+                                  ##  Allocates Memory   | Yes
+                                  ##  Thread-Safe        | No
+                                  ##  Uses Atomics       | No
+                                  ##  Lock-Free          | No
+                                  ##
+                                  ##  \param[in] subscription the handle to the subscription.
+                                  ##  \param[in] filter_expression The filter expression is similar to the WHERE part of an SQL clause,
+                                  ##  use empty ("") can reset (or clear) the content filter setting of a subscription.
+                                  ##  \param[in] expression_parameters_argc The maximum of expression parameters argc is 100.
+                                  ##  \param[in] expression_parameter_argv The expression parameters argv are the tokens placeholder
+                                  ##  ‘parameters’ (i.e., "%n" tokens begin from 0) in the filter_expression.
+                                  ##
+                                  ##  It can be NULL if there is no "%n" tokens placeholder in filter_expression.
+                                  ##  \param[out] options The subscription options to be set.
+                                  ##  \return `RCL_RET_OK` if set options successfully, or
+                                  ##  \return `RCL_RET_SUBSCRIPTION_INVALID` if subscription is invalid, or
+                                  ##  \return `RCL_RET_INVALID_ARGUMENT` if arguments invalid, or
+                                  ##  \return `RCL_RET_BAD_ALLOC` if allocating memory fails.
+                                  ##
 
 proc rcl_subscription_content_filter_options_set*(
     subscription: ptr rcl_subscription_t; filter_expression: cstring;
     expression_parameters_argc: csize_t; expression_parameter_argv: ptr cstring;
     options: ptr rcl_subscription_content_filter_options_t): rcl_ret_t {.
     importc: "rcl_subscription_content_filter_options_set",
-    header: "subscription.h".}
+    header: "rcl/subscription.h".}
   ##  Set the content filter options for the given subscription options.
-                              ##
-                              ##  <hr>
-                              ##  Attribute          | Adherence
-                              ##  ------------------ | -------------
-                              ##  Allocates Memory   | Yes
-                              ##  Thread-Safe        | No
-                              ##  Uses Atomics       | No
-                              ##  Lock-Free          | No
-                              ##
-                              ##  \param[in] subscription the handle to the subscription.
-                              ##  \param[in] filter_expression The filter expression is similar to the WHERE part of an SQL clause,
-                              ##  use empty ("") can reset (or clear) the content filter setting of a subscription.
-                              ##  \param[in] expression_parameters_argc The maximum of expression parameters argc is 100.
-                              ##  \param[in] expression_parameter_argv The expression parameters argv are the tokens placeholder
-                              ##  ‘parameters’ (i.e., "%n" tokens begin from 0) in the filter_expression.
-                              ##
-                              ##  It can be NULL if there is no "%n" tokens placeholder in filter_expression.
-                              ##  \param[out] options The subscription options to be set.
-                              ##  \return `RCL_RET_OK` if set options successfully, or
-                              ##  \return `RCL_RET_SUBSCRIPTION_INVALID` if subscription is invalid, or
-                              ##  \return `RCL_RET_INVALID_ARGUMENT` if arguments invalid, or
-                              ##  \return `RCL_RET_BAD_ALLOC` if allocating memory fails.
-                              ##
+                                  ##
+                                  ##  <hr>
+                                  ##  Attribute          | Adherence
+                                  ##  ------------------ | -------------
+                                  ##  Allocates Memory   | Yes
+                                  ##  Thread-Safe        | No
+                                  ##  Uses Atomics       | No
+                                  ##  Lock-Free          | No
+                                  ##
+                                  ##  \param[in] subscription the handle to the subscription.
+                                  ##  \param[in] filter_expression The filter expression is similar to the WHERE part of an SQL clause,
+                                  ##  use empty ("") can reset (or clear) the content filter setting of a subscription.
+                                  ##  \param[in] expression_parameters_argc The maximum of expression parameters argc is 100.
+                                  ##  \param[in] expression_parameter_argv The expression parameters argv are the tokens placeholder
+                                  ##  ‘parameters’ (i.e., "%n" tokens begin from 0) in the filter_expression.
+                                  ##
+                                  ##  It can be NULL if there is no "%n" tokens placeholder in filter_expression.
+                                  ##  \param[out] options The subscription options to be set.
+                                  ##  \return `RCL_RET_OK` if set options successfully, or
+                                  ##  \return `RCL_RET_SUBSCRIPTION_INVALID` if subscription is invalid, or
+                                  ##  \return `RCL_RET_INVALID_ARGUMENT` if arguments invalid, or
+                                  ##  \return `RCL_RET_BAD_ALLOC` if allocating memory fails.
+                                  ##
 
 proc rcl_subscription_content_filter_options_fini*(
     subscription: ptr rcl_subscription_t;
     options: ptr rcl_subscription_content_filter_options_t): rcl_ret_t {.
     importc: "rcl_subscription_content_filter_options_fini",
-    header: "subscription.h".}
+    header: "rcl/subscription.h".}
   ##  Reclaim rcl_subscription_content_filter_options_t structure.
-                              ##
-                              ##  <hr>
-                              ##  Attribute          | Adherence
-                              ##  ------------------ | -------------
-                              ##  Allocates Memory   | Yes
-                              ##  Thread-Safe        | No
-                              ##  Uses Atomics       | No
-                              ##  Lock-Free          | No
-                              ##
-                              ##  \param[in] subscription the handle to the subscription.
-                              ##  \param[in] options The structure which its resources have to be deallocated.
-                              ##  \return `RCL_RET_OK` if the memory was successfully freed, or
-                              ##  \return `RCL_RET_SUBSCRIPTION_INVALID` if subscription is invalid, or
-                              ##  \return `RCL_RET_INVALID_ARGUMENT` if option is NULL, or
-                              ##   if its allocator is invalid and the structure contains initialized memory.
-                              ##
+                                  ##
+                                  ##  <hr>
+                                  ##  Attribute          | Adherence
+                                  ##  ------------------ | -------------
+                                  ##  Allocates Memory   | Yes
+                                  ##  Thread-Safe        | No
+                                  ##  Uses Atomics       | No
+                                  ##  Lock-Free          | No
+                                  ##
+                                  ##  \param[in] subscription the handle to the subscription.
+                                  ##  \param[in] options The structure which its resources have to be deallocated.
+                                  ##  \return `RCL_RET_OK` if the memory was successfully freed, or
+                                  ##  \return `RCL_RET_SUBSCRIPTION_INVALID` if subscription is invalid, or
+                                  ##  \return `RCL_RET_INVALID_ARGUMENT` if option is NULL, or
+                                  ##   if its allocator is invalid and the structure contains initialized memory.
+                                  ##
 
 proc rcl_subscription_is_cft_enabled*(subscription: ptr rcl_subscription_t): _Bool {.
-    importc: "rcl_subscription_is_cft_enabled", header: "subscription.h".}
+    importc: "rcl_subscription_is_cft_enabled", header: "rcl/subscription.h".}
   ##
                               ##  Check if the content filtered topic feature is enabled in the subscription.
                               ##
@@ -399,7 +400,7 @@ proc rcl_subscription_is_cft_enabled*(subscription: ptr rcl_subscription_t): _Bo
 
 proc rcl_subscription_set_content_filter*(subscription: ptr rcl_subscription_t;
     options: ptr rcl_subscription_content_filter_options_t): rcl_ret_t {.
-    importc: "rcl_subscription_set_content_filter", header: "subscription.h".}
+    importc: "rcl_subscription_set_content_filter", header: "rcl/subscription.h".}
   ##
                               ##  Set the filter expression and expression parameters for the subscription.
                               ##
@@ -425,7 +426,7 @@ proc rcl_subscription_set_content_filter*(subscription: ptr rcl_subscription_t;
 
 proc rcl_subscription_get_content_filter*(subscription: ptr rcl_subscription_t;
     options: ptr rcl_subscription_content_filter_options_t): rcl_ret_t {.
-    importc: "rcl_subscription_get_content_filter", header: "subscription.h".}
+    importc: "rcl_subscription_get_content_filter", header: "rcl/subscription.h".}
   ##
                               ##  Retrieve the filter expression of the subscription.
                               ##
@@ -454,7 +455,7 @@ proc rcl_subscription_get_content_filter*(subscription: ptr rcl_subscription_t;
 proc rcl_take*(subscription: ptr rcl_subscription_t; ros_message: pointer;
                message_info: ptr rmw_message_info_t;
                allocation: ptr rmw_subscription_allocation_t): rcl_ret_t {.
-    importc: "rcl_take", header: "subscription.h".}
+    importc: "rcl_take", header: "rcl/subscription.h".}
   ##
                               ##  Take a ROS message from a topic using a rcl subscription.
                               ##
@@ -517,7 +518,7 @@ proc rcl_take_sequence*(subscription: ptr rcl_subscription_t; count: csize_t;
                         message_sequence: ptr rmw_message_sequence_t;
                         message_info_sequence: ptr rmw_message_info_sequence_t;
                         allocation: ptr rmw_subscription_allocation_t): rcl_ret_t {.
-    importc: "rcl_take_sequence", header: "subscription.h".}
+    importc: "rcl_take_sequence", header: "rcl/subscription.h".}
   ##
                               ##  Take a sequence of messages from a topic using a rcl subscription.
                               ##
@@ -565,7 +566,7 @@ proc rcl_take_serialized_message*(subscription: ptr rcl_subscription_t;
     serialized_message: ptr rcl_serialized_message_t;
                                   message_info: ptr rmw_message_info_t;
                                   allocation: ptr rmw_subscription_allocation_t): rcl_ret_t {.
-    importc: "rcl_take_serialized_message", header: "subscription.h".}
+    importc: "rcl_take_serialized_message", header: "rcl/subscription.h".}
   ##
                               ##  Take a serialized raw message from a topic using a rcl subscription.
                               ##
@@ -608,7 +609,7 @@ proc rcl_take_loaned_message*(subscription: ptr rcl_subscription_t;
                               loaned_message: ptr pointer;
                               message_info: ptr rmw_message_info_t;
                               allocation: ptr rmw_subscription_allocation_t): rcl_ret_t {.
-    importc: "rcl_take_loaned_message", header: "subscription.h".}
+    importc: "rcl_take_loaned_message", header: "rcl/subscription.h".}
   ##
                               ##  Take a loaned message from a topic using a rcl subscription.
                               ##
@@ -643,33 +644,33 @@ proc rcl_take_loaned_message*(subscription: ptr rcl_subscription_t;
 proc rcl_return_loaned_message_from_subscription*(
     subscription: ptr rcl_subscription_t; loaned_message: pointer): rcl_ret_t {.
     importc: "rcl_return_loaned_message_from_subscription",
-    header: "subscription.h".}
+    header: "rcl/subscription.h".}
   ##  Return a loaned message from a topic using a rcl subscription.
-                              ##
-                              ##  If a loaned message was previously obtained from the middleware with a call to
-                              ##  \sa rcl_take_loaned_message, this message has to be returned to indicate to the middleware
-                              ##  that the user no longer needs that memory.
-                              ##  The user must not delete the message.
-                              ##
-                              ##  <hr>
-                              ##  Attribute          | Adherence
-                              ##  ------------------ | -------------
-                              ##  Allocates Memory   | No
-                              ##  Thread-Safe        | No
-                              ##  Uses Atomics       | No
-                              ##  Lock-Free          | Yes
-                              ##
-                              ##  \param[in] subscription the handle to the subscription from which to take
-                              ##  \param[in] loaned_message a pointer to the loaned messages.
-                              ##  \return #RCL_RET_OK if the message was published, or
-                              ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
-                              ##  \return #RCL_RET_SUBSCRIPTION_INVALID if the subscription is invalid, or
-                              ##  \return #RCL_RET_UNSUPPORTED if the middleware does not support that feature, or
-                              ##  \return #RCL_RET_ERROR if an unspecified error occurs.
-                              ##
+                                  ##
+                                  ##  If a loaned message was previously obtained from the middleware with a call to
+                                  ##  \sa rcl_take_loaned_message, this message has to be returned to indicate to the middleware
+                                  ##  that the user no longer needs that memory.
+                                  ##  The user must not delete the message.
+                                  ##
+                                  ##  <hr>
+                                  ##  Attribute          | Adherence
+                                  ##  ------------------ | -------------
+                                  ##  Allocates Memory   | No
+                                  ##  Thread-Safe        | No
+                                  ##  Uses Atomics       | No
+                                  ##  Lock-Free          | Yes
+                                  ##
+                                  ##  \param[in] subscription the handle to the subscription from which to take
+                                  ##  \param[in] loaned_message a pointer to the loaned messages.
+                                  ##  \return #RCL_RET_OK if the message was published, or
+                                  ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
+                                  ##  \return #RCL_RET_SUBSCRIPTION_INVALID if the subscription is invalid, or
+                                  ##  \return #RCL_RET_UNSUPPORTED if the middleware does not support that feature, or
+                                  ##  \return #RCL_RET_ERROR if an unspecified error occurs.
+                                  ##
 
 proc rcl_subscription_get_topic_name*(subscription: ptr rcl_subscription_t): cstring {.
-    importc: "rcl_subscription_get_topic_name", header: "subscription.h".}
+    importc: "rcl_subscription_get_topic_name", header: "rcl/subscription.h".}
   ##
                               ##  Get the topic name for the subscription.
                               ##
@@ -695,7 +696,7 @@ proc rcl_subscription_get_topic_name*(subscription: ptr rcl_subscription_t): cst
                               ##
 
 proc rcl_subscription_get_options*(subscription: ptr rcl_subscription_t): ptr rcl_subscription_options_t {.
-    importc: "rcl_subscription_get_options", header: "subscription.h".}
+    importc: "rcl_subscription_get_options", header: "rcl/subscription.h".}
   ##
                               ##  Return the rcl subscription options.
                               ##
@@ -721,7 +722,7 @@ proc rcl_subscription_get_options*(subscription: ptr rcl_subscription_t): ptr rc
                               ##
 
 proc rcl_subscription_get_rmw_handle*(subscription: ptr rcl_subscription_t): ptr rmw_subscription_t {.
-    importc: "rcl_subscription_get_rmw_handle", header: "subscription.h".}
+    importc: "rcl_subscription_get_rmw_handle", header: "rcl/subscription.h".}
   ##
                               ##  Return the rmw subscription handle.
                               ##
@@ -751,7 +752,7 @@ proc rcl_subscription_get_rmw_handle*(subscription: ptr rcl_subscription_t): ptr
                               ##
 
 proc rcl_subscription_is_valid*(subscription: ptr rcl_subscription_t): _Bool {.
-    importc: "rcl_subscription_is_valid", header: "subscription.h".}
+    importc: "rcl_subscription_is_valid", header: "rcl/subscription.h".}
   ##
                               ##  Check that the subscription is valid.
                               ##
@@ -774,31 +775,31 @@ proc rcl_subscription_is_valid*(subscription: ptr rcl_subscription_t): _Bool {.
 
 proc rcl_subscription_get_publisher_count*(subscription: ptr rcl_subscription_t;
     publisher_count: ptr csize_t): rmw_ret_t {.
-    importc: "rcl_subscription_get_publisher_count", header: "subscription.h".}
-  ##
-                              ##  Get the number of publishers matched to a subscription.
-                              ##
-                              ##  Used to get the internal count of publishers matched to a subscription.
-                              ##
-                              ##  <hr>
-                              ##  Attribute          | Adherence
-                              ##  ------------------ | -------------
-                              ##  Allocates Memory   | No
-                              ##  Thread-Safe        | Yes
-                              ##  Uses Atomics       | Maybe [1]
-                              ##  Lock-Free          | Maybe [1]
-                              ##  <i>[1] only if the underlying rmw doesn't make use of this feature </i>
-                              ##
-                              ##  \param[in] subscription pointer to the rcl subscription
-                              ##  \param[out] publisher_count number of matched publishers
-                              ##  \return #RCL_RET_OK if the count was retrieved, or
-                              ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
-                              ##  \return #RCL_RET_SUBSCRIPTION_INVALID if the subscription is invalid, or
-                              ##  \return #RCL_RET_ERROR if an unspecified error occurs.
-                              ##
+    importc: "rcl_subscription_get_publisher_count",
+    header: "rcl/subscription.h".}
+  ##  Get the number of publishers matched to a subscription.
+                                  ##
+                                  ##  Used to get the internal count of publishers matched to a subscription.
+                                  ##
+                                  ##  <hr>
+                                  ##  Attribute          | Adherence
+                                  ##  ------------------ | -------------
+                                  ##  Allocates Memory   | No
+                                  ##  Thread-Safe        | Yes
+                                  ##  Uses Atomics       | Maybe [1]
+                                  ##  Lock-Free          | Maybe [1]
+                                  ##  <i>[1] only if the underlying rmw doesn't make use of this feature </i>
+                                  ##
+                                  ##  \param[in] subscription pointer to the rcl subscription
+                                  ##  \param[out] publisher_count number of matched publishers
+                                  ##  \return #RCL_RET_OK if the count was retrieved, or
+                                  ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
+                                  ##  \return #RCL_RET_SUBSCRIPTION_INVALID if the subscription is invalid, or
+                                  ##  \return #RCL_RET_ERROR if an unspecified error occurs.
+                                  ##
 
 proc rcl_subscription_get_actual_qos*(subscription: ptr rcl_subscription_t): ptr rmw_qos_profile_t {.
-    importc: "rcl_subscription_get_actual_qos", header: "subscription.h".}
+    importc: "rcl_subscription_get_actual_qos", header: "rcl/subscription.h".}
   ##
                               ##  Get the actual qos settings of the subscription.
                               ##
@@ -823,7 +824,7 @@ proc rcl_subscription_get_actual_qos*(subscription: ptr rcl_subscription_t): ptr
                               ##
 
 proc rcl_subscription_can_loan_messages*(subscription: ptr rcl_subscription_t): _Bool {.
-    importc: "rcl_subscription_can_loan_messages", header: "subscription.h".}
+    importc: "rcl_subscription_can_loan_messages", header: "rcl/subscription.h".}
   ##
                               ##  Check if subscription instance can loan messages.
                               ##
@@ -837,7 +838,7 @@ proc rcl_subscription_can_loan_messages*(subscription: ptr rcl_subscription_t): 
 proc rcl_subscription_set_on_new_message_callback*(
     subscription: ptr rcl_subscription_t; callback: rcl_event_callback_t;
     user_data: pointer): rcl_ret_t {.importc: "rcl_subscription_set_on_new_message_callback",
-                                     header: "subscription.h".}
+                                     header: "rcl/subscription.h".}
   ##
                               ##  Set the on new message callback function for the subscription.
                               ##

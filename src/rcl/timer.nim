@@ -77,14 +77,14 @@ type
 
   rcl_timer_impl_t* = rcl_timer_impl_s
 
-  rcl_timer_t* {.importc: "rcl_timer_t", header: "timer.h", bycopy.} = object ##
+  rcl_timer_t* {.importc: "rcl_timer_t", header: "rcl/timer.h", bycopy.} = object ##
                               ##  Structure which encapsulates a ROS Timer.
     impl* {.importc: "impl".}: ptr rcl_timer_impl_t ##
                               ##  Private implementation pointer.
 
 
   rcl_timer_on_reset_callback_data_t* {.importc: "rcl_timer_on_reset_callback_data_t",
-                                        header: "timer.h", bycopy.} = object ##
+                                        header: "rcl/timer.h", bycopy.} = object ##
                               ##  Structure which encapsulates the on reset callback data
     on_reset_callback* {.importc: "on_reset_callback".}: rcl_event_callback_t
     user_data* {.importc: "user_data".}: pointer
@@ -108,174 +108,177 @@ type
 
 
 proc rcl_get_zero_initialized_timer*(): rcl_timer_t {.
-    importc: "rcl_get_zero_initialized_timer", header: "timer.h".}
+    importc: "rcl_get_zero_initialized_timer", header: "rcl/timer.h".}
   ##
                               ##  Return a zero initialized timer.
 
 proc rcl_timer_init*(timer: ptr rcl_timer_t; clock: ptr rcl_clock_t;
                      context: ptr rcl_context_t; period: int64;
                      callback: rcl_timer_callback_t; allocator: rcl_allocator_t): rcl_ret_t {.
-    importc: "rcl_timer_init", header: "timer.h".}
-  ##  Initialize a timer.
-                                                  ##
-                                                  ##  A timer consists of a clock, a callback function and a period.
-                                                  ##  A timer can be added to a wait set and waited on, such that the wait set
-                                                  ##  will wake up when a timer is ready to be executed.
-                                                  ##
-                                                  ##  A timer simply holds state and does not automatically call callbacks.
-                                                  ##  It does not create any threads, register interrupts, or consume signals.
-                                                  ##  For blocking behavior it can be used in conjunction with a wait set and
-                                                  ##  rcl_wait().
-                                                  ##  When rcl_timer_is_ready() returns true, the timer must still be called
-                                                  ##  explicitly using rcl_timer_call().
-                                                  ##
-                                                  ##  The timer handle must be a pointer to an allocated and zero initialized
-                                                  ##  rcl_timer_t struct.
-                                                  ##  Calling this function on an already initialized timer will fail.
-                                                  ##  Calling this function on a timer struct which has been allocated but not
-                                                  ##  zero initialized is undefined behavior.
-                                                  ##
-                                                  ##  The clock handle must be a pointer to an initialized rcl_clock_t struct.
-                                                  ##  The life time of the clock must exceed the life time of the timer.
-                                                  ##
-                                                  ##  The period is a non-negative duration (rather an absolute time in the
-                                                  ##  future).
-                                                  ##  If the period is `0` then it will always be ready.
-                                                  ##
-                                                  ##  The callback is an optional argument.
-                                                  ##  Valid inputs are either a pointer to the function callback, or `NULL` to
-                                                  ##  indicate that no callback will be stored in rcl.
-                                                  ##  If the callback is `NULL`, the caller client library is responsible for
-                                                  ##  firing the timer callback.
-                                                  ##  Else, it must be a function which returns void and takes two arguments,
-                                                  ##  the first being a pointer to the associated timer, and the second a int64_t
-                                                  ##  which is the time since the previous call, or since the timer was created
-                                                  ##  if it is the first call to the callback.
-                                                  ##
-                                                  ##  Expected usage:
-                                                  ##
-                                                  ##  ```c
-                                                  ##  #include <rcl/rcl.h>
-                                                  ##
-                                                  ##  void my_timer_callback(rcl_timer_t * timer, int64_t last_call_time)
-                                                  ##  {
-                                                  ##    // Do timer work...
-                                                  ##    // Optionally reconfigure, cancel, or reset the timer...
-                                                  ##  }
-                                                  ##
-                                                  ##  rcl_context_t * context;  // initialized previously by rcl_init()...
-                                                  ##  rcl_clock_t clock;
-                                                  ##  rcl_allocator_t allocator = rcl_get_default_allocator();
-                                                  ##  rcl_ret_t ret = rcl_clock_init(RCL_STEADY_TIME, &clock, &allocator);
-                                                  ##  // ... error handling
-                                                  ##
-                                                  ##  rcl_timer_t timer = rcl_get_zero_initialized_timer();
-                                                  ##  ret = rcl_timer_init(
-                                                  ##    &timer, &clock, context, RCL_MS_TO_NS(100), my_timer_callback, allocator);
-                                                  ##  // ... error handling, use the timer with a wait set, or poll it manually, then cleanup
-                                                  ##  ret = rcl_timer_fini(&timer);
-                                                  ##  // ... error handling
-                                                  ##  ```
-                                                  ##
-                                                  ##  <hr>
-                                                  ##  Attribute          | Adherence
-                                                  ##  ------------------ | -------------
-                                                  ##  Allocates Memory   | Yes
-                                                  ##  Thread-Safe        | No
-                                                  ##  Uses Atomics       | Yes
-                                                  ##  Lock-Free          | Yes [1][2][3]
-                                                  ##  <i>[1] if `atomic_is_lock_free()` returns true for `atomic_uintptr_t`</i>
-                                                  ##
-                                                  ##  <i>[2] if `atomic_is_lock_free()` returns true for `atomic_uint_least64_t`</i>
-                                                  ##
-                                                  ##  <i>[3] if `atomic_is_lock_free()` returns true for `atomic_bool`</i>
-                                                  ##
-                                                  ##  \param[inout] timer the timer handle to be initialized
-                                                  ##  \param[in] clock the clock providing the current time
-                                                  ##  \param[in] context the context that this timer is to be associated with
-                                                  ##  \param[in] period the duration between calls to the callback in nanoseconds
-                                                  ##  \param[in] callback the user defined function to be called every period
-                                                  ##  \param[in] allocator the allocator to use for allocations
-                                                  ##  \return #RCL_RET_OK if the timer was initialized successfully, or
-                                                  ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
-                                                  ##  \return #RCL_RET_ALREADY_INIT if the timer was already initialized, or
-                                                  ##  \return #RCL_RET_BAD_ALLOC if allocating memory failed, or
-                                                  ##  \return #RCL_RET_ERROR an unspecified error occur.
-                                                  ##
+    importc: "rcl_timer_init", header: "rcl/timer.h".}
+  ##
+                              ##  Initialize a timer.
+                              ##
+                              ##  A timer consists of a clock, a callback function and a period.
+                              ##  A timer can be added to a wait set and waited on, such that the wait set
+                              ##  will wake up when a timer is ready to be executed.
+                              ##
+                              ##  A timer simply holds state and does not automatically call callbacks.
+                              ##  It does not create any threads, register interrupts, or consume signals.
+                              ##  For blocking behavior it can be used in conjunction with a wait set and
+                              ##  rcl_wait().
+                              ##  When rcl_timer_is_ready() returns true, the timer must still be called
+                              ##  explicitly using rcl_timer_call().
+                              ##
+                              ##  The timer handle must be a pointer to an allocated and zero initialized
+                              ##  rcl_timer_t struct.
+                              ##  Calling this function on an already initialized timer will fail.
+                              ##  Calling this function on a timer struct which has been allocated but not
+                              ##  zero initialized is undefined behavior.
+                              ##
+                              ##  The clock handle must be a pointer to an initialized rcl_clock_t struct.
+                              ##  The life time of the clock must exceed the life time of the timer.
+                              ##
+                              ##  The period is a non-negative duration (rather an absolute time in the
+                              ##  future).
+                              ##  If the period is `0` then it will always be ready.
+                              ##
+                              ##  The callback is an optional argument.
+                              ##  Valid inputs are either a pointer to the function callback, or `NULL` to
+                              ##  indicate that no callback will be stored in rcl.
+                              ##  If the callback is `NULL`, the caller client library is responsible for
+                              ##  firing the timer callback.
+                              ##  Else, it must be a function which returns void and takes two arguments,
+                              ##  the first being a pointer to the associated timer, and the second a int64_t
+                              ##  which is the time since the previous call, or since the timer was created
+                              ##  if it is the first call to the callback.
+                              ##
+                              ##  Expected usage:
+                              ##
+                              ##  ```c
+                              ##  #include <rcl/rcl.h>
+                              ##
+                              ##  void my_timer_callback(rcl_timer_t * timer, int64_t last_call_time)
+                              ##  {
+                              ##    // Do timer work...
+                              ##    // Optionally reconfigure, cancel, or reset the timer...
+                              ##  }
+                              ##
+                              ##  rcl_context_t * context;  // initialized previously by rcl_init()...
+                              ##  rcl_clock_t clock;
+                              ##  rcl_allocator_t allocator = rcl_get_default_allocator();
+                              ##  rcl_ret_t ret = rcl_clock_init(RCL_STEADY_TIME, &clock, &allocator);
+                              ##  // ... error handling
+                              ##
+                              ##  rcl_timer_t timer = rcl_get_zero_initialized_timer();
+                              ##  ret = rcl_timer_init(
+                              ##    &timer, &clock, context, RCL_MS_TO_NS(100), my_timer_callback, allocator);
+                              ##  // ... error handling, use the timer with a wait set, or poll it manually, then cleanup
+                              ##  ret = rcl_timer_fini(&timer);
+                              ##  // ... error handling
+                              ##  ```
+                              ##
+                              ##  <hr>
+                              ##  Attribute          | Adherence
+                              ##  ------------------ | -------------
+                              ##  Allocates Memory   | Yes
+                              ##  Thread-Safe        | No
+                              ##  Uses Atomics       | Yes
+                              ##  Lock-Free          | Yes [1][2][3]
+                              ##  <i>[1] if `atomic_is_lock_free()` returns true for `atomic_uintptr_t`</i>
+                              ##
+                              ##  <i>[2] if `atomic_is_lock_free()` returns true for `atomic_uint_least64_t`</i>
+                              ##
+                              ##  <i>[3] if `atomic_is_lock_free()` returns true for `atomic_bool`</i>
+                              ##
+                              ##  \param[inout] timer the timer handle to be initialized
+                              ##  \param[in] clock the clock providing the current time
+                              ##  \param[in] context the context that this timer is to be associated with
+                              ##  \param[in] period the duration between calls to the callback in nanoseconds
+                              ##  \param[in] callback the user defined function to be called every period
+                              ##  \param[in] allocator the allocator to use for allocations
+                              ##  \return #RCL_RET_OK if the timer was initialized successfully, or
+                              ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
+                              ##  \return #RCL_RET_ALREADY_INIT if the timer was already initialized, or
+                              ##  \return #RCL_RET_BAD_ALLOC if allocating memory failed, or
+                              ##  \return #RCL_RET_ERROR an unspecified error occur.
+                              ##
 
 proc rcl_timer_fini*(timer: ptr rcl_timer_t): rcl_ret_t {.
-    importc: "rcl_timer_fini", header: "timer.h".}
-  ##  Finalize a timer.
-                                                  ##
-                                                  ##  This function will deallocate any memory and make the timer invalid.
-                                                  ##
-                                                  ##  A timer that is already invalid (zero initialized) or `NULL` will not fail.
-                                                  ##
-                                                  ##  This function is not thread-safe with any rcl_timer_* functions used on the
-                                                  ##  same timer object.
-                                                  ##
-                                                  ##  <hr>
-                                                  ##  Attribute          | Adherence
-                                                  ##  ------------------ | -------------
-                                                  ##  Allocates Memory   | Yes
-                                                  ##  Thread-Safe        | No
-                                                  ##  Uses Atomics       | Yes
-                                                  ##  Lock-Free          | Yes [1][2][3]
-                                                  ##  <i>[1] if `atomic_is_lock_free()` returns true for `atomic_uintptr_t`</i>
-                                                  ##
-                                                  ##  <i>[2] if `atomic_is_lock_free()` returns true for `atomic_uint_least64_t`</i>
-                                                  ##
-                                                  ##  <i>[3] if `atomic_is_lock_free()` returns true for `atomic_bool`</i>
-                                                  ##
-                                                  ##  \param[inout] timer the handle to the timer to be finalized.
-                                                  ##  \return #RCL_RET_OK if the timer was finalized successfully, or
-                                                  ##  \return #RCL_RET_ERROR an unspecified error occur.
-                                                  ##
+    importc: "rcl_timer_fini", header: "rcl/timer.h".}
+  ##
+                              ##  Finalize a timer.
+                              ##
+                              ##  This function will deallocate any memory and make the timer invalid.
+                              ##
+                              ##  A timer that is already invalid (zero initialized) or `NULL` will not fail.
+                              ##
+                              ##  This function is not thread-safe with any rcl_timer_* functions used on the
+                              ##  same timer object.
+                              ##
+                              ##  <hr>
+                              ##  Attribute          | Adherence
+                              ##  ------------------ | -------------
+                              ##  Allocates Memory   | Yes
+                              ##  Thread-Safe        | No
+                              ##  Uses Atomics       | Yes
+                              ##  Lock-Free          | Yes [1][2][3]
+                              ##  <i>[1] if `atomic_is_lock_free()` returns true for `atomic_uintptr_t`</i>
+                              ##
+                              ##  <i>[2] if `atomic_is_lock_free()` returns true for `atomic_uint_least64_t`</i>
+                              ##
+                              ##  <i>[3] if `atomic_is_lock_free()` returns true for `atomic_bool`</i>
+                              ##
+                              ##  \param[inout] timer the handle to the timer to be finalized.
+                              ##  \return #RCL_RET_OK if the timer was finalized successfully, or
+                              ##  \return #RCL_RET_ERROR an unspecified error occur.
+                              ##
 
 proc rcl_timer_call*(timer: ptr rcl_timer_t): rcl_ret_t {.
-    importc: "rcl_timer_call", header: "timer.h".}
-  ##  Call the timer's callback and set the last call time.
-                                                  ##
-                                                  ##  This function will call the callback and change the last call time even if
-                                                  ##  the timer's period has not yet elapsed.
-                                                  ##  It is up to the calling code to make sure the period has elapsed by first
-                                                  ##  calling rcl_timer_is_ready().
-                                                  ##  If the callback pointer is `NULL` (either set in init or exchanged after
-                                                  ##  initialized), no callback is fired.
-                                                  ##  However, this function should still be called by the client library to
-                                                  ##  update the state of the timer.
-                                                  ##  The order of operations in this command are as follows:
-                                                  ##
-                                                  ##   - Ensure the timer has not been canceled.
-                                                  ##   - Get the current time into a temporary rcl_steady_time_point_t.
-                                                  ##   - Exchange the current time with the last call time of the timer.
-                                                  ##   - Call the callback, passing this timer and the time since the last call.
-                                                  ##   - Return after the callback has completed.
-                                                  ##
-                                                  ##  During the callback the timer can be canceled or have its period and/or
-                                                  ##  callback modified.
-                                                  ##
-                                                  ##  <hr>
-                                                  ##  Attribute          | Adherence
-                                                  ##  ------------------ | -------------
-                                                  ##  Allocates Memory   | No
-                                                  ##  Thread-Safe        | Yes [1]
-                                                  ##  Uses Atomics       | Yes
-                                                  ##  Lock-Free          | Yes [2]
-                                                  ##  <i>[1] user callback might not be thread-safe</i>
-                                                  ##
-                                                  ##  <i>[2] if `atomic_is_lock_free()` returns true for `atomic_int_least64_t`</i>
-                                                  ##
-                                                  ##  \param[inout] timer the handle to the timer to call
-                                                  ##  \return #RCL_RET_OK if the timer was called successfully, or
-                                                  ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
-                                                  ##  \return #RCL_RET_TIMER_INVALID if the timer->impl is invalid, or
-                                                  ##  \return #RCL_RET_TIMER_CANCELED if the timer has been canceled, or
-                                                  ##  \return #RCL_RET_ERROR an unspecified error occur.
-                                                  ##
+    importc: "rcl_timer_call", header: "rcl/timer.h".}
+  ##
+                              ##  Call the timer's callback and set the last call time.
+                              ##
+                              ##  This function will call the callback and change the last call time even if
+                              ##  the timer's period has not yet elapsed.
+                              ##  It is up to the calling code to make sure the period has elapsed by first
+                              ##  calling rcl_timer_is_ready().
+                              ##  If the callback pointer is `NULL` (either set in init or exchanged after
+                              ##  initialized), no callback is fired.
+                              ##  However, this function should still be called by the client library to
+                              ##  update the state of the timer.
+                              ##  The order of operations in this command are as follows:
+                              ##
+                              ##   - Ensure the timer has not been canceled.
+                              ##   - Get the current time into a temporary rcl_steady_time_point_t.
+                              ##   - Exchange the current time with the last call time of the timer.
+                              ##   - Call the callback, passing this timer and the time since the last call.
+                              ##   - Return after the callback has completed.
+                              ##
+                              ##  During the callback the timer can be canceled or have its period and/or
+                              ##  callback modified.
+                              ##
+                              ##  <hr>
+                              ##  Attribute          | Adherence
+                              ##  ------------------ | -------------
+                              ##  Allocates Memory   | No
+                              ##  Thread-Safe        | Yes [1]
+                              ##  Uses Atomics       | Yes
+                              ##  Lock-Free          | Yes [2]
+                              ##  <i>[1] user callback might not be thread-safe</i>
+                              ##
+                              ##  <i>[2] if `atomic_is_lock_free()` returns true for `atomic_int_least64_t`</i>
+                              ##
+                              ##  \param[inout] timer the handle to the timer to call
+                              ##  \return #RCL_RET_OK if the timer was called successfully, or
+                              ##  \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
+                              ##  \return #RCL_RET_TIMER_INVALID if the timer->impl is invalid, or
+                              ##  \return #RCL_RET_TIMER_CANCELED if the timer has been canceled, or
+                              ##  \return #RCL_RET_ERROR an unspecified error occur.
+                              ##
 
 proc rcl_timer_clock*(timer: ptr rcl_timer_t; clock: ptr ptr rcl_clock_t): rcl_ret_t {.
-    importc: "rcl_timer_clock", header: "timer.h".}
+    importc: "rcl_timer_clock", header: "rcl/timer.h".}
   ##
                               ##  Retrieve the clock of the timer.
                               ##
@@ -299,7 +302,7 @@ proc rcl_timer_clock*(timer: ptr rcl_timer_t; clock: ptr ptr rcl_clock_t): rcl_r
                               ##
 
 proc rcl_timer_is_ready*(timer: ptr rcl_timer_t; is_ready: ptr _Bool): rcl_ret_t {.
-    importc: "rcl_timer_is_ready", header: "timer.h".}
+    importc: "rcl_timer_is_ready", header: "rcl/timer.h".}
   ##
                               ##  Calculates whether or not the timer should be called.
                               ##
@@ -329,7 +332,7 @@ proc rcl_timer_is_ready*(timer: ptr rcl_timer_t; is_ready: ptr _Bool): rcl_ret_t
 
 proc rcl_timer_get_time_until_next_call*(timer: ptr rcl_timer_t;
     time_until_next_call: ptr int64): rcl_ret_t {.
-    importc: "rcl_timer_get_time_until_next_call", header: "timer.h".}
+    importc: "rcl_timer_get_time_until_next_call", header: "rcl/timer.h".}
   ##
                               ##  Calculate and retrieve the time until the next call in nanoseconds.
                               ##
@@ -365,7 +368,7 @@ proc rcl_timer_get_time_until_next_call*(timer: ptr rcl_timer_t;
 
 proc rcl_timer_get_time_since_last_call*(timer: ptr rcl_timer_t;
     time_since_last_call: ptr int64): rcl_ret_t {.
-    importc: "rcl_timer_get_time_since_last_call", header: "timer.h".}
+    importc: "rcl_timer_get_time_since_last_call", header: "rcl/timer.h".}
   ##
                               ##  Retrieve the time since the previous call to rcl_timer_call() occurred.
                               ##
@@ -396,7 +399,7 @@ proc rcl_timer_get_time_since_last_call*(timer: ptr rcl_timer_t;
                               ##
 
 proc rcl_timer_get_period*(timer: ptr rcl_timer_t; period: ptr int64): rcl_ret_t {.
-    importc: "rcl_timer_get_period", header: "timer.h".}
+    importc: "rcl_timer_get_period", header: "rcl/timer.h".}
   ##
                               ##  Retrieve the period of the timer.
                               ##
@@ -423,7 +426,7 @@ proc rcl_timer_get_period*(timer: ptr rcl_timer_t; period: ptr int64): rcl_ret_t
 
 proc rcl_timer_exchange_period*(timer: ptr rcl_timer_t; new_period: int64;
                                 old_period: ptr int64): rcl_ret_t {.
-    importc: "rcl_timer_exchange_period", header: "timer.h".}
+    importc: "rcl_timer_exchange_period", header: "rcl/timer.h".}
   ##
                               ##  Exchange the period of the timer and return the previous period.
                               ##
@@ -453,7 +456,7 @@ proc rcl_timer_exchange_period*(timer: ptr rcl_timer_t; new_period: int64;
                               ##
 
 proc rcl_timer_get_callback*(timer: ptr rcl_timer_t): rcl_timer_callback_t {.
-    importc: "rcl_timer_get_callback", header: "timer.h".}
+    importc: "rcl_timer_get_callback", header: "rcl/timer.h".}
   ##
                               ##  Return the current timer callback.
                               ##
@@ -476,7 +479,7 @@ proc rcl_timer_get_callback*(timer: ptr rcl_timer_t): rcl_timer_callback_t {.
 
 proc rcl_timer_exchange_callback*(timer: ptr rcl_timer_t;
                                   new_callback: rcl_timer_callback_t): rcl_timer_callback_t {.
-    importc: "rcl_timer_exchange_callback", header: "timer.h".}
+    importc: "rcl_timer_exchange_callback", header: "rcl/timer.h".}
   ##
                               ##  Exchange the current timer callback and return the current callback.
                               ##
@@ -502,7 +505,7 @@ proc rcl_timer_exchange_callback*(timer: ptr rcl_timer_t;
                               ##
 
 proc rcl_timer_cancel*(timer: ptr rcl_timer_t): rcl_ret_t {.
-    importc: "rcl_timer_cancel", header: "timer.h".}
+    importc: "rcl_timer_cancel", header: "rcl/timer.h".}
   ##
                               ##  Cancel a timer.
                               ##
@@ -528,7 +531,7 @@ proc rcl_timer_cancel*(timer: ptr rcl_timer_t): rcl_ret_t {.
                               ##
 
 proc rcl_timer_is_canceled*(timer: ptr rcl_timer_t; is_canceled: ptr _Bool): rcl_ret_t {.
-    importc: "rcl_timer_is_canceled", header: "timer.h".}
+    importc: "rcl_timer_is_canceled", header: "rcl/timer.h".}
   ##
                               ##  Retrieve the canceled state of a timer.
                               ##
@@ -556,7 +559,7 @@ proc rcl_timer_is_canceled*(timer: ptr rcl_timer_t; is_canceled: ptr _Bool): rcl
                               ##
 
 proc rcl_timer_reset*(timer: ptr rcl_timer_t): rcl_ret_t {.
-    importc: "rcl_timer_reset", header: "timer.h".}
+    importc: "rcl_timer_reset", header: "rcl/timer.h".}
   ##
                               ##  Reset a timer.
                               ##
@@ -581,7 +584,7 @@ proc rcl_timer_reset*(timer: ptr rcl_timer_t): rcl_ret_t {.
                               ##
 
 proc rcl_timer_get_allocator*(timer: ptr rcl_timer_t): ptr rcl_allocator_t {.
-    importc: "rcl_timer_get_allocator", header: "timer.h".}
+    importc: "rcl_timer_get_allocator", header: "rcl/timer.h".}
   ##
                               ##  Return the allocator for the timer.
                               ##
@@ -604,7 +607,7 @@ proc rcl_timer_get_allocator*(timer: ptr rcl_timer_t): ptr rcl_allocator_t {.
                               ##
 
 proc rcl_timer_get_guard_condition*(timer: ptr rcl_timer_t): ptr rcl_guard_condition_t {.
-    importc: "rcl_timer_get_guard_condition", header: "timer.h".}
+    importc: "rcl_timer_get_guard_condition", header: "rcl/timer.h".}
   ##
                               ##  Retrieve a guard condition used by the timer to wake the waitset when using ROSTime.
                               ##
@@ -624,7 +627,7 @@ proc rcl_timer_get_guard_condition*(timer: ptr rcl_timer_t): ptr rcl_guard_condi
 proc rcl_timer_set_on_reset_callback*(timer: ptr rcl_timer_t;
                                       on_reset_callback: rcl_event_callback_t;
                                       user_data: pointer): rcl_ret_t {.
-    importc: "rcl_timer_set_on_reset_callback", header: "timer.h".}
+    importc: "rcl_timer_set_on_reset_callback", header: "rcl/timer.h".}
   ##
                               ##  Set the on reset callback function for the timer.
                               ##

@@ -65,7 +65,7 @@ type
                               ##  Forward declaration
 
   rcl_lexer_lookahead2_t* {.importc: "rcl_lexer_lookahead2_t",
-                            header: "lexer_lookahead.h", bycopy.} = object ##
+                            header: "rcl/lexer_lookahead.h", bycopy.} = object ##
                               ##  Track lexical analysis and allow looking ahead 2 lexemes.
     impl* {.importc: "impl".}: ptr rcl_lexer_lookahead2_impl_t ##
                               ##  Pointer to the lexer look ahead2 implementation
@@ -74,24 +74,24 @@ type
 
 proc rcl_get_zero_initialized_lexer_lookahead2*(): rcl_lexer_lookahead2_t {.
     importc: "rcl_get_zero_initialized_lexer_lookahead2",
-    header: "lexer_lookahead.h".}
+    header: "rcl/lexer_lookahead.h".}
   ##  Get a zero initialized rcl_lexer_lookahead2_t instance.
-                                 ##
-                                 ##  \sa rcl_lexer_lookahead2_init()
-                                 ##  <hr>
-                                 ##  Attribute          | Adherence
-                                 ##  ------------------ | -------------
-                                 ##  Allocates Memory   | No
-                                 ##  Thread-Safe        | Yes
-                                 ##  Uses Atomics       | No
-                                 ##  Lock-Free          | Yes
-                                 ##
-                                 ##  \return zero initialized lookahead2 buffer.
-                                 ##
+                                     ##
+                                     ##  \sa rcl_lexer_lookahead2_init()
+                                     ##  <hr>
+                                     ##  Attribute          | Adherence
+                                     ##  ------------------ | -------------
+                                     ##  Allocates Memory   | No
+                                     ##  Thread-Safe        | Yes
+                                     ##  Uses Atomics       | No
+                                     ##  Lock-Free          | Yes
+                                     ##
+                                     ##  \return zero initialized lookahead2 buffer.
+                                     ##
 
 proc rcl_lexer_lookahead2_init*(buffer: ptr rcl_lexer_lookahead2_t;
                                 text: cstring; allocator: rcl_allocator_t): rcl_ret_t {.
-    importc: "rcl_lexer_lookahead2_init", header: "lexer_lookahead.h".}
+    importc: "rcl_lexer_lookahead2_init", header: "rcl/lexer_lookahead.h".}
   ##
                               ##  Initialize an rcl_lexer_lookahead2_t instance.
                               ##
@@ -119,7 +119,7 @@ proc rcl_lexer_lookahead2_init*(buffer: ptr rcl_lexer_lookahead2_t;
                               ##
 
 proc rcl_lexer_lookahead2_fini*(buffer: ptr rcl_lexer_lookahead2_t): rcl_ret_t {.
-    importc: "rcl_lexer_lookahead2_fini", header: "lexer_lookahead.h".}
+    importc: "rcl_lexer_lookahead2_fini", header: "rcl/lexer_lookahead.h".}
   ##
                               ##  Finalize an instance of an rcl_lexer_lookahead2_t structure.
                               ##
@@ -142,7 +142,7 @@ proc rcl_lexer_lookahead2_fini*(buffer: ptr rcl_lexer_lookahead2_t): rcl_ret_t {
 
 proc rcl_lexer_lookahead2_peek*(buffer: ptr rcl_lexer_lookahead2_t;
                                 next_type: ptr rcl_lexeme_t): rcl_ret_t {.
-    importc: "rcl_lexer_lookahead2_peek", header: "lexer_lookahead.h".}
+    importc: "rcl_lexer_lookahead2_peek", header: "rcl/lexer_lookahead.h".}
   ##
                               ##  Look ahead at the next lexeme in the string.
                               ##
@@ -169,7 +169,7 @@ proc rcl_lexer_lookahead2_peek*(buffer: ptr rcl_lexer_lookahead2_t;
 proc rcl_lexer_lookahead2_peek2*(buffer: ptr rcl_lexer_lookahead2_t;
                                  next_type1: ptr rcl_lexeme_t;
                                  next_type2: ptr rcl_lexeme_t): rcl_ret_t {.
-    importc: "rcl_lexer_lookahead2_peek2", header: "lexer_lookahead.h".}
+    importc: "rcl_lexer_lookahead2_peek2", header: "rcl/lexer_lookahead.h".}
   ##
                               ##  Look ahead at the next two lexemes in the string.
                               ##
@@ -197,7 +197,7 @@ proc rcl_lexer_lookahead2_peek2*(buffer: ptr rcl_lexer_lookahead2_t;
 proc rcl_lexer_lookahead2_accept*(buffer: ptr rcl_lexer_lookahead2_t;
                                   lexeme_text: cstringArray;
                                   lexeme_text_length: ptr csize_t): rcl_ret_t {.
-    importc: "rcl_lexer_lookahead2_accept", header: "lexer_lookahead.h".}
+    importc: "rcl_lexer_lookahead2_accept", header: "rcl/lexer_lookahead.h".}
   ##
                               ##  Accept a lexeme and advance analysis.
                               ##
@@ -226,7 +226,7 @@ proc rcl_lexer_lookahead2_expect*(buffer: ptr rcl_lexer_lookahead2_t;
                                   `type`: rcl_lexeme_t;
                                   lexeme_text: cstringArray;
                                   lexeme_text_length: ptr csize_t): rcl_ret_t {.
-    importc: "rcl_lexer_lookahead2_expect", header: "lexer_lookahead.h".}
+    importc: "rcl_lexer_lookahead2_expect", header: "rcl/lexer_lookahead.h".}
   ##
                               ##  Require the next lexeme to be a certain type and advance analysis.
                               ##
@@ -255,7 +255,7 @@ proc rcl_lexer_lookahead2_expect*(buffer: ptr rcl_lexer_lookahead2_t;
                               ##
 
 proc rcl_lexer_lookahead2_get_text*(buffer: ptr rcl_lexer_lookahead2_t): cstring {.
-    importc: "rcl_lexer_lookahead2_get_text", header: "lexer_lookahead.h".}
+    importc: "rcl_lexer_lookahead2_get_text", header: "rcl/lexer_lookahead.h".}
   ##
                               ##  Get the text at the point where it is currently being analyzed.
                               ##

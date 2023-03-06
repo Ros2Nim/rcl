@@ -93,76 +93,76 @@ proc rcl_publisher_get_network_flow_endpoints*(publisher: ptr rcl_publisher_t;
     allocator: ptr rcutils_allocator_t;
     network_flow_endpoint_array: ptr rcl_network_flow_endpoint_array_t): rcl_ret_t {.
     importc: "rcl_publisher_get_network_flow_endpoints",
-    header: "network_flow_endpoints.h".}
+    header: "rcl/network_flow_endpoints.h".}
   ##  Get network flow endpoints of a publisher
-                                        ##
-                                        ##  Query the underlying middleware for a given publisher's network flow endpoints
-                                        ##
-                                        ##  The `publisher` argument must point to a valid publisher.
-                                        ##
-                                        ##  The `allocator` argument must be a valid allocator.
-                                        ##
-                                        ##  The `network_flow_endpoint_array` argument must be allocated and zero-initialized.
-                                        ##  The function returns network flow endpoints in the `network_flow_endpoint_array` argument,
-                                        ##  using the allocator to allocate memory for the `network_flow_endpoint_array`
-                                        ##  argument's internal data structures whenever required. The caller is
-                                        ##  reponsible for memory deallocation by passing the `network_flow_endpoint_array`
-                                        ##  argument to `rcl_network_flow_endpoint_array_fini` function.
-                                        ##
-                                        ##  <hr>
-                                        ##  Attribute          | Adherence
-                                        ##  ------------------ | -------------
-                                        ##  Allocates Memory   | Yes
-                                        ##  Thread-Safe        | No
-                                        ##  Uses Atomics       | No
-                                        ##  Lock-Free          | Maybe [1]
-                                        ##  <i>[1] implementation may need to protect the data structure with a lock</i>
-                                        ##
-                                        ##  \param[in] publisher the publisher instance to inspect
-                                        ##  \param[in] allocator allocator to be used when allocating space for network_flow_endpoint_array_t
-                                        ##  \param[out] network_flow_endpoint_array the network flow endpoints
-                                        ##  \return `RCL_RET_OK` if successful, or
-                                        ##  \return `RCL_RET_INVALID_ARGUMENT` if any argument is null, or
-                                        ##  \return `RCL_RET_BAD_ALLOC` if memory allocation fails, or
-                                        ##  \return `RCL_RET_UNSUPPORTED` if not supported, or
-                                        ##  \return `RCL_RET_ERROR` if an unexpected error occurs.
-                                        ##
+                                            ##
+                                            ##  Query the underlying middleware for a given publisher's network flow endpoints
+                                            ##
+                                            ##  The `publisher` argument must point to a valid publisher.
+                                            ##
+                                            ##  The `allocator` argument must be a valid allocator.
+                                            ##
+                                            ##  The `network_flow_endpoint_array` argument must be allocated and zero-initialized.
+                                            ##  The function returns network flow endpoints in the `network_flow_endpoint_array` argument,
+                                            ##  using the allocator to allocate memory for the `network_flow_endpoint_array`
+                                            ##  argument's internal data structures whenever required. The caller is
+                                            ##  reponsible for memory deallocation by passing the `network_flow_endpoint_array`
+                                            ##  argument to `rcl_network_flow_endpoint_array_fini` function.
+                                            ##
+                                            ##  <hr>
+                                            ##  Attribute          | Adherence
+                                            ##  ------------------ | -------------
+                                            ##  Allocates Memory   | Yes
+                                            ##  Thread-Safe        | No
+                                            ##  Uses Atomics       | No
+                                            ##  Lock-Free          | Maybe [1]
+                                            ##  <i>[1] implementation may need to protect the data structure with a lock</i>
+                                            ##
+                                            ##  \param[in] publisher the publisher instance to inspect
+                                            ##  \param[in] allocator allocator to be used when allocating space for network_flow_endpoint_array_t
+                                            ##  \param[out] network_flow_endpoint_array the network flow endpoints
+                                            ##  \return `RCL_RET_OK` if successful, or
+                                            ##  \return `RCL_RET_INVALID_ARGUMENT` if any argument is null, or
+                                            ##  \return `RCL_RET_BAD_ALLOC` if memory allocation fails, or
+                                            ##  \return `RCL_RET_UNSUPPORTED` if not supported, or
+                                            ##  \return `RCL_RET_ERROR` if an unexpected error occurs.
+                                            ##
 
 proc rcl_subscription_get_network_flow_endpoints*(
     subscription: ptr rcl_subscription_t; allocator: ptr rcutils_allocator_t;
     network_flow_endpoint_array: ptr rcl_network_flow_endpoint_array_t): rcl_ret_t {.
     importc: "rcl_subscription_get_network_flow_endpoints",
-    header: "network_flow_endpoints.h".}
+    header: "rcl/network_flow_endpoints.h".}
   ##  Get network flow endpoints of a subscription
-                                        ##
-                                        ##  Query the underlying middleware for a given subscription's network flow endpoints
-                                        ##
-                                        ##  The `subscription` argument must point to a valid subscription.
-                                        ##
-                                        ##  The `allocator` argument must be a valid allocator.
-                                        ##
-                                        ##  The `network_flow_endpoint_array` argument must be allocated and zero-initialized.
-                                        ##  The function returns network flow endpoints in the `network_flow_endpoint_array` argument,
-                                        ##  using the allocator to allocate memory for the `network_flow_endpoint_array`
-                                        ##  argument's internal data structures whenever required. The caller is
-                                        ##  reponsible for memory deallocation by passing the `network_flow_endpoint_array`
-                                        ##  argument to `rcl_network_flow_endpoint_array_fini` function.
-                                        ##
-                                        ##  <hr>
-                                        ##  Attribute          | Adherence
-                                        ##  ------------------ | -------------
-                                        ##  Allocates Memory   | Yes
-                                        ##  Thread-Safe        | No
-                                        ##  Uses Atomics       | No
-                                        ##  Lock-Free          | Maybe [1]
-                                        ##  <i>[1] implementation may need to protect the data structure with a lock</i>
-                                        ##
-                                        ##  \param[in] subscription the subscription instance to inspect
-                                        ##  \param[in] allocator allocator to be used when allocating space for network_flow_endpoint_array_t
-                                        ##  \param[out] network_flow_endpoint_array the network flow endpoints
-                                        ##  \return `RCL_RET_OK` if successful, or
-                                        ##  \return `RCL_RET_INVALID_ARGUMENT` if any argument is null, or
-                                        ##  \return `RCL_RET_BAD_ALLOC` if memory allocation fails, or
-                                        ##  \return `RCL_RET_UNSUPPORTED` if not supported, or
-                                        ##  \return `RCL_RET_ERROR` if an unexpected error occurs.
-                                        ## 
+                                            ##
+                                            ##  Query the underlying middleware for a given subscription's network flow endpoints
+                                            ##
+                                            ##  The `subscription` argument must point to a valid subscription.
+                                            ##
+                                            ##  The `allocator` argument must be a valid allocator.
+                                            ##
+                                            ##  The `network_flow_endpoint_array` argument must be allocated and zero-initialized.
+                                            ##  The function returns network flow endpoints in the `network_flow_endpoint_array` argument,
+                                            ##  using the allocator to allocate memory for the `network_flow_endpoint_array`
+                                            ##  argument's internal data structures whenever required. The caller is
+                                            ##  reponsible for memory deallocation by passing the `network_flow_endpoint_array`
+                                            ##  argument to `rcl_network_flow_endpoint_array_fini` function.
+                                            ##
+                                            ##  <hr>
+                                            ##  Attribute          | Adherence
+                                            ##  ------------------ | -------------
+                                            ##  Allocates Memory   | Yes
+                                            ##  Thread-Safe        | No
+                                            ##  Uses Atomics       | No
+                                            ##  Lock-Free          | Maybe [1]
+                                            ##  <i>[1] implementation may need to protect the data structure with a lock</i>
+                                            ##
+                                            ##  \param[in] subscription the subscription instance to inspect
+                                            ##  \param[in] allocator allocator to be used when allocating space for network_flow_endpoint_array_t
+                                            ##  \param[out] network_flow_endpoint_array the network flow endpoints
+                                            ##  \return `RCL_RET_OK` if successful, or
+                                            ##  \return `RCL_RET_INVALID_ARGUMENT` if any argument is null, or
+                                            ##  \return `RCL_RET_BAD_ALLOC` if memory allocation fails, or
+                                            ##  \return `RCL_RET_UNSUPPORTED` if not supported, or
+                                            ##  \return `RCL_RET_ERROR` if an unexpected error occurs.
+                                            ## 

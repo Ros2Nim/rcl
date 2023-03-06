@@ -59,11 +59,11 @@ import
   rmw/types, ./types, ./visibility_control, ./visibility_control
 
 let RCL_LOCALHOST_ENV_VAR* {.importc: "RCL_LOCALHOST_ENV_VAR",
-                             header: "localhost.h".}: cstring
+                             header: "rcl/localhost.h".}: cstring
 
 
 proc rcl_get_localhost_only*(localhost_only: ptr rmw_localhost_only_t): rcl_ret_t {.
-    importc: "rcl_get_localhost_only", header: "localhost.h".}
+    importc: "rcl_get_localhost_only", header: "rcl/localhost.h".}
   ##
                               ##  Determine if the user wants to communicate using loopback only.
                               ##

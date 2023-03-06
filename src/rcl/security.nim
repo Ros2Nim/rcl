@@ -71,9 +71,9 @@ const
 proc rcl_get_security_options_from_environment*(name: cstring;
     allocator: ptr rcutils_allocator_t;
     security_options: ptr rmw_security_options_t): rcl_ret_t {.
-    importc: "rcl_get_security_options_from_environment", header: "security.h".}
-  ##
-                              ##  Initialize security options from values in the environment variables and given names.
+    importc: "rcl_get_security_options_from_environment",
+    header: "rcl/security.h".}
+  ##  Initialize security options from values in the environment variables and given names.
                               ##
                               ##  Initialize the given security options based on the environment.
                               ##  For more details:
@@ -91,7 +91,7 @@ proc rcl_get_security_options_from_environment*(name: cstring;
                               ##
 
 proc rcl_security_enabled*(use_security: ptr _Bool): rcl_ret_t {.
-    importc: "rcl_security_enabled", header: "security.h".}
+    importc: "rcl_security_enabled", header: "rcl/security.h".}
   ##
                               ##  Check if security has to be used, according to the environment.
                               ##
@@ -105,7 +105,7 @@ proc rcl_security_enabled*(use_security: ptr _Bool): rcl_ret_t {.
                               ##
 
 proc rcl_get_enforcement_policy*(policy: ptr rmw_security_enforcement_policy_t): rcl_ret_t {.
-    importc: "rcl_get_enforcement_policy", header: "security.h".}
+    importc: "rcl_get_enforcement_policy", header: "rcl/security.h".}
   ##
                               ##  Get security enforcement policy from the environment.
                               ##
@@ -120,7 +120,7 @@ proc rcl_get_enforcement_policy*(policy: ptr rmw_security_enforcement_policy_t):
                               ##
 
 proc rcl_get_secure_root*(name: cstring; allocator: ptr rcl_allocator_t): cstring {.
-    importc: "rcl_get_secure_root", header: "security.h".}
+    importc: "rcl_get_secure_root", header: "rcl/security.h".}
   ##
                               ##  Return the secure root given a enclave name.
                               ##
