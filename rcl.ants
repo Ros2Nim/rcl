@@ -4,6 +4,15 @@ import cimporter/configs
 antExport ImporterConfig:
   cimports:list:
     - ImportConfig:
+      name: "rcl_yaml_param_parser"
+      sources: "deps/rcl/rcl_yaml_param_parser/"
+      headerPrefix: "rcl_yaml_param_parser/"
+      globs: ["**/*.h"]
+      includes: [
+        "deps/libyaml_vendor/include",
+        "deps/rcl/rcl/include",
+        ]
+    - ImportConfig:
       name: "rcl"
       sources: "deps/rcl/rcl/include"
       headerPrefix: "rcl/"
@@ -32,6 +41,12 @@ antExport ImporterConfig:
             - Replace:
               pattern: peg"'_Alignas(8)'"
               repl: ""
+        - CSrcMods:
+          fileMatch: peg"'arguments.h'"
+          substitutes:list:
+            - Replace:
+              pattern: peg"'typedef struct rcl_arguments_impl_s rcl_arguments_impl_t;'"
+              repl: "typedef struct {} rcl_arguments_impl_t;"
       
       c2nimCfgs:list:
         - C2NimCfg:

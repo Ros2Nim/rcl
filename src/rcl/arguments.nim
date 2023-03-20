@@ -51,7 +51,9 @@ const
 
 type
 
-  rcl_arguments_impl_t* = rcl_arguments_impl_s
+  rcl_arguments_impl_t* {.importc: "rcl_arguments_impl_t",
+                          header: "rcl/arguments.h", bycopy.} = object
+
 
   rcl_arguments_t* {.importc: "rcl_arguments_t", header: "rcl/arguments.h",
                      bycopy.} = object ##  Hold output of parsing command line arguments.
