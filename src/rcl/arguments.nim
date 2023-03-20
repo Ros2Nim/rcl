@@ -14,60 +14,21 @@
 ##  @file
 
 import
-  ./allocator, rcutils/allocator, rcutils/allocator, rcutils/allocator,
-  rcutils/macros, rcutils/macros, rcutils/macros, rcutils/macros,
-  rcutils/macros, rcutils/allocator, rcutils/types/rcutils_ret,
-  rcutils/allocator, rcutils/visibility_control,
-  rcutils/visibility_control_macros, rcutils/visibility_control_macros,
-  rcutils/visibility_control, rcutils/allocator, ./allocator, ./log_level,
-  ./macros, ./log_level, ./types, rmw/types, rmw/types, rmw/types,
-  rcutils/logging, rcutils/logging, rcutils/logging, rcutils/error_handling,
-  rcutils/error_handling, rcutils/error_handling, rcutils/error_handling,
-  rcutils/error_handling, rcutils/error_handling, rcutils/snprintf,
-  rcutils/snprintf, rcutils/error_handling, rcutils/testing/fault_injection,
-  rcutils/testing/fault_injection, rcutils/testing/fault_injection,
-  rcutils/error_handling, rcutils/error_handling, rcutils/error_handling,
-  rcutils/error_handling, rcutils/logging, rcutils/time, rcutils/time,
-  rcutils/types, rcutils/types/array_list, rcutils/types/array_list,
-  rcutils/types, rcutils/types/char_array, rcutils/types/char_array,
-  rcutils/types, rcutils/types/hash_map, rcutils/types/hash_map, rcutils/types,
-  rcutils/types/string_array, rcutils/types/string_array, rcutils/qsort,
-  rcutils/qsort, rcutils/types/string_array, rcutils/types,
-  rcutils/types/string_map, rcutils/types/string_map, rcutils/types,
-  rcutils/types/uint8_array, rcutils/types/uint8_array, rcutils/types,
-  rcutils/time, rcutils/logging, rmw/types, rmw/events_statuses/events_statuses,
-  rmw/events_statuses/incompatible_qos, rmw/qos_policy_kind,
-  rmw/visibility_control, rmw/visibility_control, rmw/qos_policy_kind,
-  rmw/events_statuses/incompatible_qos, rmw/events_statuses/events_statuses,
-  rmw/events_statuses/liveliness_changed,
-  rmw/events_statuses/liveliness_changed, rmw/events_statuses/events_statuses,
-  rmw/events_statuses/liveliness_lost, rmw/events_statuses/liveliness_lost,
-  rmw/events_statuses/events_statuses, rmw/events_statuses/message_lost,
-  rmw/events_statuses/message_lost, rmw/events_statuses/events_statuses,
-  rmw/events_statuses/offered_deadline_missed,
-  rmw/events_statuses/offered_deadline_missed,
-  rmw/events_statuses/events_statuses,
-  rmw/events_statuses/requested_deadline_missed,
-  rmw/events_statuses/requested_deadline_missed,
-  rmw/events_statuses/events_statuses, rmw/types, rmw/init, rmw/init_options,
-  rmw/init_options, rmw/domain_id, rmw/init_options, rmw/localhost,
-  rmw/init_options, rmw/macros, rmw/init_options, rmw/ret_types,
-  rmw/init_options, rmw/security_options, rmw/security_options,
-  rmw/init_options, rmw/init, rmw/types, rmw/serialized_message, rmw/types,
-  rmw/subscription_content_filter_options,
-  rmw/subscription_content_filter_options, rmw/types, rmw/time, rmw/time,
-  rmw/types, ./types, ./log_level, ./visibility_control, ./visibility_control,
-  ./log_level, rcl_yaml_param_parser/types
-
-type
-
-  rcl_arguments_impl_t* = rcl_arguments_impl_s
-
-  rcl_arguments_t* {.importc: "rcl_arguments_t", header: "rcl/arguments.h",
-                     bycopy.} = object ##  Hold output of parsing command line arguments.
-    impl* {.importc: "impl".}: ptr rcl_arguments_impl_t ##
-                              ##  Private implementation pointer.
-
+  ./allocator, rcutils/allocator, rcutils/macros, rcutils/types/rcutils_ret,
+  rcutils/visibility_control, rcutils/visibility_control_macros, ./log_level,
+  ./macros, ./types, rmw/types, rcutils/logging, rcutils/error_handling,
+  rcutils/snprintf, rcutils/testing/fault_injection, rcutils/time,
+  rcutils/types, rcutils/types/array_list, rcutils/types/char_array,
+  rcutils/types/hash_map, rcutils/types/string_array, rcutils/qsort,
+  rcutils/types/string_map, rcutils/types/uint8_array,
+  rmw/events_statuses/events_statuses, rmw/events_statuses/incompatible_qos,
+  rmw/qos_policy_kind, rmw/visibility_control,
+  rmw/events_statuses/liveliness_changed, rmw/events_statuses/liveliness_lost,
+  rmw/events_statuses/message_lost, rmw/events_statuses/offered_deadline_missed,
+  rmw/events_statuses/requested_deadline_missed, rmw/init, rmw/init_options,
+  rmw/domain_id, rmw/localhost, rmw/macros, rmw/ret_types, rmw/security_options,
+  rmw/serialized_message, rmw/subscription_content_filter_options, rmw/time,
+  ./visibility_control, rcl_yaml_param_parser/types
 
 const
   RCL_ROS_ARGS_FLAG* = "--ros-args" ##  The command-line flag that delineates the start of ROS arguments.
@@ -89,6 +50,17 @@ const
   RCL_LOG_EXT_LIB_FLAG_SUFFIX* = "external-lib-logs" ##
                               ##  The suffix of the ROS flag to enable or disable external library
                               ##  logging (must be preceded with --enable- or --disable-).
+
+type
+
+  rcl_arguments_impl_t* = rcl_arguments_impl_s
+
+  rcl_arguments_t* {.importc: "rcl_arguments_t", header: "rcl/arguments.h",
+                     bycopy.} = object ##  Hold output of parsing command line arguments.
+    impl* {.importc: "impl".}: ptr rcl_arguments_impl_t ##
+                              ##  Private implementation pointer.
+
+
 
 
 proc rcl_get_zero_initialized_arguments*(): rcl_arguments_t {.

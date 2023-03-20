@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.0"
+version       = "0.2.0"
 author        = "Jaremy Creechley"
 description   = "Nim wrapper for RCL from ROS2"
 license       = "MIT"
@@ -12,4 +12,5 @@ bin           = @["rcl"]
 # Dependencies
 
 requires "nim >= 1.6.10"
+requires "https://github.com/Ros2Nim/rcutils >= 0.2.0"
 requires "https://github.com/elcritch/ants >= 0.1.6"

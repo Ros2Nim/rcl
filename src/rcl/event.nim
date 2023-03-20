@@ -14,65 +14,29 @@
 ##  @file
 
 import
-  rmw/event, rmw/event, rcutils/allocator, rcutils/allocator, rcutils/allocator,
-  rcutils/macros, rcutils/macros, rcutils/macros, rcutils/macros,
-  rcutils/macros, rcutils/allocator, rcutils/types/rcutils_ret,
-  rcutils/allocator, rcutils/visibility_control,
-  rcutils/visibility_control_macros, rcutils/visibility_control_macros,
-  rcutils/visibility_control, rcutils/allocator, rmw/event, rmw/macros,
-  rmw/event, rmw/types, rmw/types, rcutils/logging, rcutils/logging,
-  rcutils/logging, rcutils/error_handling, rcutils/error_handling,
-  rcutils/error_handling, rcutils/error_handling, rcutils/error_handling,
-  rcutils/error_handling, rcutils/snprintf, rcutils/snprintf,
-  rcutils/error_handling, rcutils/testing/fault_injection,
-  rcutils/testing/fault_injection, rcutils/testing/fault_injection,
-  rcutils/error_handling, rcutils/error_handling, rcutils/error_handling,
-  rcutils/error_handling, rcutils/logging, rcutils/time, rcutils/time,
-  rcutils/types, rcutils/types/array_list, rcutils/types/array_list,
-  rcutils/types, rcutils/types/char_array, rcutils/types/char_array,
-  rcutils/types, rcutils/types/hash_map, rcutils/types/hash_map, rcutils/types,
-  rcutils/types/string_array, rcutils/types/string_array, rcutils/qsort,
-  rcutils/qsort, rcutils/types/string_array, rcutils/types,
-  rcutils/types/string_map, rcutils/types/string_map, rcutils/types,
-  rcutils/types/uint8_array, rcutils/types/uint8_array, rcutils/types,
-  rcutils/time, rcutils/logging, rmw/types, rmw/events_statuses/events_statuses,
+  rmw/event, rcutils/allocator, rcutils/macros, rcutils/types/rcutils_ret,
+  rcutils/visibility_control, rcutils/visibility_control_macros, rmw/macros,
+  rmw/types, rcutils/logging, rcutils/error_handling, rcutils/snprintf,
+  rcutils/testing/fault_injection, rcutils/time, rcutils/types,
+  rcutils/types/array_list, rcutils/types/char_array, rcutils/types/hash_map,
+  rcutils/types/string_array, rcutils/qsort, rcutils/types/string_map,
+  rcutils/types/uint8_array, rmw/events_statuses/events_statuses,
   rmw/events_statuses/incompatible_qos, rmw/qos_policy_kind,
-  rmw/visibility_control, rmw/visibility_control, rmw/qos_policy_kind,
-  rmw/events_statuses/incompatible_qos, rmw/events_statuses/events_statuses,
-  rmw/events_statuses/liveliness_changed,
-  rmw/events_statuses/liveliness_changed, rmw/events_statuses/events_statuses,
-  rmw/events_statuses/liveliness_lost, rmw/events_statuses/liveliness_lost,
-  rmw/events_statuses/events_statuses, rmw/events_statuses/message_lost,
-  rmw/events_statuses/message_lost, rmw/events_statuses/events_statuses,
+  rmw/visibility_control, rmw/events_statuses/liveliness_changed,
+  rmw/events_statuses/liveliness_lost, rmw/events_statuses/message_lost,
   rmw/events_statuses/offered_deadline_missed,
-  rmw/events_statuses/offered_deadline_missed,
-  rmw/events_statuses/events_statuses,
-  rmw/events_statuses/requested_deadline_missed,
-  rmw/events_statuses/requested_deadline_missed,
-  rmw/events_statuses/events_statuses, rmw/types, rmw/init, rmw/init_options,
-  rmw/init_options, rmw/domain_id, rmw/init_options, rmw/localhost,
-  rmw/init_options, rmw/ret_types, rmw/init_options, rmw/security_options,
-  rmw/security_options, rmw/init_options, rmw/init, rmw/types,
-  rmw/serialized_message, rmw/types, rmw/subscription_content_filter_options,
-  rmw/subscription_content_filter_options, rmw/types, rmw/time, rmw/time,
-  rmw/types, rmw/event, ./client, rosidl_runtime_c/service_type_support_struct,
+  rmw/events_statuses/requested_deadline_missed, rmw/init, rmw/init_options,
+  rmw/domain_id, rmw/localhost, rmw/ret_types, rmw/security_options,
+  rmw/serialized_message, rmw/subscription_content_filter_options, rmw/time,
+  ./client, rosidl_runtime_c/service_type_support_struct,
   rosidl_runtime_c/message_type_support_struct,
-  rosidl_runtime_c/visibility_control, rosidl_runtime_c/visibility_control,
-  rosidl_runtime_c/message_type_support_struct,
-  rosidl_typesupport_interface/macros,
-  rosidl_runtime_c/message_type_support_struct,
-  rosidl_runtime_c/service_type_support_struct,
-  rosidl_runtime_c/service_type_support_struct, ./client, ./event_callback,
-  rmw/event_callback_type, rmw/event_callback_type, ./event_callback, ./client,
-  ./macros, ./client, ./node, ./allocator, ./node, ./arguments, ./log_level,
-  ./types, ./log_level, ./visibility_control, ./visibility_control, ./log_level,
-  ./arguments, rcl_yaml_param_parser/types, ./arguments, ./node, ./context,
-  ./context, ./init_options, ./init_options, ./context, ./context, ./node,
-  ./guard_condition, ./guard_condition, ./node, ./node_options, ./node_options,
-  ./domain_id, ./domain_id, ./node_options, ./node, ./client, ./publisher,
-  ./publisher, ./time, ./time, ./publisher, ./service, ./service,
-  ./subscription, ./subscription, rmw/message_sequence, rmw/message_sequence,
-  rmw/message_sequence, ./subscription
+  rosidl_runtime_c/visibility_control, rosidl_typesupport_interface/macros,
+  ./event_callback, rmw/event_callback_type, ./macros, ./node, ./allocator,
+  ./arguments, ./log_level, ./types, ./visibility_control,
+  rcl_yaml_param_parser/types, ./context, ./init_options, ./guard_condition,
+  ./node_options, ./domain_id, ./publisher, ./time, ./service, ./subscription,
+  rmw/message_sequence
+
 
 type
 
@@ -81,17 +45,11 @@ type
     RCL_PUBLISHER_OFFERED_DEADLINE_MISSED, RCL_PUBLISHER_LIVELINESS_LOST,
     RCL_PUBLISHER_OFFERED_INCOMPATIBLE_QOS
 
-
-type
-
   rcl_subscription_event_type_t* {.size: sizeof(cint).} = enum ##
                               ##  Enumeration of all of the subscription events that may fire.
     RCL_SUBSCRIPTION_REQUESTED_DEADLINE_MISSED,
     RCL_SUBSCRIPTION_LIVELINESS_CHANGED,
     RCL_SUBSCRIPTION_REQUESTED_INCOMPATIBLE_QOS, RCL_SUBSCRIPTION_MESSAGE_LOST
-
-
-type
 
   rcl_event_impl_t* = rcl_event_impl_s ##  Internal rcl implementation struct.
 
@@ -99,6 +57,7 @@ type
                               ##  Structure which encapsulates a ROS QoS event handle.
     impl* {.importc: "impl".}: ptr rcl_event_impl_t ##
                               ##  Pointer to the event implementation
+
 
 
 

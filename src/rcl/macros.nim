@@ -13,7 +13,4 @@
 ##  limitations under the License.
 
 import
-  rcutils/macros, rcutils/macros, rcutils/macros, rcutils/macros, rcutils/macros
-
-const
-  RCL_WARN_UNUSED* = RCUTILS_WARN_UNUSED ##  Ignored return values of functions with this macro will emit a warning.
+  rcutils/macros

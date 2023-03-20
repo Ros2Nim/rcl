@@ -8,5 +8,4 @@
 import unittest
 
 import rcl
-test "correct welcome":
-  check getWelcomeMessage() == "Hello, World!"
+export rcl

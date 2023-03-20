@@ -14,61 +14,22 @@
 ##  @file
 
 import
-  rmw/types, rmw/types, rmw/types, rmw/types, rcutils/logging, rcutils/logging,
-  rcutils/logging, rcutils/allocator, rcutils/allocator, rcutils/macros,
-  rcutils/macros, rcutils/macros, rcutils/macros, rcutils/macros,
-  rcutils/allocator, rcutils/types/rcutils_ret, rcutils/allocator,
-  rcutils/visibility_control, rcutils/visibility_control_macros,
-  rcutils/visibility_control_macros, rcutils/visibility_control,
-  rcutils/allocator, rcutils/logging, rcutils/error_handling,
-  rcutils/error_handling, rcutils/error_handling, rcutils/error_handling,
-  rcutils/error_handling, rcutils/error_handling, rcutils/snprintf,
-  rcutils/snprintf, rcutils/error_handling, rcutils/testing/fault_injection,
-  rcutils/testing/fault_injection, rcutils/testing/fault_injection,
-  rcutils/error_handling, rcutils/error_handling, rcutils/error_handling,
-  rcutils/error_handling, rcutils/logging, rcutils/time, rcutils/time,
-  rcutils/types, rcutils/types/array_list, rcutils/types/array_list,
-  rcutils/types, rcutils/types/char_array, rcutils/types/char_array,
-  rcutils/types, rcutils/types/hash_map, rcutils/types/hash_map, rcutils/types,
-  rcutils/types/string_array, rcutils/types/string_array, rcutils/qsort,
-  rcutils/qsort, rcutils/types/string_array, rcutils/types,
-  rcutils/types/string_map, rcutils/types/string_map, rcutils/types,
-  rcutils/types/uint8_array, rcutils/types/uint8_array, rcutils/types,
-  rcutils/time, rcutils/logging, rmw/types, rmw/events_statuses/events_statuses,
+  rmw/types, rcutils/logging, rcutils/allocator, rcutils/macros,
+  rcutils/types/rcutils_ret, rcutils/visibility_control,
+  rcutils/visibility_control_macros, rcutils/error_handling, rcutils/snprintf,
+  rcutils/testing/fault_injection, rcutils/time, rcutils/types,
+  rcutils/types/array_list, rcutils/types/char_array, rcutils/types/hash_map,
+  rcutils/types/string_array, rcutils/qsort, rcutils/types/string_map,
+  rcutils/types/uint8_array, rmw/events_statuses/events_statuses,
   rmw/events_statuses/incompatible_qos, rmw/qos_policy_kind,
-  rmw/visibility_control, rmw/visibility_control, rmw/qos_policy_kind,
-  rmw/events_statuses/incompatible_qos, rmw/events_statuses/events_statuses,
-  rmw/events_statuses/liveliness_changed,
-  rmw/events_statuses/liveliness_changed, rmw/events_statuses/events_statuses,
-  rmw/events_statuses/liveliness_lost, rmw/events_statuses/liveliness_lost,
-  rmw/events_statuses/events_statuses, rmw/events_statuses/message_lost,
-  rmw/events_statuses/message_lost, rmw/events_statuses/events_statuses,
+  rmw/visibility_control, rmw/events_statuses/liveliness_changed,
+  rmw/events_statuses/liveliness_lost, rmw/events_statuses/message_lost,
   rmw/events_statuses/offered_deadline_missed,
-  rmw/events_statuses/offered_deadline_missed,
-  rmw/events_statuses/events_statuses,
-  rmw/events_statuses/requested_deadline_missed,
-  rmw/events_statuses/requested_deadline_missed,
-  rmw/events_statuses/events_statuses, rmw/types, rmw/init, rmw/init_options,
-  rmw/init_options, rmw/domain_id, rmw/init_options, rmw/localhost,
-  rmw/init_options, rmw/macros, rmw/init_options, rmw/ret_types,
-  rmw/init_options, rmw/security_options, rmw/security_options,
-  rmw/init_options, rmw/init, rmw/types, rmw/serialized_message, rmw/types,
-  rmw/subscription_content_filter_options,
-  rmw/subscription_content_filter_options, rmw/types, rmw/time, rmw/time,
-  rmw/types
-
-type
-
-  rcl_ret_t* = rmw_ret_t     ##  The type that holds an rcl return code.
+  rmw/events_statuses/requested_deadline_missed, rmw/init, rmw/init_options,
+  rmw/domain_id, rmw/localhost, rmw/macros, rmw/ret_types, rmw/security_options,
+  rmw/serialized_message, rmw/subscription_content_filter_options, rmw/time
 
 const
-  RCL_RET_OK* = RMW_RET_OK   ##  Success return code.
-  RCL_RET_ERROR* = RMW_RET_ERROR ##  Unspecified error return code.
-  RCL_RET_TIMEOUT* = RMW_RET_TIMEOUT ##  Timeout occurred return code.
-  RCL_RET_BAD_ALLOC* = RMW_RET_BAD_ALLOC ##  Failed to allocate memory return code.
-  RCL_RET_INVALID_ARGUMENT* = RMW_RET_INVALID_ARGUMENT ##
-                              ##  Invalid argument return code.
-  RCL_RET_UNSUPPORTED* = RMW_RET_UNSUPPORTED ##  Unsupported return code.
   RCL_RET_ALREADY_INIT* = 100 ##  rcl specific ret codes start at 100
                               ##  rcl_init() already called return code.
   RCL_RET_NOT_INIT* = 101    ##  rcl_init() not yet called return code.
@@ -116,5 +77,16 @@ const
 
 type
 
+  rcl_ret_t* = rmw_ret_t     ##  The type that holds an rcl return code.
+
   rcl_serialized_message_t* = rmw_serialized_message_t ##
                               ##  typedef for rmw_serialized_message_t;
+
+const
+  RCL_RET_OK* = RMW_RET_OK   ##  Success return code.
+  RCL_RET_ERROR* = RMW_RET_ERROR ##  Unspecified error return code.
+  RCL_RET_TIMEOUT* = RMW_RET_TIMEOUT ##  Timeout occurred return code.
+  RCL_RET_BAD_ALLOC* = RMW_RET_BAD_ALLOC ##  Failed to allocate memory return code.
+  RCL_RET_INVALID_ARGUMENT* = RMW_RET_INVALID_ARGUMENT ##
+                              ##  Invalid argument return code.
+  RCL_RET_UNSUPPORTED* = RMW_RET_UNSUPPORTED ##  Unsupported return code.

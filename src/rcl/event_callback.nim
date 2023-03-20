@@ -13,8 +13,10 @@
 ##  limitations under the License.
 
 import
-  rmw/event_callback_type, rmw/event_callback_type
+  rmw/event_callback_type
+
 
 type
 
   rcl_event_callback_t* = rmw_event_callback_t
+

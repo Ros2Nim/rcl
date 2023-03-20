@@ -14,57 +14,22 @@
 ##  @file
 
 import
-  ./allocator, rcutils/allocator, rcutils/allocator, rcutils/allocator,
-  rcutils/macros, rcutils/macros, rcutils/macros, rcutils/macros,
-  rcutils/macros, rcutils/allocator, rcutils/types/rcutils_ret,
-  rcutils/allocator, rcutils/visibility_control,
-  rcutils/visibility_control_macros, rcutils/visibility_control_macros,
-  rcutils/visibility_control, rcutils/allocator, ./allocator, ./macros, ./types,
-  rmw/types, rmw/types, rmw/types, rcutils/logging, rcutils/logging,
-  rcutils/logging, rcutils/error_handling, rcutils/error_handling,
-  rcutils/error_handling, rcutils/error_handling, rcutils/error_handling,
-  rcutils/error_handling, rcutils/snprintf, rcutils/snprintf,
-  rcutils/error_handling, rcutils/testing/fault_injection,
-  rcutils/testing/fault_injection, rcutils/testing/fault_injection,
-  rcutils/error_handling, rcutils/error_handling, rcutils/error_handling,
-  rcutils/error_handling, rcutils/logging, rcutils/time, rcutils/time,
-  rcutils/types, rcutils/types/array_list, rcutils/types/array_list,
-  rcutils/types, rcutils/types/char_array, rcutils/types/char_array,
-  rcutils/types, rcutils/types/hash_map, rcutils/types/hash_map, rcutils/types,
-  rcutils/types/string_array, rcutils/types/string_array, rcutils/qsort,
-  rcutils/qsort, rcutils/types/string_array, rcutils/types,
-  rcutils/types/string_map, rcutils/types/string_map, rcutils/types,
-  rcutils/types/uint8_array, rcutils/types/uint8_array, rcutils/types,
-  rcutils/time, rcutils/logging, rmw/types, rmw/events_statuses/events_statuses,
+  ./allocator, rcutils/allocator, rcutils/macros, rcutils/types/rcutils_ret,
+  rcutils/visibility_control, rcutils/visibility_control_macros, ./macros,
+  ./types, rmw/types, rcutils/logging, rcutils/error_handling, rcutils/snprintf,
+  rcutils/testing/fault_injection, rcutils/time, rcutils/types,
+  rcutils/types/array_list, rcutils/types/char_array, rcutils/types/hash_map,
+  rcutils/types/string_array, rcutils/qsort, rcutils/types/string_map,
+  rcutils/types/uint8_array, rmw/events_statuses/events_statuses,
   rmw/events_statuses/incompatible_qos, rmw/qos_policy_kind,
-  rmw/visibility_control, rmw/visibility_control, rmw/qos_policy_kind,
-  rmw/events_statuses/incompatible_qos, rmw/events_statuses/events_statuses,
-  rmw/events_statuses/liveliness_changed,
-  rmw/events_statuses/liveliness_changed, rmw/events_statuses/events_statuses,
-  rmw/events_statuses/liveliness_lost, rmw/events_statuses/liveliness_lost,
-  rmw/events_statuses/events_statuses, rmw/events_statuses/message_lost,
-  rmw/events_statuses/message_lost, rmw/events_statuses/events_statuses,
+  rmw/visibility_control, rmw/events_statuses/liveliness_changed,
+  rmw/events_statuses/liveliness_lost, rmw/events_statuses/message_lost,
   rmw/events_statuses/offered_deadline_missed,
-  rmw/events_statuses/offered_deadline_missed,
-  rmw/events_statuses/events_statuses,
-  rmw/events_statuses/requested_deadline_missed,
-  rmw/events_statuses/requested_deadline_missed,
-  rmw/events_statuses/events_statuses, rmw/types, rmw/init, rmw/init_options,
-  rmw/init_options, rmw/domain_id, rmw/init_options, rmw/localhost,
-  rmw/init_options, rmw/macros, rmw/init_options, rmw/ret_types,
-  rmw/init_options, rmw/security_options, rmw/security_options,
-  rmw/init_options, rmw/init, rmw/types, rmw/serialized_message, rmw/types,
-  rmw/subscription_content_filter_options,
-  rmw/subscription_content_filter_options, rmw/types, rmw/time, rmw/time,
-  rmw/types, ./types, ./visibility_control, ./visibility_control
+  rmw/events_statuses/requested_deadline_missed, rmw/init, rmw/init_options,
+  rmw/domain_id, rmw/localhost, rmw/macros, rmw/ret_types, rmw/security_options,
+  rmw/serialized_message, rmw/subscription_content_filter_options, rmw/time,
+  ./visibility_control
 
-const
-  RCL_S_TO_NS* = RCUTILS_S_TO_NS ##  Convenience macro to convert seconds to nanoseconds.
-  RCL_MS_TO_NS* = RCUTILS_MS_TO_NS ##  Convenience macro to convert milliseconds to nanoseconds.
-  RCL_US_TO_NS* = RCUTILS_US_TO_NS ##  Convenience macro to convert microseconds to nanoseconds.
-  RCL_NS_TO_S* = RCUTILS_NS_TO_S ##  Convenience macro to convert nanoseconds to seconds.
-  RCL_NS_TO_MS* = RCUTILS_NS_TO_MS ##  Convenience macro to convert nanoseconds to milliseconds.
-  RCL_NS_TO_US* = RCUTILS_NS_TO_US ##  Convenience macro to convert nanoseconds to microseconds.
 
 type
 
@@ -91,9 +56,6 @@ type
     RCL_SYSTEM_TIME,        ##  Use a steady clock time
     RCL_STEADY_TIME
 
-
-type
-
   rcl_duration_t* {.importc: "rcl_duration_t", header: "rcl/time.h", bycopy.} = object ##
                               ##  A duration of time, measured in nanoseconds and its source.
     nanoseconds* {.importc: "nanoseconds".}: rcl_duration_value_t ##
@@ -106,9 +68,6 @@ type
     RCL_ROS_TIME_ACTIVATED = 2, ##  The source switched to SYSTEM_TIME from ROS_TIME.
     RCL_ROS_TIME_DEACTIVATED = 3, ##  The source before and after the jump is SYSTEM_TIME.
     RCL_SYSTEM_TIME_NO_CHANGE = 4
-
-
-type
 
   rcl_time_jump_t* {.importc: "rcl_time_jump_t", header: "rcl/time.h", bycopy.} = object ##
                               ##  Struct to describe a jump in time.
@@ -170,6 +129,14 @@ type
     clock_type* {.importc: "clock_type".}: rcl_clock_type_t ##
                               ##  Clock type of the point in time
 
+
+const
+  RCL_S_TO_NS* = RCUTILS_S_TO_NS ##  Convenience macro to convert seconds to nanoseconds.
+  RCL_MS_TO_NS* = RCUTILS_MS_TO_NS ##  Convenience macro to convert milliseconds to nanoseconds.
+  RCL_US_TO_NS* = RCUTILS_US_TO_NS ##  Convenience macro to convert microseconds to nanoseconds.
+  RCL_NS_TO_S* = RCUTILS_NS_TO_S ##  Convenience macro to convert nanoseconds to seconds.
+  RCL_NS_TO_MS* = RCUTILS_NS_TO_MS ##  Convenience macro to convert nanoseconds to milliseconds.
+  RCL_NS_TO_US* = RCUTILS_NS_TO_US ##  Convenience macro to convert nanoseconds to microseconds.
 
 
 proc rcl_clock_time_started*(clock: ptr rcl_clock_t): _Bool {.

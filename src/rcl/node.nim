@@ -14,56 +14,25 @@
 ##  @file
 
 import
-  ./allocator, rcutils/allocator, rcutils/allocator, rcutils/allocator,
-  rcutils/macros, rcutils/macros, rcutils/macros, rcutils/macros,
-  rcutils/macros, rcutils/allocator, rcutils/types/rcutils_ret,
-  rcutils/allocator, rcutils/visibility_control,
-  rcutils/visibility_control_macros, rcutils/visibility_control_macros,
-  rcutils/visibility_control, rcutils/allocator, ./allocator, ./arguments,
-  ./log_level, ./macros, ./log_level, ./types, rmw/types, rmw/types,
-  rcutils/logging, rcutils/logging, rcutils/logging, rcutils/error_handling,
-  rcutils/error_handling, rcutils/error_handling, rcutils/error_handling,
-  rcutils/error_handling, rcutils/error_handling, rcutils/snprintf,
-  rcutils/snprintf, rcutils/error_handling, rcutils/testing/fault_injection,
-  rcutils/testing/fault_injection, rcutils/testing/fault_injection,
-  rcutils/error_handling, rcutils/error_handling, rcutils/error_handling,
-  rcutils/error_handling, rcutils/logging, rcutils/time, rcutils/time,
-  rcutils/types, rcutils/types/array_list, rcutils/types/array_list,
-  rcutils/types, rcutils/types/char_array, rcutils/types/char_array,
-  rcutils/types, rcutils/types/hash_map, rcutils/types/hash_map, rcutils/types,
-  rcutils/types/string_array, rcutils/types/string_array, rcutils/qsort,
-  rcutils/qsort, rcutils/types/string_array, rcutils/types,
-  rcutils/types/string_map, rcutils/types/string_map, rcutils/types,
-  rcutils/types/uint8_array, rcutils/types/uint8_array, rcutils/types,
-  rcutils/time, rcutils/logging, rmw/types, rmw/events_statuses/events_statuses,
-  rmw/events_statuses/incompatible_qos, rmw/qos_policy_kind,
-  rmw/visibility_control, rmw/visibility_control, rmw/qos_policy_kind,
-  rmw/events_statuses/incompatible_qos, rmw/events_statuses/events_statuses,
-  rmw/events_statuses/liveliness_changed,
-  rmw/events_statuses/liveliness_changed, rmw/events_statuses/events_statuses,
-  rmw/events_statuses/liveliness_lost, rmw/events_statuses/liveliness_lost,
-  rmw/events_statuses/events_statuses, rmw/events_statuses/message_lost,
-  rmw/events_statuses/message_lost, rmw/events_statuses/events_statuses,
-  rmw/events_statuses/offered_deadline_missed,
-  rmw/events_statuses/offered_deadline_missed,
-  rmw/events_statuses/events_statuses,
-  rmw/events_statuses/requested_deadline_missed,
-  rmw/events_statuses/requested_deadline_missed,
-  rmw/events_statuses/events_statuses, rmw/types, rmw/init, rmw/init_options,
-  rmw/init_options, rmw/domain_id, rmw/init_options, rmw/localhost,
-  rmw/init_options, rmw/macros, rmw/init_options, rmw/ret_types,
-  rmw/init_options, rmw/security_options, rmw/security_options,
-  rmw/init_options, rmw/init, rmw/types, rmw/serialized_message, rmw/types,
-  rmw/subscription_content_filter_options,
-  rmw/subscription_content_filter_options, rmw/types, rmw/time, rmw/time,
-  rmw/types, ./types, ./log_level, ./visibility_control, ./visibility_control,
-  ./log_level, ./arguments, rcl_yaml_param_parser/types, ./arguments, ./context,
-  ./context, ./init_options, ./init_options, ./context, ./context,
-  ./guard_condition, ./guard_condition, ./node_options, ./node_options,
-  ./domain_id, ./domain_id, ./node_options
+  ./allocator, rcutils/allocator, rcutils/macros, rcutils/types/rcutils_ret,
+  rcutils/visibility_control, rcutils/visibility_control_macros, ./arguments,
+  ./log_level, ./macros, ./types, rmw/types, rcutils/logging,
+  rcutils/error_handling, rcutils/snprintf, rcutils/testing/fault_injection,
+  rcutils/time, rcutils/types, rcutils/types/array_list,
+  rcutils/types/char_array, rcutils/types/hash_map, rcutils/types/string_array,
+  rcutils/qsort, rcutils/types/string_map, rcutils/types/uint8_array,
+  rmw/events_statuses/events_statuses, rmw/events_statuses/incompatible_qos,
+  rmw/qos_policy_kind, rmw/visibility_control,
+  rmw/events_statuses/liveliness_changed, rmw/events_statuses/liveliness_lost,
+  rmw/events_statuses/message_lost, rmw/events_statuses/offered_deadline_missed,
+  rmw/events_statuses/requested_deadline_missed, rmw/init, rmw/init_options,
+  rmw/domain_id, rmw/localhost, rmw/macros, rmw/ret_types, rmw/security_options,
+  rmw/serialized_message, rmw/subscription_content_filter_options, rmw/time,
+  ./visibility_control, rcl_yaml_param_parser/types, ./context, ./init_options,
+  ./guard_condition, ./node_options, ./domain_id
 
-let RCL_DISABLE_LOANED_MESSAGES_ENV_VAR* {.
-    importc: "RCL_DISABLE_LOANED_MESSAGES_ENV_VAR", header: "rcl/node.h".}: cstring
+let RCL_DISABLE_LOANED_MESSAGES_ENV_VAR* {.header: "rcl/node.h".}: cstring
+
 
 type
 
@@ -75,6 +44,7 @@ type
                               ##  Context associated with this node.
     impl* {.importc: "impl".}: ptr rcl_node_impl_t ##
                               ##  Private implementation pointer.
+
 
 
 

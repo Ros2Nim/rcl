@@ -13,18 +13,11 @@
 ##  limitations under the License.
 
 import
-  rcutils/error_handling, rcutils/error_handling, rcutils/error_handling,
-  rcutils/error_handling, rcutils/error_handling, rcutils/error_handling,
-  rcutils/error_handling, rcutils/error_handling, rcutils/allocator,
-  rcutils/allocator, rcutils/macros, rcutils/macros, rcutils/macros,
-  rcutils/macros, rcutils/macros, rcutils/allocator, rcutils/types/rcutils_ret,
-  rcutils/allocator, rcutils/visibility_control,
-  rcutils/visibility_control_macros, rcutils/visibility_control_macros,
-  rcutils/visibility_control, rcutils/allocator, rcutils/error_handling,
-  rcutils/snprintf, rcutils/snprintf, rcutils/snprintf, rcutils/error_handling,
-  rcutils/testing/fault_injection, rcutils/testing/fault_injection,
-  rcutils/testing/fault_injection, rcutils/error_handling,
-  rcutils/error_handling, rcutils/error_handling, rcutils/error_handling
+  rcutils/error_handling, rcutils/allocator, rcutils/macros,
+  rcutils/types/rcutils_ret, rcutils/visibility_control,
+  rcutils/visibility_control_macros, rcutils/snprintf,
+  rcutils/testing/fault_injection
+
 
 type
 
@@ -33,9 +26,9 @@ type
   rcl_error_string_t* = rcutils_error_string_t
 
 const
-  rcl_initialize_error_handling_thread_local_storage* = rcutils_initialize_error_handling_thread_local_storage
   rcl_set_error_state* = rcutils_set_error_state
-  rcl_error_is_set* = rcutils_error_is_set
-  rcl_get_error_state* = rcutils_get_error_state
-  rcl_get_error_string* = rcutils_get_error_string
+  rcl_initialize_error_handling_thread_local_storage* = rcutils_initialize_error_handling_thread_local_storage
   rcl_reset_error* = rcutils_reset_error
+  rcl_get_error_string* = rcutils_get_error_string
+  rcl_get_error_state* = rcutils_get_error_state
+  rcl_error_is_set* = rcutils_error_is_set
