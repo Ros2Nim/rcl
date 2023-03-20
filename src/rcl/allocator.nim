@@ -14,8 +14,8 @@
 ##  @file
 
 import
-  rcutils/allocator, rcutils/macros, rcutils/types/rcutils_ret,
-  rcutils/visibility_control, rcutils/visibility_control_macros
+  rcutils/types/rcutils_ret, rcutils/visibility_control,
+  rcutils/visibility_control_macros
 
 
 type

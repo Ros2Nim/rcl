@@ -14,9 +14,8 @@
 ##  @file
 
 import
-  rmw/names_and_types, rcutils/allocator, rcutils/macros,
-  rcutils/types/rcutils_ret, rcutils/visibility_control,
-  rcutils/visibility_control_macros, rcutils/types, rcutils/types/array_list,
+  rmw/names_and_types, rcutils/types/rcutils_ret, rcutils/visibility_control,
+  rcutils/visibility_control_macros, rcutils/types/array_list,
   rcutils/types/char_array, rcutils/types/hash_map, rcutils/types/string_array,
   rcutils/error_handling, rcutils/snprintf, rcutils/testing/fault_injection,
   rcutils/qsort, rcutils/types/string_map, rcutils/types/uint8_array,

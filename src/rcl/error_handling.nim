@@ -13,8 +13,7 @@
 ##  limitations under the License.
 
 import
-  rcutils/error_handling, rcutils/allocator, rcutils/macros,
-  rcutils/types/rcutils_ret, rcutils/visibility_control,
+  rcutils/error_handling, rcutils/types/rcutils_ret, rcutils/visibility_control,
   rcutils/visibility_control_macros, rcutils/snprintf,
   rcutils/testing/fault_injection
 

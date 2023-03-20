@@ -14,11 +14,10 @@
 ##  @file
 
 import
-  rmw/validate_namespace, rmw/macros, rcutils/macros, rmw/types,
-  rcutils/logging, rcutils/allocator, rcutils/types/rcutils_ret,
-  rcutils/visibility_control, rcutils/visibility_control_macros,
-  rcutils/error_handling, rcutils/snprintf, rcutils/testing/fault_injection,
-  rcutils/time, rcutils/types, rcutils/types/array_list,
+  rmw/validate_namespace, rmw/macros, rmw/types, rcutils/logging,
+  rcutils/types/rcutils_ret, rcutils/visibility_control,
+  rcutils/visibility_control_macros, rcutils/error_handling, rcutils/snprintf,
+  rcutils/testing/fault_injection, rcutils/time, rcutils/types/array_list,
   rcutils/types/char_array, rcutils/types/hash_map, rcutils/types/string_array,
   rcutils/qsort, rcutils/types/string_map, rcutils/types/uint8_array,
   rmw/events_statuses/events_statuses, rmw/events_statuses/incompatible_qos,

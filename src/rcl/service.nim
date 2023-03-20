@@ -14,17 +14,16 @@
 ##  @file
 
 import
-  rosidl_runtime_c/service_type_support_struct, rcutils/allocator,
-  rcutils/macros, rcutils/types/rcutils_ret, rcutils/visibility_control,
-  rcutils/visibility_control_macros,
+  rosidl_runtime_c/service_type_support_struct, rcutils/types/rcutils_ret,
+  rcutils/visibility_control, rcutils/visibility_control_macros,
   rosidl_runtime_c/message_type_support_struct,
   rosidl_runtime_c/visibility_control, rosidl_typesupport_interface/macros,
   ./event_callback, rmw/event_callback_type, ./macros, ./node, ./allocator,
   ./arguments, ./log_level, ./types, rmw/types, rcutils/logging,
   rcutils/error_handling, rcutils/snprintf, rcutils/testing/fault_injection,
-  rcutils/time, rcutils/types, rcutils/types/array_list,
-  rcutils/types/char_array, rcutils/types/hash_map, rcutils/types/string_array,
-  rcutils/qsort, rcutils/types/string_map, rcutils/types/uint8_array,
+  rcutils/time, rcutils/types/array_list, rcutils/types/char_array,
+  rcutils/types/hash_map, rcutils/types/string_array, rcutils/qsort,
+  rcutils/types/string_map, rcutils/types/uint8_array,
   rmw/events_statuses/events_statuses, rmw/events_statuses/incompatible_qos,
   rmw/qos_policy_kind, rmw/visibility_control,
   rmw/events_statuses/liveliness_changed, rmw/events_statuses/liveliness_lost,
