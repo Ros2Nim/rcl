@@ -1,3 +1,7 @@
+import rcutils/allocator as rcutils_allocator
+import rcutils/time as rcutils_time
+import rmw/types as rmw_types
+
 ##  Copyright 2019 Open Source Robotics Foundation, Inc.
 ##
 ##  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +18,9 @@
 ##  @file
 
 import
-  rmw/event, rcutils/types/rcutils_ret, rcutils/visibility_control_macros,
-  rcutils/logging, rcutils/error_handling, rcutils/snprintf,
+  rmw/event as rmw_event, rcutils/types/rcutils_ret,
+  rcutils/visibility_control_macros, rcutils/logging,
+  rcutils/error_handling as rcutils_error_handling, rcutils/snprintf,
   rcutils/testing/fault_injection, rcutils/types/array_list,
   rcutils/types/char_array, rcutils/types/hash_map, rcutils/types/string_array,
   rcutils/qsort, rcutils/types/string_map, rcutils/types/uint8_array,
@@ -23,12 +28,14 @@ import
   rmw/qos_policy_kind, rmw/events_statuses/liveliness_changed,
   rmw/events_statuses/liveliness_lost, rmw/events_statuses/message_lost,
   rmw/events_statuses/offered_deadline_missed,
-  rmw/events_statuses/requested_deadline_missed, rmw/init, rmw/init_options,
-  rmw/domain_id, rmw/localhost, rmw/ret_types, rmw/security_options,
-  rmw/serialized_message, rmw/subscription_content_filter_options, rmw/time,
-  ./client, rosidl_runtime_c/service_type_support_struct,
+  rmw/events_statuses/requested_deadline_missed, rmw/init as rmw_init,
+  rmw/init as rmw_init_options, rmw/domain_id as rmw_domain_id, rmw/localhost,
+  rmw/ret_types, rmw/security_options, rmw/serialized_message,
+  rmw/subscription_content_filter_options, rmw/time as rmw_time, ./client,
+  rosidl_runtime_c/service_type_support_struct,
   rosidl_runtime_c/message_type_support_struct,
-  rosidl_runtime_c/visibility_control, rosidl_typesupport_interface/macros,
+  rosidl_runtime_c/visibility_control as rosidl_runtime_c_visibility_control,
+  rosidl_typesupport_interface/macros as rosidl_typesupport_interface_macros,
   ./event_callback, rmw/event_callback_type, ./macros, ./node, ./allocator,
   ./arguments, ./log_level, ./types, ./visibility_control, ./context,
   ./init_options, ./guard_condition, ./node_options, ./domain_id, ./publisher,
@@ -48,7 +55,9 @@ type
     RCL_SUBSCRIPTION_LIVELINESS_CHANGED,
     RCL_SUBSCRIPTION_REQUESTED_INCOMPATIBLE_QOS, RCL_SUBSCRIPTION_MESSAGE_LOST
 
-  rcl_event_impl_t* = rcl_event_impl_s ##  Internal rcl implementation struct.
+  rcl_event_impl_t* {.importc: "rcl_event_impl_t", header: "rcl/event.h", bycopy.} = object ##
+                              ##  Internal rcl implementation struct.
+
 
   rcl_event_t* {.importc: "rcl_event_t", header: "rcl/event.h", bycopy.} = object ##
                               ##  Structure which encapsulates a ROS QoS event handle.

@@ -1,3 +1,7 @@
+import rcutils/allocator as rcutils_allocator
+import rcutils/time as rcutils_time
+import rmw/types as rmw_types
+
 ##  Copyright 2021 Open Source Robotics Foundation, Inc.
 ##
 ##  Licensed under the Apache License, Version 2.0 (the "License");

@@ -16,8 +16,8 @@ import rcutils/allocator
 
 import
   rcutils/types/rcutils_ret, rcutils/visibility_control_macros,
-  rcutils/types/string_array, rcutils/error_handling, rcutils/snprintf,
-  rcutils/testing/fault_injection, rcutils/qsort
+  rcutils/types/string_array, rcutils/error_handling as rcutils_error_handling,
+  rcutils/snprintf, rcutils/testing/fault_injection, rcutils/qsort
 
 
 type

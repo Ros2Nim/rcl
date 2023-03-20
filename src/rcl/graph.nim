@@ -1,3 +1,8 @@
+import rcutils/allocator as rcutils_allocator
+import rcutils/time as rcutils_time
+import rmw/types as rmw_types
+import rcutils/allocator as rcutils_allocator
+
 ##  Copyright 2016-2017 Open Source Robotics Foundation, Inc.
 ##
 ##  Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,19 +22,22 @@ import
   rmw/names_and_types, rcutils/types/rcutils_ret,
   rcutils/visibility_control_macros, rcutils/types/array_list,
   rcutils/types/char_array, rcutils/types/hash_map, rcutils/types/string_array,
-  rcutils/error_handling, rcutils/snprintf, rcutils/testing/fault_injection,
-  rcutils/qsort, rcutils/types/string_map, rcutils/types/uint8_array,
-  rcutils/logging, rmw/events_statuses/events_statuses,
-  rmw/events_statuses/incompatible_qos, rmw/qos_policy_kind,
-  rmw/events_statuses/liveliness_changed, rmw/events_statuses/liveliness_lost,
-  rmw/events_statuses/message_lost, rmw/events_statuses/offered_deadline_missed,
-  rmw/events_statuses/requested_deadline_missed, rmw/init, rmw/init_options,
-  rmw/domain_id, rmw/localhost, rmw/ret_types, rmw/security_options,
-  rmw/serialized_message, rmw/subscription_content_filter_options, rmw/time,
+  rcutils/error_handling as rcutils_error_handling, rcutils/snprintf,
+  rcutils/testing/fault_injection, rcutils/qsort, rcutils/types/string_map,
+  rcutils/types/uint8_array, rcutils/logging,
+  rmw/events_statuses/events_statuses, rmw/events_statuses/incompatible_qos,
+  rmw/qos_policy_kind, rmw/events_statuses/liveliness_changed,
+  rmw/events_statuses/liveliness_lost, rmw/events_statuses/message_lost,
+  rmw/events_statuses/offered_deadline_missed,
+  rmw/events_statuses/requested_deadline_missed, rmw/init as rmw_init,
+  rmw/init as rmw_init_options, rmw/domain_id as rmw_domain_id, rmw/localhost,
+  rmw/ret_types, rmw/security_options, rmw/serialized_message,
+  rmw/subscription_content_filter_options, rmw/time as rmw_time,
   rmw/get_topic_names_and_types, rmw/topic_endpoint_info_array,
   rmw/topic_endpoint_info, rosidl_runtime_c/service_type_support_struct,
   rosidl_runtime_c/message_type_support_struct,
-  rosidl_runtime_c/visibility_control, rosidl_typesupport_interface/macros,
+  rosidl_runtime_c/visibility_control as rosidl_runtime_c_visibility_control,
+  rosidl_typesupport_interface/macros as rosidl_typesupport_interface_macros,
   ./macros, ./client, ./event_callback, rmw/event_callback_type, ./node,
   ./allocator, ./arguments, ./log_level, ./types, ./visibility_control,
   ./context, ./init_options, ./guard_condition, ./node_options, ./domain_id

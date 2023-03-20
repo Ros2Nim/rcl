@@ -27,8 +27,9 @@ import rcutils/allocator
 
 import
   ./types, rcutils/types/rcutils_ret, rcutils/visibility_control_macros,
-  rcutils/types/string_array, rcutils/error_handling, rcutils/snprintf,
-  rcutils/testing/fault_injection, rcutils/qsort, ./visibility_control
+  rcutils/types/string_array, rcutils/error_handling as rcutils_error_handling,
+  rcutils/snprintf, rcutils/testing/fault_injection, rcutils/qsort,
+  ./visibility_control
 
 
 proc rcl_yaml_node_struct_init*(allocator: rcutils_allocator_t): ptr rcl_params_t {.

@@ -1,3 +1,9 @@
+import rcutils/allocator as rcutils_allocator
+import rcutils/time as rcutils_time
+import rmw/types as rmw_types
+import rmw/init as rmw_init
+import rmw/init_options as rmw_init_options
+
 ##  Copyright 2018 Open Source Robotics Foundation, Inc.
 ##
 ##  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,11 +20,11 @@
 ##  @file
 
 import
-  rmw/init, rmw/init_options, rcutils/types/rcutils_ret,
-  rcutils/visibility_control_macros, rmw/domain_id, rmw/localhost,
-  rmw/ret_types, rmw/security_options, ./allocator, ./macros, ./types,
-  rcutils/logging, rcutils/error_handling, rcutils/snprintf,
-  rcutils/testing/fault_injection, rcutils/types/array_list,
+  rmw/init as rmw_init, rmw/init as rmw_init_options, rcutils/types/rcutils_ret,
+  rcutils/visibility_control_macros, rmw/domain_id as rmw_domain_id,
+  rmw/localhost, rmw/ret_types, rmw/security_options, ./allocator, ./macros,
+  ./types, rcutils/logging, rcutils/error_handling as rcutils_error_handling,
+  rcutils/snprintf, rcutils/testing/fault_injection, rcutils/types/array_list,
   rcutils/types/char_array, rcutils/types/hash_map, rcutils/types/string_array,
   rcutils/qsort, rcutils/types/string_map, rcutils/types/uint8_array,
   rmw/events_statuses/events_statuses, rmw/events_statuses/incompatible_qos,
@@ -26,7 +32,8 @@ import
   rmw/events_statuses/liveliness_lost, rmw/events_statuses/message_lost,
   rmw/events_statuses/offered_deadline_missed,
   rmw/events_statuses/requested_deadline_missed, rmw/serialized_message,
-  rmw/subscription_content_filter_options, rmw/time, ./visibility_control
+  rmw/subscription_content_filter_options, rmw/time as rmw_time,
+  ./visibility_control
 
 
 type

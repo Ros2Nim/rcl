@@ -1,3 +1,7 @@
+import rcutils/allocator as rcutils_allocator
+import rcutils/time as rcutils_time
+import rmw/types as rmw_types
+
 ##  Copyright 2015 Open Source Robotics Foundation, Inc.
 ##
 ##  Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +17,7 @@
 ##  limitations under the License.
 
 import
-  rcutils/error_handling, rcutils/types/rcutils_ret,
+  rcutils/error_handling as rcutils_error_handling, rcutils/types/rcutils_ret,
   rcutils/visibility_control_macros, rcutils/snprintf,
   rcutils/testing/fault_injection
 

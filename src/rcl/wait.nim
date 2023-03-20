@@ -1,3 +1,7 @@
+import rcutils/allocator as rcutils_allocator
+import rcutils/time as rcutils_time
+import rmw/types as rmw_types
+
 ##  Copyright 2015 Open Source Robotics Foundation, Inc.
 ##
 ##  Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,29 +21,34 @@ import
   ./client, rosidl_runtime_c/service_type_support_struct,
   rcutils/types/rcutils_ret, rcutils/visibility_control_macros,
   rosidl_runtime_c/message_type_support_struct,
-  rosidl_runtime_c/visibility_control, rosidl_typesupport_interface/macros,
+  rosidl_runtime_c/visibility_control as rosidl_runtime_c_visibility_control,
+  rosidl_typesupport_interface/macros as rosidl_typesupport_interface_macros,
   ./event_callback, rmw/event_callback_type, ./macros, ./node, ./allocator,
-  ./arguments, ./log_level, ./types, rcutils/logging, rcutils/error_handling,
-  rcutils/snprintf, rcutils/testing/fault_injection, rcutils/types/array_list,
+  ./arguments, ./log_level, ./types, rcutils/logging,
+  rcutils/error_handling as rcutils_error_handling, rcutils/snprintf,
+  rcutils/testing/fault_injection, rcutils/types/array_list,
   rcutils/types/char_array, rcutils/types/hash_map, rcutils/types/string_array,
   rcutils/qsort, rcutils/types/string_map, rcutils/types/uint8_array,
   rmw/events_statuses/events_statuses, rmw/events_statuses/incompatible_qos,
   rmw/qos_policy_kind, rmw/events_statuses/liveliness_changed,
   rmw/events_statuses/liveliness_lost, rmw/events_statuses/message_lost,
   rmw/events_statuses/offered_deadline_missed,
-  rmw/events_statuses/requested_deadline_missed, rmw/init, rmw/init_options,
-  rmw/domain_id, rmw/localhost, rmw/ret_types, rmw/security_options,
-  rmw/serialized_message, rmw/subscription_content_filter_options, rmw/time,
+  rmw/events_statuses/requested_deadline_missed, rmw/init as rmw_init,
+  rmw/init as rmw_init_options, rmw/domain_id as rmw_domain_id, rmw/localhost,
+  rmw/ret_types, rmw/security_options, rmw/serialized_message,
+  rmw/subscription_content_filter_options, rmw/time as rmw_time,
   ./visibility_control, ./context, ./init_options, ./guard_condition,
   ./node_options, ./domain_id, ./service, ./subscription, rmw/message_sequence,
-  ./timer, ./time, rmw/rmw, rosidl_runtime_c/sequence_bound, rmw/event,
-  rmw/publisher_options, rmw/qos_profiles, rmw/subscription_options, ./event,
-  ./publisher
+  ./timer, ./time, rmw/rmw, rosidl_runtime_c/sequence_bound,
+  rmw/event as rmw_event, rmw/publisher_options, rmw/qos_profiles,
+  rmw/subscription_options, ./event, ./publisher
 
 
 type
 
-  rcl_wait_set_impl_t* = rcl_wait_set_impl_s
+  rcl_wait_set_impl_t* {.importc: "rcl_wait_set_impl_t", header: "rcl/wait.h",
+                         bycopy.} = object
+
 
   rcl_wait_set_t* {.importc: "rcl_wait_set_t", header: "rcl/wait.h", bycopy.} = object ##
                               ##  Container for subscription's, guard condition's, etc to be waited on.

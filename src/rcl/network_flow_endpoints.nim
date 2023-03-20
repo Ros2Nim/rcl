@@ -1,3 +1,7 @@
+import rcutils/allocator as rcutils_allocator
+import rcutils/time as rcutils_time
+import rmw/types as rmw_types
+
 ##  Copyright 2020 Ericsson AB
 ##
 ##  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +18,8 @@
 
 import
   rmw/network_flow_endpoint, rcutils/logging, rcutils/types/rcutils_ret,
-  rcutils/visibility_control_macros, rcutils/error_handling, rcutils/snprintf,
+  rcutils/visibility_control_macros,
+  rcutils/error_handling as rcutils_error_handling, rcutils/snprintf,
   rcutils/testing/fault_injection, rcutils/types/array_list,
   rcutils/types/char_array, rcutils/types/hash_map, rcutils/types/string_array,
   rcutils/qsort, rcutils/types/string_map, rcutils/types/uint8_array,
@@ -22,13 +27,15 @@ import
   rmw/qos_policy_kind, rmw/events_statuses/liveliness_changed,
   rmw/events_statuses/liveliness_lost, rmw/events_statuses/message_lost,
   rmw/events_statuses/offered_deadline_missed,
-  rmw/events_statuses/requested_deadline_missed, rmw/init, rmw/init_options,
-  rmw/domain_id, rmw/localhost, rmw/ret_types, rmw/security_options,
-  rmw/serialized_message, rmw/subscription_content_filter_options, rmw/time,
+  rmw/events_statuses/requested_deadline_missed, rmw/init as rmw_init,
+  rmw/init as rmw_init_options, rmw/domain_id as rmw_domain_id, rmw/localhost,
+  rmw/ret_types, rmw/security_options, rmw/serialized_message,
+  rmw/subscription_content_filter_options, rmw/time as rmw_time,
   rmw/network_flow_endpoint_array, ./allocator, ./arguments, ./log_level,
   ./macros, ./types, ./visibility_control, ./context, ./init_options,
   ./publisher, rosidl_runtime_c/message_type_support_struct,
-  rosidl_runtime_c/visibility_control, rosidl_typesupport_interface/macros,
+  rosidl_runtime_c/visibility_control as rosidl_runtime_c_visibility_control,
+  rosidl_typesupport_interface/macros as rosidl_typesupport_interface_macros,
   ./node, ./guard_condition, ./node_options, ./domain_id, ./time,
   ./subscription, ./event_callback, rmw/event_callback_type,
   rmw/message_sequence

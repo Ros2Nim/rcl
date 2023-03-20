@@ -22,6 +22,17 @@
 #pragma c2nim mangle " @@'__' {\\ident+}" "$1_$2"
 
 #pragma c2nim mangle "'_Bool'" "bool"
+#pragma c2nim mangle "'va_list'" "varargs[pointer]"
+#pragma c2nim mangle "'namespace_'" "namespace_p"
+
+#pragma c2nim mangle "'rmw/init'" "rmw/init as rmw_init"
+#pragma c2nim mangle "'rmw/init_options'" "rmw/init_options as rmw_init_options"
+#pragma c2nim mangle "'rmw/domain_id'" "rmw/domain_id as rmw_domain_id"
+#pragma c2nim mangle "'rosidl_typesupport_interface/macros'" "rosidl_typesupport_interface/macros as rosidl_typesupport_interface_macros"
+#pragma c2nim mangle "'rosidl_runtime_c/visibility_control'" "rosidl_runtime_c/visibility_control as rosidl_runtime_c_visibility_control"
+#pragma c2nim mangle "'rmw/time'" "rmw/time as rmw_time"
+#pragma c2nim mangle "'rcutils/error_handling'" "rcutils/error_handling as rcutils_error_handling"
+#pragma c2nim mangle "'rmw/event'$" "rmw/event as rmw_event"
 
 #pragma c2nim delete "rcutils/allocator"
 #pragma c2nim delete "rcutils/macros"

@@ -1,3 +1,7 @@
+import rcutils/allocator as rcutils_allocator
+import rcutils/time as rcutils_time
+import rmw/types as rmw_types
+
 ##  Copyright 2014 Open Source Robotics Foundation, Inc.
 ##
 ##  Licensed under the Apache License, Version 2.0 (the "License");
@@ -66,23 +70,26 @@
 
 import
   ./init, ./allocator, rcutils/types/rcutils_ret,
-  rcutils/visibility_control_macros, ./context, rmw/init, rmw/init_options,
-  rmw/domain_id, rmw/localhost, rmw/ret_types, rmw/security_options,
-  ./arguments, ./log_level, ./macros, ./types, rcutils/logging,
-  rcutils/error_handling, rcutils/snprintf, rcutils/testing/fault_injection,
-  rcutils/types/array_list, rcutils/types/char_array, rcutils/types/hash_map,
-  rcutils/types/string_array, rcutils/qsort, rcutils/types/string_map,
-  rcutils/types/uint8_array, rmw/events_statuses/events_statuses,
-  rmw/events_statuses/incompatible_qos, rmw/qos_policy_kind,
-  rmw/events_statuses/liveliness_changed, rmw/events_statuses/liveliness_lost,
-  rmw/events_statuses/message_lost, rmw/events_statuses/offered_deadline_missed,
+  rcutils/visibility_control_macros, ./context, rmw/init as rmw_init,
+  rmw/init as rmw_init_options, rmw/domain_id as rmw_domain_id, rmw/localhost,
+  rmw/ret_types, rmw/security_options, ./arguments, ./log_level, ./macros,
+  ./types, rcutils/logging, rcutils/error_handling as rcutils_error_handling,
+  rcutils/snprintf, rcutils/testing/fault_injection, rcutils/types/array_list,
+  rcutils/types/char_array, rcutils/types/hash_map, rcutils/types/string_array,
+  rcutils/qsort, rcutils/types/string_map, rcutils/types/uint8_array,
+  rmw/events_statuses/events_statuses, rmw/events_statuses/incompatible_qos,
+  rmw/qos_policy_kind, rmw/events_statuses/liveliness_changed,
+  rmw/events_statuses/liveliness_lost, rmw/events_statuses/message_lost,
+  rmw/events_statuses/offered_deadline_missed,
   rmw/events_statuses/requested_deadline_missed, rmw/serialized_message,
-  rmw/subscription_content_filter_options, rmw/time, ./visibility_control,
-  ./init_options, ./node, ./guard_condition, ./node_options, ./domain_id,
-  ./publisher, rosidl_runtime_c/message_type_support_struct,
-  rosidl_runtime_c/visibility_control, rosidl_typesupport_interface/macros,
+  rmw/subscription_content_filter_options, rmw/time as rmw_time,
+  ./visibility_control, ./init_options, ./node, ./guard_condition,
+  ./node_options, ./domain_id, ./publisher,
+  rosidl_runtime_c/message_type_support_struct,
+  rosidl_runtime_c/visibility_control as rosidl_runtime_c_visibility_control,
+  rosidl_typesupport_interface/macros as rosidl_typesupport_interface_macros,
   ./time, ./subscription, ./event_callback, rmw/event_callback_type,
   rmw/message_sequence, ./wait, ./client,
   rosidl_runtime_c/service_type_support_struct, ./service, ./timer, rmw/rmw,
-  rosidl_runtime_c/sequence_bound, rmw/event, rmw/publisher_options,
-  rmw/qos_profiles, rmw/subscription_options, ./event
+  rosidl_runtime_c/sequence_bound, rmw/event as rmw_event,
+  rmw/publisher_options, rmw/qos_profiles, rmw/subscription_options, ./event

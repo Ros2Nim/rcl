@@ -1,3 +1,8 @@
+import rcutils/allocator as rcutils_allocator
+import rcutils/time as rcutils_time
+import rmw/types as rmw_types
+const RCL_DEFAULT_DOMAIN_ID* = uint64.high
+
 ##  Copyright 2019 Open Source Robotics Foundation, Inc.
 ##
 ##  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +20,8 @@
 
 import
   ./types, rcutils/logging, rcutils/types/rcutils_ret,
-  rcutils/visibility_control_macros, rcutils/error_handling, rcutils/snprintf,
+  rcutils/visibility_control_macros,
+  rcutils/error_handling as rcutils_error_handling, rcutils/snprintf,
   rcutils/testing/fault_injection, rcutils/types/array_list,
   rcutils/types/char_array, rcutils/types/hash_map, rcutils/types/string_array,
   rcutils/qsort, rcutils/types/string_map, rcutils/types/uint8_array,
@@ -23,9 +29,10 @@ import
   rmw/qos_policy_kind, rmw/events_statuses/liveliness_changed,
   rmw/events_statuses/liveliness_lost, rmw/events_statuses/message_lost,
   rmw/events_statuses/offered_deadline_missed,
-  rmw/events_statuses/requested_deadline_missed, rmw/init, rmw/init_options,
-  rmw/domain_id, rmw/localhost, rmw/ret_types, rmw/security_options,
-  rmw/serialized_message, rmw/subscription_content_filter_options, rmw/time,
+  rmw/events_statuses/requested_deadline_missed, rmw/init as rmw_init,
+  rmw/init as rmw_init_options, rmw/domain_id as rmw_domain_id, rmw/localhost,
+  rmw/ret_types, rmw/security_options, rmw/serialized_message,
+  rmw/subscription_content_filter_options, rmw/time as rmw_time,
   ./visibility_control
 
 let RCL_DOMAIN_ID_ENV_VAR* {.header: "rcl/domain_id.h".}: cstring

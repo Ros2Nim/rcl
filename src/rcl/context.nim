@@ -1,3 +1,7 @@
+import rcutils/allocator as rcutils_allocator
+import rcutils/time as rcutils_time
+import rmw/types as rmw_types
+
 ##  Copyright 2018 Open Source Robotics Foundation, Inc.
 ##
 ##  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,10 +18,11 @@
 ##  @file
 
 import
-  rmw/init, rmw/init_options, rcutils/types/rcutils_ret,
-  rcutils/visibility_control_macros, rmw/domain_id, rmw/localhost,
-  rmw/ret_types, rmw/security_options, ./allocator, ./arguments, ./log_level,
-  ./macros, ./types, rcutils/logging, rcutils/error_handling, rcutils/snprintf,
+  rmw/init as rmw_init, rmw/init as rmw_init_options, rcutils/types/rcutils_ret,
+  rcutils/visibility_control_macros, rmw/domain_id as rmw_domain_id,
+  rmw/localhost, rmw/ret_types, rmw/security_options, ./allocator, ./arguments,
+  ./log_level, ./macros, ./types, rcutils/logging,
+  rcutils/error_handling as rcutils_error_handling, rcutils/snprintf,
   rcutils/testing/fault_injection, rcutils/types/array_list,
   rcutils/types/char_array, rcutils/types/hash_map, rcutils/types/string_array,
   rcutils/qsort, rcutils/types/string_map, rcutils/types/uint8_array,
@@ -26,14 +31,14 @@ import
   rmw/events_statuses/liveliness_lost, rmw/events_statuses/message_lost,
   rmw/events_statuses/offered_deadline_missed,
   rmw/events_statuses/requested_deadline_missed, rmw/serialized_message,
-  rmw/subscription_content_filter_options, rmw/time, ./visibility_control,
-  ./init_options
+  rmw/subscription_content_filter_options, rmw/time as rmw_time,
+  ./visibility_control, ./init_options
 
 ##  @cond Doxygen_Suppress
 
 
 const
-  RCL_CONTEXT_ATOMIC_INSTANCE_ID_STORAGE_SIZE* = sizeof((uint_least64_t)) ##
+  RCL_CONTEXT_ATOMIC_INSTANCE_ID_STORAGE_SIZE* = sizeof((uint64)) ##
                               ##  @cond Doxygen_Suppress
 
 type
@@ -41,7 +46,9 @@ type
   rcl_context_instance_id_t* = uint64 ##  @endcond
                                       ##  A unique ID per context instance.
 
-  rcl_context_impl_t* = rcl_context_impl_s
+  rcl_context_impl_t* {.importc: "rcl_context_impl_t", header: "rcl/context.h",
+                        bycopy.} = object
+
 
   rcl_context_t* {.importc: "rcl_context_t", header: "rcl/context.h", bycopy.} = object ##
                               ##  Encapsulates the non-global state of an init/shutdown cycle.
@@ -120,24 +127,24 @@ type
     ##  @endcond
     ##  Private storage for instance ID atomic.
     instance_id_storage* {.importc: "instance_id_storage".}: array[
-        sizeof((uint_least64_t)), uint8] ##
-                                         ##  Accessing the instance id should be done using the function
-                                         ##  rcl_context_get_instance_id() because the instance id's type is an
-                                         ##  atomic and needs to be accessed properly to ensure safety.
-                                         ##
-                                         ##  The instance id should not be changed manually - doing so is undefined
-                                         ##  behavior.
-                                         ##
-                                         ##  The instance id cannot be protected within the `impl` pointer's type
-                                         ##  because it needs to be accessible even when the context is zero
-                                         ##  initialized and therefore `impl` is `NULL`.
-                                         ##  Specifically, storing the instance id in the `impl` would introduce a
-                                         ##  race condition between accessing it and finalizing the context.
-                                         ##  Additionally, C11 atomics (i.e. "stdatomic.h") cannot be used directly
-                                         ##  here in the case that this header is included into a C++ program.
-                                         ##  See this paper for an effort to make this possible in the future:
-                                         ##    http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0943r1.html
-                                         ##
+        sizeof((uint64)), uint8] ##
+                                 ##  Accessing the instance id should be done using the function
+                                 ##  rcl_context_get_instance_id() because the instance id's type is an
+                                 ##  atomic and needs to be accessed properly to ensure safety.
+                                 ##
+                                 ##  The instance id should not be changed manually - doing so is undefined
+                                 ##  behavior.
+                                 ##
+                                 ##  The instance id cannot be protected within the `impl` pointer's type
+                                 ##  because it needs to be accessible even when the context is zero
+                                 ##  initialized and therefore `impl` is `NULL`.
+                                 ##  Specifically, storing the instance id in the `impl` would introduce a
+                                 ##  race condition between accessing it and finalizing the context.
+                                 ##  Additionally, C11 atomics (i.e. "stdatomic.h") cannot be used directly
+                                 ##  here in the case that this header is included into a C++ program.
+                                 ##  See this paper for an effort to make this possible in the future:
+                                 ##    http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0943r1.html
+                                 ##
 
 
 

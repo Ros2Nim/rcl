@@ -44,11 +44,23 @@ antExport ImporterConfig:
 
       sourceMods:list:
         - CSrcMods:
+          fileMatch: peg"'guard_condition.h'"
+          substitutes:list:
+            - Replace:
+              pattern: peg"'typedef struct rcl_guard_condition_impl_s rcl_guard_condition_impl_t;'"
+              repl: "typedef struct {} rcl_guard_condition_impl_t;"
+        - CSrcMods:
           fileMatch: peg"'context.h'"
           substitutes:list:
             - Replace:
               pattern: peg"'_Alignas(8)'"
               repl: ""
+            - Replace:
+              pattern: peg"'sizeof(uint_least64_t)'"
+              repl: "sizeof(uint64)"
+            - Replace:
+              pattern: peg"'typedef struct rcl_context_impl_s rcl_context_impl_t;'"
+              repl: "typedef struct {} rcl_context_impl_t;"
         - CSrcMods:
           fileMatch: peg"'arguments.h'"
           substitutes:list:
@@ -67,8 +79,120 @@ antExport ImporterConfig:
             - Replace:
               pattern: peg"'typedef struct rcl_init_options_impl_s rcl_init_options_impl_t;'"
               repl: "typedef struct {} rcl_init_options_impl_t;"
+        - CSrcMods:
+          fileMatch: peg"'node.h'"
+          substitutes:list:
+            - Replace:
+              pattern: peg"'typedef struct rcl_node_impl_s rcl_node_impl_t;'"
+              repl: "typedef struct {} rcl_node_impl_t;"
+        - CSrcMods:
+          fileMatch: peg"'event.h'"
+          substitutes:list:
+            - Replace:
+              pattern: peg"'typedef struct rcl_event_impl_s rcl_event_impl_t;'"
+              repl: "typedef struct {} rcl_event_impl_t;"
+        - CSrcMods:
+          fileMatch: peg"'publisher.h'"
+          substitutes:list:
+            - Replace:
+              pattern: peg"'typedef struct rcl_publisher_impl_s rcl_publisher_impl_t;'"
+              repl: "typedef struct {} rcl_publisher_impl_t;"
+        - CSrcMods:
+          fileMatch: peg"'service.h'"
+          substitutes:list:
+            - Replace:
+              pattern: peg"'typedef struct rcl_service_impl_s rcl_service_impl_t;'"
+              repl: "typedef struct {} rcl_service_impl_t;"
+        - CSrcMods:
+          fileMatch: peg"'subscription.h'"
+          substitutes:list:
+            - Replace:
+              pattern: peg"'typedef struct rcl_subscription_impl_s rcl_subscription_impl_t;'"
+              repl: "typedef struct {} rcl_subscription_impl_t;"
+        - CSrcMods:
+          fileMatch: peg"'lexer_lookahead.h'"
+          substitutes:list:
+            - Replace:
+              pattern: peg"'typedef struct rcl_lexer_lookahead2_impl_s rcl_lexer_lookahead2_impl_t;'"
+              repl: "typedef struct {} rcl_lexer_lookahead2_impl_t;"
+        - CSrcMods:
+          fileMatch: peg"'timer.h'"
+          substitutes:list:
+            - Replace:
+              pattern: peg"'typedef struct rcl_timer_impl_s rcl_timer_impl_t;'"
+              repl: "typedef struct {} rcl_timer_impl_t;"
+        - CSrcMods:
+          fileMatch: peg"'wait.h'"
+          substitutes:list:
+            - Replace:
+              pattern: peg"'typedef struct rcl_wait_set_impl_s rcl_wait_set_impl_t;'"
+              repl: "typedef struct {} rcl_wait_set_impl_t;"
+        - CSrcMods:
+          fileMatch: peg"'remap.h'"
+          substitutes:list:
+            - Replace:
+              pattern: peg"'typedef struct rcl_remap_impl_s rcl_remap_impl_t;'"
+              repl: "typedef struct {} rcl_remap_impl_t;"
+        - CSrcMods:
+          fileMatch: peg"'time.h'"
+          deletes:list:
+            - LineDelete: match: peg"'RCL_S_TO_NS'"
+            - LineDelete: match: peg"'RCL_MS_TO_NS'"
+            - LineDelete: match: peg"'RCL_US_TO_NS'"
+            - LineDelete: match: peg"'RCL_NS_TO_S'"
+            - LineDelete: match: peg"'RCL_NS_TO_MS'"
+            - LineDelete: match: peg"'RCL_NS_TO_US'"
       
       c2nimCfgs:list:
+        - C2NimCfg:
+          fileMatch: peg"'.h'"
+          rawNims: str"""
+            import rcutils/allocator as rcutils_allocator 
+            import rcutils/time as rcutils_time
+            import rmw/types as rmw_types
+            """
+        - C2NimCfg:
+          fileMatch: peg"'rmw_implementation_identifier_check.h'"
+          rawNims: str"""
+            import ./types
+            """
+        - C2NimCfg:
+          fileMatch: peg"'init_options.h'"
+          rawNims: str"""
+            import rmw/init as rmw_init
+            import rmw/init_options as rmw_init_options
+            """
+        - C2NimCfg:
+          fileMatch: peg"'graph.h'"
+          rawNims: str"""
+            import rcutils/allocator as rcutils_allocator
+            """
+        - C2NimCfg:
+          fileMatch: peg"'time.h'"
+          rawNims: str"""
+            import rcutils/time as rcutils_time
+            """
+        - C2NimCfg:
+          fileMatch: peg"'node.h'"
+          rawNims: str"""
+            import rmw/types as rmw_types
+            """
+        - C2NimCfg:
+          fileMatch: peg"'domain_id.h'"
+          rawNims: str"""
+            const RCL_DEFAULT_DOMAIN_ID* = uint64.high
+            """
+        - C2NimCfg:
+          fileMatch: peg"'node_options.h'"
+          rawNims: str"""
+            import rmw/types as rmw_types
+            """
+        - C2NimCfg:
+          fileMatch: peg"'guard_condition.h'"
+          rawNims: str"""
+            import ./types
+            import rmw/types as rmw_types
+            """
         - C2NimCfg:
           fileMatch: peg"'allocator.h'"
           rawNims: str"""
