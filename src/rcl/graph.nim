@@ -57,7 +57,7 @@ const
 
 
 proc rcl_get_publisher_names_and_types_by_node*(node: ptr rcl_node_t;
-    allocator: ptr rcl_allocator_t; no_demangle: _Bool; node_name: cstring;
+    allocator: ptr rcl_allocator_t; no_demangle: bool; node_name: cstring;
     node_namespace: cstring; topic_names_and_types: ptr rcl_names_and_types_t): rcl_ret_t {.
     importc: "rcl_get_publisher_names_and_types_by_node", header: "rcl/graph.h".}
   ##
@@ -107,7 +107,7 @@ proc rcl_get_publisher_names_and_types_by_node*(node: ptr rcl_node_t;
                               ##
 
 proc rcl_get_subscriber_names_and_types_by_node*(node: ptr rcl_node_t;
-    allocator: ptr rcl_allocator_t; no_demangle: _Bool; node_name: cstring;
+    allocator: ptr rcl_allocator_t; no_demangle: bool; node_name: cstring;
     node_namespace: cstring; topic_names_and_types: ptr rcl_names_and_types_t): rcl_ret_t {.
     importc: "rcl_get_subscriber_names_and_types_by_node", header: "rcl/graph.h".}
   ##
@@ -241,7 +241,7 @@ proc rcl_get_client_names_and_types_by_node*(node: ptr rcl_node_t;
 
 proc rcl_get_topic_names_and_types*(node: ptr rcl_node_t;
                                     allocator: ptr rcl_allocator_t;
-                                    no_demangle: _Bool; topic_names_and_types: ptr rcl_names_and_types_t): rcl_ret_t {.
+                                    no_demangle: bool; topic_names_and_types: ptr rcl_names_and_types_t): rcl_ret_t {.
     importc: "rcl_get_topic_names_and_types", header: "rcl/graph.h".}
   ##
                               ##  Return a list of topic names and their types.
@@ -547,7 +547,7 @@ proc rcl_wait_for_publishers*(node: ptr rcl_node_t;
                               allocator: ptr rcl_allocator_t;
                               topic_name: cstring; count: csize_t;
                               timeout: rcutils_duration_value_t;
-                              success: ptr _Bool): rcl_ret_t {.
+                              success: ptr bool): rcl_ret_t {.
     importc: "rcl_wait_for_publishers", header: "rcl/graph.h".}
   ##
                               ##  Wait for there to be a specified number of publishers on a given topic.
@@ -599,7 +599,7 @@ proc rcl_wait_for_subscribers*(node: ptr rcl_node_t;
                                allocator: ptr rcl_allocator_t;
                                topic_name: cstring; count: csize_t;
                                timeout: rcutils_duration_value_t;
-                               success: ptr _Bool): rcl_ret_t {.
+                               success: ptr bool): rcl_ret_t {.
     importc: "rcl_wait_for_subscribers", header: "rcl/graph.h".}
   ##
                               ##  Wait for there to be a specified number of subscribers on a given topic.
@@ -631,7 +631,7 @@ proc rcl_wait_for_subscribers*(node: ptr rcl_node_t;
 
 proc rcl_get_publishers_info_by_topic*(node: ptr rcl_node_t;
                                        allocator: ptr rcutils_allocator_t;
-                                       topic_name: cstring; no_mangle: _Bool;
+                                       topic_name: cstring; no_mangle: bool;
     publishers_info: ptr rcl_topic_endpoint_info_array_t): rcl_ret_t {.
     importc: "rcl_get_publishers_info_by_topic", header: "rcl/graph.h".}
   ##
@@ -688,7 +688,7 @@ proc rcl_get_publishers_info_by_topic*(node: ptr rcl_node_t;
                               ##
 
 proc rcl_get_subscriptions_info_by_topic*(node: ptr rcl_node_t;
-    allocator: ptr rcutils_allocator_t; topic_name: cstring; no_mangle: _Bool;
+    allocator: ptr rcutils_allocator_t; topic_name: cstring; no_mangle: bool;
     subscriptions_info: ptr rcl_topic_endpoint_info_array_t): rcl_ret_t {.
     importc: "rcl_get_subscriptions_info_by_topic", header: "rcl/graph.h".}
   ##
@@ -746,7 +746,7 @@ proc rcl_get_subscriptions_info_by_topic*(node: ptr rcl_node_t;
 
 proc rcl_service_server_is_available*(node: ptr rcl_node_t;
                                       client: ptr rcl_client_t;
-                                      is_available: ptr _Bool): rcl_ret_t {.
+                                      is_available: ptr bool): rcl_ret_t {.
     importc: "rcl_service_server_is_available", header: "rcl/graph.h".}
   ##
                               ##  Check if a service server is available for the given service client.

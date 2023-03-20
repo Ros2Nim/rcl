@@ -379,7 +379,7 @@ proc rcl_client_get_rmw_handle*(client: ptr rcl_client_t): ptr rmw_client_t {.
                               ##  \return rmw client handle if successful, otherwise `NULL`
                               ##
 
-proc rcl_client_is_valid*(client: ptr rcl_client_t): _Bool {.
+proc rcl_client_is_valid*(client: ptr rcl_client_t): bool {.
     importc: "rcl_client_is_valid", header: "rcl/client.h".}
   ##
                               ##  Check that the client is valid.

@@ -446,7 +446,7 @@ proc rcl_wait*(wait_set: ptr rcl_wait_set_t; timeout: int64): rcl_ret_t {.
                                                ##  \return #RCL_RET_ERROR an unspecified error occur.
                                                ##
 
-proc rcl_wait_set_is_valid*(wait_set: ptr rcl_wait_set_t): _Bool {.
+proc rcl_wait_set_is_valid*(wait_set: ptr rcl_wait_set_t): bool {.
     importc: "rcl_wait_set_is_valid", header: "rcl/wait.h".}
   ##
                               ##  Return `true` if the wait set is valid, else `false`.

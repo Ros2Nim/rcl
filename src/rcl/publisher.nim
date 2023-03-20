@@ -569,7 +569,7 @@ proc rcl_publisher_get_context*(publisher: ptr rcl_publisher_t): ptr rcl_context
                               ##  \return context if successful, otherwise `NULL`
                               ##
 
-proc rcl_publisher_is_valid*(publisher: ptr rcl_publisher_t): _Bool {.
+proc rcl_publisher_is_valid*(publisher: ptr rcl_publisher_t): bool {.
     importc: "rcl_publisher_is_valid", header: "rcl/publisher.h".}
   ##
                               ##  Return true if the publisher is valid, otherwise false.
@@ -591,7 +591,7 @@ proc rcl_publisher_is_valid*(publisher: ptr rcl_publisher_t): _Bool {.
                               ##  \return `true` if `publisher` is valid, otherwise `false`
                               ##
 
-proc rcl_publisher_is_valid_except_context*(publisher: ptr rcl_publisher_t): _Bool {.
+proc rcl_publisher_is_valid_except_context*(publisher: ptr rcl_publisher_t): bool {.
     importc: "rcl_publisher_is_valid_except_context", header: "rcl/publisher.h".}
   ##
                               ##  Return true if the publisher is valid except the context, otherwise false.
@@ -654,7 +654,7 @@ proc rcl_publisher_get_actual_qos*(publisher: ptr rcl_publisher_t): ptr rmw_qos_
                               ##  \return qos struct if successful, otherwise `NULL`
                               ##
 
-proc rcl_publisher_can_loan_messages*(publisher: ptr rcl_publisher_t): _Bool {.
+proc rcl_publisher_can_loan_messages*(publisher: ptr rcl_publisher_t): bool {.
     importc: "rcl_publisher_can_loan_messages", header: "rcl/publisher.h".}
   ##
                               ##  Check if publisher instance can loan messages.

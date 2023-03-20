@@ -106,7 +106,7 @@ proc rcl_logging_fini*(): rcl_ret_t {.importc: "rcl_logging_fini",
                               ##  \return #RCL_RET_ERROR if a general error occurs
                               ##
 
-proc rcl_logging_rosout_enabled*(): _Bool {.
+proc rcl_logging_rosout_enabled*(): bool {.
     importc: "rcl_logging_rosout_enabled", header: "rcl/logging.h".}
   ##
                               ##  See if logging rosout is enabled.

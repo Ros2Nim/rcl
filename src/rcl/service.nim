@@ -409,7 +409,7 @@ proc rcl_service_get_rmw_handle*(service: ptr rcl_service_t): ptr rmw_service_t 
                               ##  \return rmw service handle if successful, otherwise `NULL`
                               ##
 
-proc rcl_service_is_valid*(service: ptr rcl_service_t): _Bool {.
+proc rcl_service_is_valid*(service: ptr rcl_service_t): bool {.
     importc: "rcl_service_is_valid", header: "rcl/service.h".}
   ##
                               ##  Check that the service is valid.

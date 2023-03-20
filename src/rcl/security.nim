@@ -51,7 +51,7 @@ proc rcl_get_security_options_from_environment*(name: cstring;
                               ##  \return #RCL_RET_ERROR if an unexpected error happened
                               ##
 
-proc rcl_security_enabled*(use_security: ptr _Bool): rcl_ret_t {.
+proc rcl_security_enabled*(use_security: ptr bool): rcl_ret_t {.
     importc: "rcl_security_enabled", header: "rcl/security.h".}
   ##
                               ##  Check if security has to be used, according to the environment.

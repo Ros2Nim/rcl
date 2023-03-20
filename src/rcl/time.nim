@@ -75,7 +75,7 @@ type
 
 
   rcl_jump_callback_t* = proc (time_jump: ptr rcl_time_jump_t;
-                               before_jump: _Bool; user_data: pointer) ##
+                               before_jump: bool; user_data: pointer) ##
                               ##  Signature of a time jump callback.
                               ##  \param[in] time_jump A description of the jump in time.
                               ##  \param[in] before_jump Every jump callback is called twice: once before the clock changes and
@@ -84,7 +84,7 @@ type
 
   rcl_jump_threshold_t* {.importc: "rcl_jump_threshold_t", header: "rcl/time.h",
                           bycopy.} = object ##  Describe the prerequisites for calling a time jump callback.
-    on_clock_change* {.importc: "on_clock_change".}: _Bool ##
+    on_clock_change* {.importc: "on_clock_change".}: bool ##
                               ##  True to call callback when the clock type changes.
     min_forward* {.importc: "min_forward".}: rcl_duration_t ##
                               ##  A positive duration indicating the minimum jump forwards to be considered exceeded, or zero
@@ -137,7 +137,7 @@ const
   RCL_NS_TO_US* = RCUTILS_NS_TO_US ##  Convenience macro to convert nanoseconds to microseconds.
 
 
-proc rcl_clock_time_started*(clock: ptr rcl_clock_t): _Bool {.
+proc rcl_clock_time_started*(clock: ptr rcl_clock_t): bool {.
     importc: "rcl_clock_time_started", header: "rcl/time.h".}
   ##
                               ##  typedef struct rcl_rate_t
@@ -169,7 +169,7 @@ proc rcl_clock_time_started*(clock: ptr rcl_clock_t): _Bool {.
                               ##  \return true if the clock has started, otherwise return false.
                               ##
 
-proc rcl_clock_valid*(clock: ptr rcl_clock_t): _Bool {.
+proc rcl_clock_valid*(clock: ptr rcl_clock_t): bool {.
     importc: "rcl_clock_valid", header: "rcl/time.h".}
   ##
                               ##  Check if the clock has valid values.
@@ -545,7 +545,7 @@ proc rcl_disable_ros_time_override*(clock: ptr rcl_clock_t): rcl_ret_t {.
                               ##
 
 proc rcl_is_enabled_ros_time_override*(clock: ptr rcl_clock_t;
-                                       is_enabled: ptr _Bool): rcl_ret_t {.
+                                       is_enabled: ptr bool): rcl_ret_t {.
     importc: "rcl_is_enabled_ros_time_override", header: "rcl/time.h".}
   ##
                               ##  Check if the #RCL_ROS_TIME time source has the override enabled.

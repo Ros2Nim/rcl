@@ -166,7 +166,7 @@ proc rcl_event_get_rmw_handle*(event: ptr rcl_event_t): ptr rmw_event_t {.
                               ##  \return rmw event handle if successful, otherwise `NULL`
                               ##
 
-proc rcl_event_is_valid*(event: ptr rcl_event_t): _Bool {.
+proc rcl_event_is_valid*(event: ptr rcl_event_t): bool {.
     importc: "rcl_event_is_valid", header: "rcl/event.h".}
   ##
                               ##  Check that the event is valid.

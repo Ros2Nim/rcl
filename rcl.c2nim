@@ -21,6 +21,8 @@
 #pragma c2nim mangle " @@'__' {\\ident+}" "$1_$2"
 #pragma c2nim mangle " @@'__' {\\ident+}" "$1_$2"
 
+#pragma c2nim mangle "'_Bool'" "bool"
+
 #pragma c2nim delete "rcutils/allocator"
 #pragma c2nim delete "rcutils/macros"
 #pragma c2nim delete "rcutils/types"

@@ -353,7 +353,7 @@ proc rcl_subscription_content_filter_options_fini*(
                                   ##   if its allocator is invalid and the structure contains initialized memory.
                                   ##
 
-proc rcl_subscription_is_cft_enabled*(subscription: ptr rcl_subscription_t): _Bool {.
+proc rcl_subscription_is_cft_enabled*(subscription: ptr rcl_subscription_t): bool {.
     importc: "rcl_subscription_is_cft_enabled", header: "rcl/subscription.h".}
   ##
                               ##  Check if the content filtered topic feature is enabled in the subscription.
@@ -716,7 +716,7 @@ proc rcl_subscription_get_rmw_handle*(subscription: ptr rcl_subscription_t): ptr
                               ##  \return rmw subscription handle if successful, otherwise `NULL`
                               ##
 
-proc rcl_subscription_is_valid*(subscription: ptr rcl_subscription_t): _Bool {.
+proc rcl_subscription_is_valid*(subscription: ptr rcl_subscription_t): bool {.
     importc: "rcl_subscription_is_valid", header: "rcl/subscription.h".}
   ##
                               ##  Check that the subscription is valid.
@@ -788,7 +788,7 @@ proc rcl_subscription_get_actual_qos*(subscription: ptr rcl_subscription_t): ptr
                               ##  \return qos struct if successful, otherwise `NULL`
                               ##
 
-proc rcl_subscription_can_loan_messages*(subscription: ptr rcl_subscription_t): _Bool {.
+proc rcl_subscription_can_loan_messages*(subscription: ptr rcl_subscription_t): bool {.
     importc: "rcl_subscription_can_loan_messages", header: "rcl/subscription.h".}
   ##
                               ##  Check if subscription instance can loan messages.

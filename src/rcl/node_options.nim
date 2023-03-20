@@ -40,11 +40,11 @@ type
                               ##  If true, no parameter infrastructure will be setup.
                               ##  bool no_parameters;
                               ##  Custom allocator used for internal allocations.
-    use_global_arguments* {.importc: "use_global_arguments".}: _Bool ##
+    use_global_arguments* {.importc: "use_global_arguments".}: bool ##
                               ##  If false then only use arguments in this struct, otherwise use global arguments also.
     arguments* {.importc: "arguments".}: rcl_arguments_t ##
                               ##  Command line arguments that apply only to this node.
-    enable_rosout* {.importc: "enable_rosout".}: _Bool ##
+    enable_rosout* {.importc: "enable_rosout".}: bool ##
                               ##  Flag to enable rosout for this node
     rosout_qos* {.importc: "rosout_qos".}: rmw_qos_profile_t ##
                               ##  Middleware quality of service settings for /rosout.

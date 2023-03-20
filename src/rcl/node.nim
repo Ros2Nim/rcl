@@ -176,7 +176,7 @@ proc rcl_node_fini*(node: ptr rcl_node_t): rcl_ret_t {.importc: "rcl_node_fini",
                           ##  \return #RCL_RET_ERROR if an unspecified error occurs.
                           ##
 
-proc rcl_node_is_valid*(node: ptr rcl_node_t): _Bool {.
+proc rcl_node_is_valid*(node: ptr rcl_node_t): bool {.
     importc: "rcl_node_is_valid", header: "rcl/node.h".}
   ##
                               ##  Return `true` if the node is valid, else `false`.
@@ -215,7 +215,7 @@ proc rcl_node_is_valid*(node: ptr rcl_node_t): _Bool {.
                               ##  \return `true` if the node and allocator are valid, otherwise `false`.
                               ##
 
-proc rcl_node_is_valid_except_context*(node: ptr rcl_node_t): _Bool {.
+proc rcl_node_is_valid_except_context*(node: ptr rcl_node_t): bool {.
     importc: "rcl_node_is_valid_except_context", header: "rcl/node.h".}
   ##
                               ##  Return true if node is valid, except for the context being valid.
@@ -477,8 +477,8 @@ proc rcl_node_get_logger_name*(node: ptr rcl_node_t): cstring {.
                               ##
 
 proc rcl_node_resolve_name*(node: ptr rcl_node_t; input_name: cstring;
-                            allocator: rcl_allocator_t; is_service: _Bool;
-                            only_expand: _Bool; output_name: cstringArray): rcl_ret_t {.
+                            allocator: rcl_allocator_t; is_service: bool;
+                            only_expand: bool; output_name: cstringArray): rcl_ret_t {.
     importc: "rcl_node_resolve_name", header: "rcl/node.h".}
   ##
                               ##  Expand a given name into a fully-qualified topic name and apply remapping rules.
@@ -512,7 +512,7 @@ proc rcl_node_resolve_name*(node: ptr rcl_node_t; input_name: cstring;
                               ##  \return #RCL_RET_ERROR if an unspecified error occurs.
                               ##
 
-proc rcl_get_disable_loaned_message*(disable_loaned_message: ptr _Bool): rcl_ret_t {.
+proc rcl_get_disable_loaned_message*(disable_loaned_message: ptr bool): rcl_ret_t {.
     importc: "rcl_get_disable_loaned_message", header: "rcl/node.h".}
   ##
                               ##  Check if loaned message is disabled, according to the environment variable.

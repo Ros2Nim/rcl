@@ -259,7 +259,7 @@ proc rcl_context_get_domain_id*(context: ptr rcl_context_t;
                               ##  \return #RCL_RET_OK if the domain id was correctly retrieved.
                               ##
 
-proc rcl_context_is_valid*(context: ptr rcl_context_t): _Bool {.
+proc rcl_context_is_valid*(context: ptr rcl_context_t): bool {.
     importc: "rcl_context_is_valid", header: "rcl/context.h".}
   ##
                               ##  Return `true` if the given context is currently valid, otherwise `false`.

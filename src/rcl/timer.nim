@@ -264,7 +264,7 @@ proc rcl_timer_clock*(timer: ptr rcl_timer_t; clock: ptr ptr rcl_clock_t): rcl_r
                               ##  \return #RCL_RET_TIMER_INVALID if the timer is invalid.
                               ##
 
-proc rcl_timer_is_ready*(timer: ptr rcl_timer_t; is_ready: ptr _Bool): rcl_ret_t {.
+proc rcl_timer_is_ready*(timer: ptr rcl_timer_t; is_ready: ptr bool): rcl_ret_t {.
     importc: "rcl_timer_is_ready", header: "rcl/timer.h".}
   ##
                               ##  Calculates whether or not the timer should be called.
@@ -493,7 +493,7 @@ proc rcl_timer_cancel*(timer: ptr rcl_timer_t): rcl_ret_t {.
                               ##  \return #RCL_RET_TIMER_INVALID if the timer is invalid.
                               ##
 
-proc rcl_timer_is_canceled*(timer: ptr rcl_timer_t; is_canceled: ptr _Bool): rcl_ret_t {.
+proc rcl_timer_is_canceled*(timer: ptr rcl_timer_t; is_canceled: ptr bool): rcl_ret_t {.
     importc: "rcl_timer_is_canceled", header: "rcl/timer.h".}
   ##
                               ##  Retrieve the canceled state of a timer.
