@@ -14,20 +14,19 @@
 ##  @file
 
 import
-  ./allocator, rcutils/types/rcutils_ret, rcutils/visibility_control,
-  rcutils/visibility_control_macros, ./log_level, ./macros, ./types, rmw/types,
-  rcutils/logging, rcutils/error_handling, rcutils/snprintf,
-  rcutils/testing/fault_injection, rcutils/time, rcutils/types/array_list,
+  ./allocator, rcutils/types/rcutils_ret, rcutils/visibility_control_macros,
+  ./log_level, ./macros, ./types, rcutils/logging, rcutils/error_handling,
+  rcutils/snprintf, rcutils/testing/fault_injection, rcutils/types/array_list,
   rcutils/types/char_array, rcutils/types/hash_map, rcutils/types/string_array,
   rcutils/qsort, rcutils/types/string_map, rcutils/types/uint8_array,
   rmw/events_statuses/events_statuses, rmw/events_statuses/incompatible_qos,
-  rmw/qos_policy_kind, rmw/visibility_control,
-  rmw/events_statuses/liveliness_changed, rmw/events_statuses/liveliness_lost,
-  rmw/events_statuses/message_lost, rmw/events_statuses/offered_deadline_missed,
+  rmw/qos_policy_kind, rmw/events_statuses/liveliness_changed,
+  rmw/events_statuses/liveliness_lost, rmw/events_statuses/message_lost,
+  rmw/events_statuses/offered_deadline_missed,
   rmw/events_statuses/requested_deadline_missed, rmw/init, rmw/init_options,
-  rmw/domain_id, rmw/localhost, rmw/macros, rmw/ret_types, rmw/security_options,
+  rmw/domain_id, rmw/localhost, rmw/ret_types, rmw/security_options,
   rmw/serialized_message, rmw/subscription_content_filter_options, rmw/time,
-  ./visibility_control, rcl_yaml_param_parser/types
+  ./visibility_control
 
 const
   RCL_ROS_ARGS_FLAG* = "--ros-args" ##  The command-line flag that delineates the start of ROS arguments.

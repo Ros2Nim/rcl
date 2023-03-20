@@ -35,6 +35,7 @@ antExport ImporterConfig:
       
       c2nimCfgs:list:
         - C2NimCfg:
+          fileMatch: peg"'allocator.h'"
           rawNims: str"""
-            discard "test"
+            import rcutils/allocator
             """

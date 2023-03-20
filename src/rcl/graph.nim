@@ -14,14 +14,13 @@
 ##  @file
 
 import
-  rmw/names_and_types, rcutils/types/rcutils_ret, rcutils/visibility_control,
+  rmw/names_and_types, rcutils/types/rcutils_ret,
   rcutils/visibility_control_macros, rcutils/types/array_list,
   rcutils/types/char_array, rcutils/types/hash_map, rcutils/types/string_array,
   rcutils/error_handling, rcutils/snprintf, rcutils/testing/fault_injection,
   rcutils/qsort, rcutils/types/string_map, rcutils/types/uint8_array,
-  rmw/macros, rmw/types, rcutils/logging, rcutils/time,
-  rmw/events_statuses/events_statuses, rmw/events_statuses/incompatible_qos,
-  rmw/qos_policy_kind, rmw/visibility_control,
+  rcutils/logging, rmw/events_statuses/events_statuses,
+  rmw/events_statuses/incompatible_qos, rmw/qos_policy_kind,
   rmw/events_statuses/liveliness_changed, rmw/events_statuses/liveliness_lost,
   rmw/events_statuses/message_lost, rmw/events_statuses/offered_deadline_missed,
   rmw/events_statuses/requested_deadline_missed, rmw/init, rmw/init_options,
@@ -33,8 +32,7 @@ import
   rosidl_runtime_c/visibility_control, rosidl_typesupport_interface/macros,
   ./macros, ./client, ./event_callback, rmw/event_callback_type, ./node,
   ./allocator, ./arguments, ./log_level, ./types, ./visibility_control,
-  rcl_yaml_param_parser/types, ./context, ./init_options, ./guard_condition,
-  ./node_options, ./domain_id
+  ./context, ./init_options, ./guard_condition, ./node_options, ./domain_id
 
 
 type

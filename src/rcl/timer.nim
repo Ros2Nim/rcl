@@ -14,12 +14,11 @@
 ##  @file
 
 import
-  ./allocator, rcutils/types/rcutils_ret, rcutils/visibility_control,
-  rcutils/visibility_control_macros, ./context, rmw/init, rmw/init_options,
-  rmw/domain_id, rmw/localhost, rmw/visibility_control, rmw/macros,
+  ./allocator, rcutils/types/rcutils_ret, rcutils/visibility_control_macros,
+  ./context, rmw/init, rmw/init_options, rmw/domain_id, rmw/localhost,
   rmw/ret_types, rmw/security_options, ./arguments, ./log_level, ./macros,
-  ./types, rmw/types, rcutils/logging, rcutils/error_handling, rcutils/snprintf,
-  rcutils/testing/fault_injection, rcutils/time, rcutils/types/array_list,
+  ./types, rcutils/logging, rcutils/error_handling, rcutils/snprintf,
+  rcutils/testing/fault_injection, rcutils/types/array_list,
   rcutils/types/char_array, rcutils/types/hash_map, rcutils/types/string_array,
   rcutils/qsort, rcutils/types/string_map, rcutils/types/uint8_array,
   rmw/events_statuses/events_statuses, rmw/events_statuses/incompatible_qos,
@@ -28,9 +27,8 @@ import
   rmw/events_statuses/offered_deadline_missed,
   rmw/events_statuses/requested_deadline_missed, rmw/serialized_message,
   rmw/subscription_content_filter_options, rmw/time, ./visibility_control,
-  rcl_yaml_param_parser/types, ./init_options, ./event_callback,
-  rmw/event_callback_type, ./guard_condition, ./time, rmw/rmw,
-  rosidl_runtime_c/message_type_support_struct,
+  ./init_options, ./event_callback, rmw/event_callback_type, ./guard_condition,
+  ./time, rmw/rmw, rosidl_runtime_c/message_type_support_struct,
   rosidl_runtime_c/visibility_control, rosidl_typesupport_interface/macros,
   rosidl_runtime_c/service_type_support_struct, rosidl_runtime_c/sequence_bound,
   rmw/event, rmw/message_sequence, rmw/publisher_options, rmw/qos_profiles,

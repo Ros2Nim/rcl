@@ -1,3 +1,5 @@
+import rcutils/allocator
+
 ##  Copyright 2015 Open Source Robotics Foundation, Inc.
 ##
 ##  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +16,7 @@
 ##  @file
 
 import
-  rcutils/types/rcutils_ret, rcutils/visibility_control,
-  rcutils/visibility_control_macros
+  rcutils/types/rcutils_ret, rcutils/visibility_control_macros
 
 
 type
