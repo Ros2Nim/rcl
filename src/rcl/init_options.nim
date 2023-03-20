@@ -31,7 +31,9 @@ import
 
 type
 
-  rcl_init_options_impl_t* = rcl_init_options_impl_s
+  rcl_init_options_impl_t* {.importc: "rcl_init_options_impl_t",
+                             header: "rcl/init_options.h", bycopy.} = object
+
 
   rcl_init_options_t* {.importc: "rcl_init_options_t",
                         header: "rcl/init_options.h", bycopy.} = object ##

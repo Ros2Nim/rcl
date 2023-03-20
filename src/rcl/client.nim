@@ -1,3 +1,5 @@
+import rmw/types as rmw_types
+
 ##  Copyright 2016 Open Source Robotics Foundation, Inc.
 ##
 ##  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,11 +17,9 @@
 
 import
   rosidl_runtime_c/service_type_support_struct, rcutils/types/rcutils_ret,
-  rcutils/visibility_control_macros,
-  rosidl_runtime_c/message_type_support_struct,
-  rosidl_runtime_c/visibility_control, rosidl_typesupport_interface/macros,
-  ./event_callback, rmw/event_callback_type, ./macros, ./node, ./allocator,
-  ./arguments, ./log_level, ./types, rcutils/logging, rcutils/error_handling,
+  rosidl_runtime_c/message_type_support_struct, ./event_callback,
+  rmw/event_callback_type, ./macros, ./node, ./allocator, ./arguments,
+  ./log_level, ./types, rcutils/logging, rcutils/error_handling,
   rcutils/snprintf, rcutils/testing/fault_injection, rcutils/types/array_list,
   rcutils/types/char_array, rcutils/types/hash_map, rcutils/types/string_array,
   rcutils/qsort, rcutils/types/string_map, rcutils/types/uint8_array,
@@ -27,16 +27,17 @@ import
   rmw/qos_policy_kind, rmw/events_statuses/liveliness_changed,
   rmw/events_statuses/liveliness_lost, rmw/events_statuses/message_lost,
   rmw/events_statuses/offered_deadline_missed,
-  rmw/events_statuses/requested_deadline_missed, rmw/init, rmw/init_options,
-  rmw/domain_id, rmw/localhost, rmw/ret_types, rmw/security_options,
-  rmw/serialized_message, rmw/subscription_content_filter_options, rmw/time,
-  ./visibility_control, ./context, ./init_options, ./guard_condition,
-  ./node_options, ./domain_id
+  rmw/events_statuses/requested_deadline_missed, rmw/init, rmw/localhost,
+  rmw/ret_types, rmw/security_options, rmw/serialized_message,
+  rmw/subscription_content_filter_options, rmw/time, ./visibility_control,
+  ./context, ./init_options, ./guard_condition, ./node_options, ./domain_id
 
 
 type
 
-  rcl_client_impl_t* = rcl_client_impl_s ##  Internal rcl client implementation struct.
+  rcl_client_impl_t* {.importc: "rcl_client_impl_t", header: "rcl/client.h",
+                       bycopy.} = object ##  Internal rcl client implementation struct.
+
 
   rcl_client_t* {.importc: "rcl_client_t", header: "rcl/client.h", bycopy.} = object ##
                               ##  Structure which encapsulates a ROS Client.

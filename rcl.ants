@@ -55,10 +55,39 @@ antExport ImporterConfig:
             - Replace:
               pattern: peg"'typedef struct rcl_arguments_impl_s rcl_arguments_impl_t;'"
               repl: "typedef struct {} rcl_arguments_impl_t;"
+        - CSrcMods:
+          fileMatch: peg"'client.h'"
+          substitutes:list:
+            - Replace:
+              pattern: peg"'typedef struct rcl_client_impl_s rcl_client_impl_t;'"
+              repl: "typedef struct {} rcl_client_impl_t;"
+        - CSrcMods:
+          fileMatch: peg"'init_options.h'"
+          substitutes:list:
+            - Replace:
+              pattern: peg"'typedef struct rcl_init_options_impl_s rcl_init_options_impl_t;'"
+              repl: "typedef struct {} rcl_init_options_impl_t;"
       
       c2nimCfgs:list:
         - C2NimCfg:
           fileMatch: peg"'allocator.h'"
           rawNims: str"""
             import rcutils/allocator
+            """
+        - C2NimCfg:
+          fileMatch: peg"'arguments.h'"
+          rawNims: str"""
+            import ../rcl_yaml_param_parser/types
+            """
+        - C2NimCfg:
+          fileMatch: peg"'client.h'"
+          rawNims: str"""
+            import rmw/types as rmw_types
+            """
+          fileContents: str"""
+            #delete "rosidl_runtime_c/visibility_control"
+            #delete "rcutils/visibility_control_macros"
+            #delete "rosidl_typesupport_interface/macros"
+            #delete "rmw/init_options"
+            #delete "rmw/domain_id"
             """
