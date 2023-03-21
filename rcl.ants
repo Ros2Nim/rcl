@@ -21,6 +21,24 @@ antExport ImporterConfig:
             import rcutils/allocator
             """
     - ImportConfig:
+      name: "rcl_action"
+      sources: "deps/rcl/rcl_action/include"
+      headerPrefix: "rcl_action/"
+      globs: ["**/*.h"]
+      includes: [
+        "deps/include",
+        "deps/rcl/rcl_action/include",
+        "deps/rcl/rcl/include",
+        "deps/rcutils/include",
+        "deps/rcl/rcl_yaml_param_parser/include",
+        ]
+      c2nimCfgs:list:
+        - C2NimCfg:
+          fileMatch: peg"'types.h' / 'parser.h'"
+          rawNims: str"""
+            import rcutils/allocator
+            """
+    - ImportConfig:
       name: "rcl"
       sources: "deps/rcl/rcl/include"
       headerPrefix: "rcl/"
